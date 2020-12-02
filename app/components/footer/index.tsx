@@ -14,7 +14,7 @@ const FooterContainer = styled.div`
   min-height: 300px;
   margin-top: 2em;
   padding: 1em 4% 0 6%;
-  background-color: ${theme.default.componentBackground};
+  //background-color: ${theme.default.componentBackground};
   border-top: 1px solid ${theme.default.mutedBorderColor};
 `;
 

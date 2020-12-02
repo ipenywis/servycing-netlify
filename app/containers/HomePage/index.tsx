@@ -28,6 +28,7 @@ function HomePage(props: IHomePageProps) {
         <RecommendedServices />
         <Marginer direction="vertical" margin="5em" />
         <SpecialistAd />
+        <Marginer direction="vertical" margin="3em" />
       </StyledInnerPageContainer>
       <Footer />
     </PageContainer>
