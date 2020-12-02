@@ -26,6 +26,7 @@ const LogoText = styled.div<IBrandLogoProps>`
 const LogoImgContainer = styled.div`
   width: 20px;
   margin-bottom: 3px;
+  margin-right: 3px;
   img {
     width: 100%;
     height: 100%;
