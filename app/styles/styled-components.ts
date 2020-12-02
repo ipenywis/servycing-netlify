@@ -20,7 +20,7 @@ export const theme = {
     lightText: "#f2f2f2",
     shinyBlue: "#316AFF",
     primary: "#3EB06F",
-    primaryDark: "#3aa468",
+    primaryDark: "#359e63",
     primaryBackground: "#141618",
     secondaryBackground: "#264653",
     lightPrimaryBackground: "#25292d",
