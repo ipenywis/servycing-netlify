@@ -135,7 +135,7 @@ function Accessbility() {
 
 export function Navbar(props: INavbarProps) {
   return (
-    <NavbarContainer>
+    <NavbarContainer {...props}>
       <InnerContainer>
         <RightContainer>
           <BrandLogo />
