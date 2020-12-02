@@ -1,5 +1,5 @@
-import React from 'react';
-import styled, { theme, css, keyframes } from 'styles/styled-components';
+import React from "react";
+import styled, { theme, css, keyframes } from "styles/styled-components";
 
 export interface ITextProps {
   noEffects?: boolean;
@@ -14,6 +14,7 @@ export interface ITextProps {
   marginBottom?: string | number;
   flashingAnimation?: boolean;
   clickable?: boolean;
+  lineHeight?: number;
 }
 
 const FlashingAnimation = keyframes`
@@ -33,12 +34,13 @@ const FlashingAnimation = keyframes`
 
 export const Text = styled.div<ITextProps>`
   font-size: ${({ size }) =>
-    size ? (typeof size === 'string' ? size : `${size}px`) : '17px'};
+    size ? (typeof size === "string" ? size : `${size}px`) : "17px"};
   display: flex;
   font-weight: ${({ bold, black }) =>
-    bold ? '500' : black ? 'bolder' : '400'};
+    bold ? "500" : black ? "bolder" : "400"};
+  line-height: ${({ lineHeight }) => lineHeight && lineHeight};
 
-  cursor: ${({ clickable }) => clickable && 'pointer'};
+  cursor: ${({ clickable }) => clickable && "pointer"};
 
   ${({ flashingAnimation }) =>
     flashingAnimation &&
@@ -77,31 +79,31 @@ export const Text = styled.div<ITextProps>`
 
   margin-right: ${({ marginRight }) =>
     marginRight
-      ? typeof marginRight === 'string'
+      ? typeof marginRight === "string"
         ? marginRight
         : `${marginRight}px`
-      : '0'};
+      : "0"};
 
   margin-left: ${({ marginLeft }) =>
     marginLeft
-      ? typeof marginLeft === 'string'
+      ? typeof marginLeft === "string"
         ? marginLeft
         : `${marginLeft}px`
-      : '0'};
+      : "0"};
 
   margin-top: ${({ marginTop }) =>
     marginTop
-      ? typeof marginTop === 'string'
+      ? typeof marginTop === "string"
         ? marginTop
         : `${marginTop}px`
-      : '0'};
+      : "0"};
 
   margin-bottom: ${({ marginBottom }) =>
     marginBottom
-      ? typeof marginBottom === 'string'
+      ? typeof marginBottom === "string"
         ? marginBottom
         : `${marginBottom}px`
-      : '0'};
+      : "0"};
 `;
 
 Text.defaultProps = {

@@ -7,11 +7,14 @@ import ImageLoader from "react-imageloader";
 
 export interface IBrandLogoProps {
   size?: number;
+  height?: string;
+  logoSize?: number;
 }
 
 const LogoContainer = styled.div<IBrandLogoProps>`
-  width: ${({ size }) => (size ? `${100 + size}px` : "140px")};
-  height: 100%;
+  width: ${({ size, logoSize }) =>
+    size ? `${160 + size + (logoSize || 20)}px` : "140px"};
+  height: ${({ height }) => (height ? height : "100%")};
   display: flex;
   justify-content: start;
   align-items: center;
@@ -23,8 +26,8 @@ const LogoText = styled.div<IBrandLogoProps>`
   font-size: ${({ size }) => (size ? `${size}px` : "22px")};
 `;
 
-const LogoImgContainer = styled.div`
-  width: 20px;
+const LogoImgContainer = styled.div<IBrandLogoProps>`
+  width: ${({ logoSize }) => (logoSize ? logoSize + "px" : "20px")};
   margin-bottom: 3px;
   margin-right: 3px;
   img {
@@ -37,7 +40,7 @@ export function BrandLogo(props: IBrandLogoProps) {
   return (
     <LogoContainer {...props}>
       <Link to={ROUTES.homePage} noEffects>
-        <LogoImgContainer>
+        <LogoImgContainer {...props}>
           <ImageLoader src={LogoImg} />
         </LogoImgContainer>
       </Link>

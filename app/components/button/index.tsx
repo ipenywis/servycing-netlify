@@ -1,19 +1,19 @@
-import React from 'react';
-import { ButtonTheme, generateThemesStyle } from './themes';
+import React from "react";
+import { ButtonTheme, generateThemesStyle } from "./themes";
 import {
   FontAwesomeIconProps,
   FontAwesomeIcon,
-} from '@fortawesome/react-fontawesome';
-import styled from 'styles/styled-components';
-import { useHistory } from 'react-router-dom';
-import { MinimalSpinner } from 'components/loadingSpinner/minimal';
+} from "@fortawesome/react-fontawesome";
+import styled from "styles/styled-components";
+import { useHistory } from "react-router-dom";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
 
 export interface IButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string;
-  icon?: FontAwesomeIconProps['icon'] | React.ReactElement;
-  iconSize?: FontAwesomeIconProps['size'];
-  iconPosition?: 'right' | 'left';
+  icon?: FontAwesomeIconProps["icon"] | React.ReactElement;
+  iconSize?: FontAwesomeIconProps["size"];
+  iconPosition?: "right" | "left";
   children?: any | any[];
   className?: string;
   to?: string;
@@ -34,14 +34,14 @@ const ButtonWrapper = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${(props: IButtonProps) => props.width || 'auto'};
+  width: ${(props: IButtonProps) => props.width || "fit-content"};
   /*min-width: 6em;*/
-  min-height: ${(props: IButtonProps) => props.height || '28px'};
+  min-height: ${(props: IButtonProps) => props.height || "28px"};
   //box-shadow: 0px 0px 8px 1px rgba(15, 15, 15, 0.2);
   outline: none;
   border-radius: 4px;
-  font-size: ${({ size }) => (size ? `${size}px` : '14px')};
-  font-weight: ${({ boldText }) => (boldText ? '700' : '500')};
+  font-size: ${({ size }) => (size ? `${size}px` : "14px")};
+  font-weight: ${({ boldText }) => (boldText ? "700" : "500")};
   padding: 6px 11px;
   line-height: 1.5;
   cursor: pointer;
@@ -106,25 +106,25 @@ function Button(props: IButtonProps) {
         {props.text}
       </ButtonWrapper>
     );
-  } else if (props.icon && props.iconPosition === 'left') {
+  } else if (props.icon && props.iconPosition === "left") {
     return (
       <ButtonWrapper {...props} onClick={onClickHandler}>
-        <IconContainer style={{ marginRight: props.iconMargin || '8px' }}>
+        <IconContainer style={{ marginRight: props.iconMargin || "8px" }}>
           <FontAwesomeIcon
-            icon={props.icon as FontAwesomeIconProps['icon']}
+            icon={props.icon as FontAwesomeIconProps["icon"]}
             size={props.iconSize}
           />
         </IconContainer>
         {props.text}
       </ButtonWrapper>
     );
-  } else if (props.icon && props.iconPosition === 'right') {
+  } else if (props.icon && props.iconPosition === "right") {
     return (
       <ButtonWrapper {...props} onClick={onClickHandler}>
         {props.text}
-        <IconContainer style={{ marginLeft: props.iconMargin || '8px' }}>
+        <IconContainer style={{ marginLeft: props.iconMargin || "8px" }}>
           <FontAwesomeIcon
-            icon={props.icon as FontAwesomeIconProps['icon']}
+            icon={props.icon as FontAwesomeIconProps["icon"]}
             size={props.iconSize}
           />
         </IconContainer>
@@ -142,7 +142,7 @@ function Button(props: IButtonProps) {
 Button.defaultProps = {
   theme: ButtonTheme.PRIMARY,
   boldText: true,
-  iconPosition: 'left',
+  iconPosition: "left",
 };
 
 export { Button };
