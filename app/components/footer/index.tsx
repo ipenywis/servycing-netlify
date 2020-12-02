@@ -1,9 +1,9 @@
-import React from 'react';
-import styled, { theme } from 'styles/styled-components';
-import { BrandLogo } from 'components/brandLogo';
-import { WhiteText, Text } from 'components/text';
-import { Link } from 'components/link';
-import ROUTES from 'containers/ROUTES';
+import React from "react";
+import styled, { theme } from "styles/styled-components";
+import { BrandLogo } from "components/brandLogo";
+import { WhiteText, Text, BlackText } from "components/text";
+import { Link } from "components/link";
+import ROUTES from "containers/ROUTES";
 
 export interface IFooterProps {}
 
@@ -11,10 +11,11 @@ const FooterContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 350px;
+  min-height: 300px;
   margin-top: 2em;
   padding: 1em 4% 0 6%;
-  background-color: ${theme.default.primaryBackground};
+  background-color: ${theme.default.componentBackground};
+  border-top: 1px solid ${theme.default.mutedBorderColor};
 `;
 
 const TopContainer = styled.div`
@@ -26,16 +27,26 @@ const TopContainer = styled.div`
 const InnerContainer = styled.div`
   display: flex;
   flex: 1;
+  padding-top: 1em;
 `;
 
 const BottomContainer = styled.div`
   display: flex;
+  height: 70px;
+  width: 100%;
+`;
+
+const BottomInnerContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-top: 1.5px solid ${theme.default.mutedBorderColor};
 `;
 
 const LeftContainer = styled.div`
   display: flex;
   width: 50%;
-  align-items: center;
 `;
 
 const RightContainer = styled.div`
@@ -52,7 +63,7 @@ const ContentContainer = styled.div`
   }
 `;
 
-const Title = styled(WhiteText)`
+const Title = styled(BlackText)`
   font-size: 21px;
   margin-bottom: 8px;
 `;
@@ -76,31 +87,33 @@ const SmallMutedLink = styled(Link)`
 export function Footer(props: IFooterProps) {
   return (
     <FooterContainer>
-      <TopContainer>
-        <BrandLogo size={33} />
-      </TopContainer>
       <InnerContainer>
         <LeftContainer>
           <ContentContainer>
-            <Title noEffects>Content</Title>
-            <FLink to={ROUTES.browseCoursesPage}>Browse Courses</FLink>
-            <FLink to="#">Browse by Topic</FLink>
-            <FLink to="#">Go Pro</FLink>
-            <FLink to="#">Home</FLink>
+            <Title noEffects bold>
+              Content
+            </Title>
+            <FLink to={"#"}>Home</FLink>
+            <FLink to="#">Browse Services</FLink>
           </ContentContainer>
           <ContentContainer>
-            <Title noEffects>Learn More</Title>
+            <Title noEffects bold>
+              Access
+            </Title>
             <FLink to="#">About</FLink>
-            <FLink to="#">Become Instructor</FLink>
-            <FLink to="#">Pro Features</FLink>
-            <FLink to="#">Instructors</FLink>
+            <FLink to="#">Become a Specialist</FLink>
+            <FLink to="#">Customer signin</FLink>
+            <FLink to="#">Join as Customer</FLink>
           </ContentContainer>
         </LeftContainer>
         <RightContainer></RightContainer>
       </InnerContainer>
       <BottomContainer>
-        <SmallMutedLink to="#">Terms &amp; Conditions</SmallMutedLink>
-        <SmallMutedLink to="#">Made with ❤️ &copy; Slearn</SmallMutedLink>
+        <BottomInnerContainer>
+          <BrandLogo size={26} color={theme.default.greyText} logoSize={24} />
+          <SmallMutedLink to="#">Terms &amp; Conditions</SmallMutedLink>
+          <SmallMutedLink to="#">Made with ❤️ &copy; Servycing</SmallMutedLink>
+        </BottomInnerContainer>
       </BottomContainer>
     </FooterContainer>
   );

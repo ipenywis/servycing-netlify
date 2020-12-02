@@ -9,6 +9,7 @@ export interface IBrandLogoProps {
   size?: number;
   height?: string;
   logoSize?: number;
+  color?: string;
 }
 
 const LogoContainer = styled.div<IBrandLogoProps>`
@@ -21,7 +22,7 @@ const LogoContainer = styled.div<IBrandLogoProps>`
 `;
 
 const LogoText = styled.div<IBrandLogoProps>`
-  color: #fff;
+  color: ${({ color }) => (color ? color : "#fff")};
   font-weight: 700;
   font-size: ${({ size }) => (size ? `${size}px` : "22px")};
 `;

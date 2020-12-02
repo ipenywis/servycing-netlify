@@ -1,3 +1,4 @@
+import { Footer } from "components/footer";
 import { Marginer } from "components/marginer";
 import { Navbar } from "components/navbar";
 import { InnerPageContainer, PageContainer } from "components/pageContainer";
@@ -28,6 +29,7 @@ function HomePage(props: IHomePageProps) {
         <Marginer direction="vertical" margin="5em" />
         <SpecialistAd />
       </StyledInnerPageContainer>
+      <Footer />
     </PageContainer>
   );
 }
