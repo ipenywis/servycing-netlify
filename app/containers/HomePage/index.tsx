@@ -2,6 +2,7 @@ import { Marginer } from "components/marginer";
 import { Navbar } from "components/navbar";
 import { InnerPageContainer, PageContainer } from "components/pageContainer";
 import { ServiceCard } from "components/serviceCard";
+import { SpecialistAd } from "components/specialistAd";
 import { BlackText } from "components/text";
 import React from "react";
 import { hot } from "react-hot-loader/root";
@@ -17,11 +18,14 @@ function HomePage(props: IHomePageProps) {
         <Navbar transparent />
       </TopSection>
       <InnerPageContainer>
+        <Marginer direction="vertical" margin="2em" />
         <BlackText size={27} black>
           Most used services &#38; More
         </BlackText>
-        <Marginer direction="vertical" margin="1.5em" />
+        <Marginer direction="vertical" margin="2em" />
         <RecommendedServices />
+        <Marginer direction="vertical" margin="4em" />
+        <SpecialistAd />
       </InnerPageContainer>
     </PageContainer>
   );

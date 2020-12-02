@@ -34,6 +34,7 @@ export const theme = {
     nightBlue: "#323439",
     mutedBorderColor: "#dedede",
     lightMutedBorderColor: "#eaeaea",
+    blueDianne: "#264653",
   },
 };
 const {
