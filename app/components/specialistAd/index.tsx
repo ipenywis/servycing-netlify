@@ -41,8 +41,8 @@ const StandoutImage = styled.div`
   height: 23em;
 
   @media ${Device.desktop} {
-    width: 36em;
-    height: 31em;
+    width: 35em;
+    height: 29em;
   }
 
   span,
@@ -59,14 +59,14 @@ export function SpecialistAd(props: ISpecialistAdProps) {
     <SpecialistAdContainer>
       <ContentContainer>
         <SloganContainer>
-          <BrandLogo size={isDesktop ? 40 : 34} logoSize={37} height="auto" />
-          <WhiteText size={isDesktop ? "2em" : "1.4em"} bold lineHeight={1.4}>
+          <BrandLogo size={isDesktop ? 38 : 34} logoSize={37} height="auto" />
+          <WhiteText size={isDesktop ? "1.8em" : "1.4em"} bold lineHeight={1.4}>
             You're a Specialist, and you
           </WhiteText>
-          <WhiteText size={isDesktop ? "2em" : "1.4em"} bold lineHeight={1.4}>
+          <WhiteText size={isDesktop ? "1.8em" : "1.4em"} bold lineHeight={1.4}>
             have an outstanding
           </WhiteText>
-          <WhiteText size={isDesktop ? "2em" : "1.4em"} bold lineHeight={1.4}>
+          <WhiteText size={isDesktop ? "1.8em" : "1.4em"} bold lineHeight={1.4}>
             Service to offer?
           </WhiteText>
           <Marginer direction="vertical" margin="1em" />

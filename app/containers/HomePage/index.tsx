@@ -6,10 +6,15 @@ import { SpecialistAd } from "components/specialistAd";
 import { BlackText } from "components/text";
 import React from "react";
 import { hot } from "react-hot-loader/root";
+import styled from "styles/styled-components";
 import { RecommendedServices } from "./recommendedServices";
 import { TopSection } from "./topSection";
 
 interface IHomePageProps {}
+
+const StyledInnerPageContainer = styled(InnerPageContainer as any)`
+  padding: 0;
+`;
 
 function HomePage(props: IHomePageProps) {
   return (
@@ -17,16 +22,12 @@ function HomePage(props: IHomePageProps) {
       <TopSection>
         <Navbar transparent />
       </TopSection>
-      <InnerPageContainer>
-        <Marginer direction="vertical" margin="2em" />
-        <BlackText size={27} black>
-          Most used services &#38; More
-        </BlackText>
+      <StyledInnerPageContainer>
         <Marginer direction="vertical" margin="2em" />
         <RecommendedServices />
-        <Marginer direction="vertical" margin="4em" />
+        <Marginer direction="vertical" margin="5em" />
         <SpecialistAd />
-      </InnerPageContainer>
+      </StyledInnerPageContainer>
     </PageContainer>
   );
 }
