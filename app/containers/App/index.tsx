@@ -29,6 +29,10 @@ import { useSelector } from "react-redux";
 import { PrivateRoute } from "components/privateRoute";
 import { createPortalContainer } from "utils/common";
 
+//Page Containers
+import NotFoundPage from "containers/NotFoundPage/Loadable";
+import HomePage from "containers/HomePage/Loadable";
+
 export const AppContainer = styled.div`
   width: 100%;
   min-height: 100%;
@@ -69,9 +73,9 @@ function App() {
     <>
       <ApolloProvider client={apolloClient}>
         <Switch>
-          {/**Student Routes */}
-
+          <Route exact path={ROUTES.homePage} component={HomePage} />
           {/** Has to be kept last */}
+          <Route component={NotFoundPage} />
         </Switch>
 
         <GlobalStyle />
