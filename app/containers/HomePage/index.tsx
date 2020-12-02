@@ -5,6 +5,7 @@ import { ServiceCard } from "components/serviceCard";
 import { BlackText } from "components/text";
 import React from "react";
 import { hot } from "react-hot-loader/root";
+import { RecommendedServices } from "./recommendedServices";
 import { TopSection } from "./topSection";
 
 interface IHomePageProps {}
@@ -16,11 +17,11 @@ function HomePage(props: IHomePageProps) {
         <Navbar transparent />
       </TopSection>
       <InnerPageContainer>
-        <BlackText size={26} black>
+        <BlackText size={27} black>
           Most used services &#38; More
         </BlackText>
         <Marginer direction="vertical" margin="1.5em" />
-        <ServiceCard />
+        <RecommendedServices />
       </InnerPageContainer>
     </PageContainer>
   );

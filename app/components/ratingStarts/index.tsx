@@ -1,13 +1,14 @@
-import React from 'react';
-import styled, { theme } from 'styles/styled-components';
-import BRatings from 'react-ratings-declarative';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { BlackText } from 'components/text';
+import React from "react";
+import styled, { theme } from "styles/styled-components";
+import BRatings from "react-ratings-declarative";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BlackText } from "components/text";
 
 export interface IRatingStarsProps {
   rating: number;
   showRatingNumber?: boolean;
+  showAllStars?: boolean;
 
   onRateChange?: (rate: number) => void;
 }
@@ -28,14 +29,13 @@ const RatingContainer = styled.div`
 `;
 
 const RatingValue = styled(BlackText)`
-  font-size: 15px;
-  margin-left: 8px;
-  margin-top: 5px;
+  font-size: 14px;
+  margin-left: 3px;
   font-weight: 500;
 `;
 
-export function RatingStars(props: IRatingStarsProps) {
-  const { rating, showRatingNumber } = props;
+function RatingStars(props: IRatingStarsProps) {
+  const { rating, showRatingNumber, showAllStars } = props;
 
   return (
     <RatingContainer>
@@ -50,13 +50,19 @@ export function RatingStars(props: IRatingStarsProps) {
         widgetEmptyColors={theme.default.mutedText}
         changeRating={props.onRateChange}
       >
-        <RatingWidget />
-        <RatingWidget />
-        <RatingWidget />
-        <RatingWidget />
-        <RatingWidget />
+        {Array(showAllStars ? 5 : 1)
+          .fill("")
+          .map((item, idx) => (
+            <RatingWidget key={idx} />
+          ))}
       </Ratings>
-      {showRatingNumber && <RatingValue>{rating}</RatingValue>}
+      {showRatingNumber && <RatingValue verticalCenter>{rating}</RatingValue>}
     </RatingContainer>
   );
 }
+
+RatingStars.defaultProps = {
+  showAllStars: true,
+};
+
+export { RatingStars };

@@ -6,11 +6,13 @@ import ImageLoader from "react-imageloader";
 import GardenImg from "images/services thumbnails/garden.jpg";
 import { BlackText, GreyText, MutedText, SuccessText } from "components/text";
 import { HorizontalWrapper } from "components/horizontalWrapper";
+import { Avatar } from "components/avatar";
+import { RatingStars } from "components/ratingStarts";
 
 interface IServiceCardProps {}
 
 const CardContainer = styled.div`
-  width: 320px;
+  width: 300px;
   min-height: 280px;
   background-color: ${theme.default.componentBackground};
   border-radius: 3px;
@@ -18,6 +20,8 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  margin: 0.5em;
+  margin-bottom: 1.3em;
 `;
 
 const TopContainer = styled.div`
@@ -40,12 +44,12 @@ const ContentContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 4px 10px;
+  padding: 14px;
 `;
 
 const BottomContainer = styled.div`
   width: 100%;
-  height: 35px;
+  height: 32px;
   display: flex;
   padding: 0 10px;
   align-items: center;
@@ -62,20 +66,26 @@ export function ServiceCard(props: IServiceCardProps) {
         </ServiceThumbnail>
       </TopContainer>
       <ContentContainer>
-        <BlackText size={19} bold>
-          I will landscape your home backyard
+        <BlackText size={17} bold marginBottom={10}>
+          I will landscape your home backyard and make you feel happy
         </BlackText>
+        <HorizontalWrapper centerVertically>
+          <Avatar size={24} />
+          <BlackText size={12} marginLeft={3}>
+            Islem Maboud
+          </BlackText>
+        </HorizontalWrapper>
       </ContentContainer>
       <BottomContainer>
-        <div>5</div>
+        <RatingStars rating={5} showRatingNumber showAllStars={false} />
         <HorizontalWrapper>
-          <MutedText size={13} verticalCenter marginRight={4} marginBottom={2}>
+          <MutedText size={12} verticalCenter marginRight={4} marginBottom={2}>
             STARTING AT
           </MutedText>
-          <SuccessText size={16} bold>
+          <SuccessText size={15} bold>
             $200
           </SuccessText>
-          <MutedText size={12} verticalCenter>
+          <MutedText size={11} verticalCenter>
             /hr
           </MutedText>
         </HorizontalWrapper>

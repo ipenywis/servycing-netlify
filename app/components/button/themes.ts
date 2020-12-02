@@ -17,6 +17,7 @@ export enum ButtonTheme {
   DANGER_SOLID = "DANGER_SOLID",
   DANGER_MINIMAL = "DANGER_MINIMAL",
   BLACK_SOLID = "BLACK_SOLID",
+  GREY_SOLID = "GREY_SOLID",
 }
 
 interface IButtonThemeStyle {
@@ -271,6 +272,19 @@ const BLACK_SOLID: IButtonThemeStyle = {
   },
 };
 
+const GREY_SOLID: IButtonThemeStyle = {
+  name: ButtonTheme.GREY_SOLID,
+  transitionDuration: "300ms",
+  normal: {
+    color: theme.default.greyText,
+    backgroundColor: theme.default.lightMutedBorderColor,
+    boxShadow: `0 0 2px ${theme.default.greyText}`,
+  },
+  hover: {
+    filter: "contrast(0.95)",
+  },
+};
+
 BUTTON_THEMES.push(PRIMARY_THEME);
 BUTTON_THEMES.push(PRIMARY_PRIMARY);
 BUTTON_THEMES.push(MINIMAL_WHITE);
@@ -287,6 +301,7 @@ BUTTON_THEMES.push(FULL_MINIMAL_BLACK);
 BUTTON_THEMES.push(DANGER_SOLID);
 BUTTON_THEMES.push(BLACK_SOLID);
 BUTTON_THEMES.push(DANGER_MINIMAL);
+BUTTON_THEMES.push(GREY_SOLID);
 
 function applyThemeStyle(currentTheme: IButtonThemeStyle) {
   return css`
