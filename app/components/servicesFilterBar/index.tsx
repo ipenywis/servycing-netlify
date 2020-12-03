@@ -81,7 +81,7 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
     <BarContainer>
       <FilterWrapper>
         <GreyText size={13} marginBottom={5}>
-          Filter by Type
+          Type
         </GreyText>
         <Combobox
           width="11em"
@@ -97,7 +97,7 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
       </FilterWrapper>
       <FilterWrapper>
         <GreyText size={13} marginBottom={5}>
-          Filter by Rating
+          Rating
         </GreyText>
         <Combobox
           width="11em"
@@ -109,7 +109,7 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
       </FilterWrapper>
       <FilterWrapper>
         <GreyText size={13} marginBottom={5}>
-          Filter by Price
+          Price
         </GreyText>
         <Combobox
           width="11em"

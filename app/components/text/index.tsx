@@ -167,7 +167,6 @@ export const InfoText = styled(Text)`
 `;
 
 export const WarningText = styled(Text).attrs({ noEffects: true })`
-  font-size: 17px;
   opacity: 0.7;
   color: ${theme.default.secondaryText};
 `;

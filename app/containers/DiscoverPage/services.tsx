@@ -1,4 +1,5 @@
 import { ServiceCard } from "components/serviceCard";
+import { WarningText } from "components/text";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
@@ -61,6 +62,16 @@ export function Services(props: IServicesProps) {
   return (
     <ServicesContainer>
       <ServicesWrapper>
+        {isEmptyOfferedServices && (
+          <WarningText
+            size={14}
+            marginTop="4em"
+            horizontalCenter
+            verticalCenter
+          >
+            No services found using these filters!
+          </WarningText>
+        )}
         {!isEmptyOfferedServices &&
           offeredServices.map((service, idx) => (
             <ServiceCard key={idx} {...service} />
