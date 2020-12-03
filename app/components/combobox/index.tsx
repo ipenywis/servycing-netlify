@@ -1,6 +1,6 @@
-import React from 'react';
-import { Combobox as ECombobox } from 'evergreen-ui';
-import styled from 'styles/styled-components';
+import React from "react";
+import { Combobox as ECombobox } from "evergreen-ui";
+import styled from "styles/styled-components";
 
 export const Combobox = styled(ECombobox)`
   input {

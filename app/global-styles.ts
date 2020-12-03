@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styles/styled-components';
+import { createGlobalStyle } from "styles/styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -43,6 +43,14 @@ const GlobalStyle = createGlobalStyle`
   input, select {
     font-family: inherit;
     font-size: inherit;
+  }
+
+  [role="combobox"] {
+    width: auto !important;
+    
+    &:not(:last-of-type) {
+      margin-right: 12px;
+    }
   }
 `;
 
