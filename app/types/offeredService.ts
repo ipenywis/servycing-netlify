@@ -53,3 +53,21 @@ export const OFFERED_SERVICE_HOURLY_RATE_FILTER: IOfferedServiceHourlyRateFilter
     min: 100,
   },
 };
+
+export interface IOffferedService {
+  id?: string;
+  title: string;
+  description: string;
+  type: OFFERED_SERVICE_TYPE;
+  rate: number;
+  preferredHours: string;
+  specialist: any;
+  reviews: any[];
+}
+
+export interface IServicesFilter {
+  type?: OFFERED_SERVICE_TYPE;
+  rating?: number;
+  minPrice?: number;
+  maxPrice?: number;
+}

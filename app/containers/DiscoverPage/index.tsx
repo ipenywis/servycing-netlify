@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Footer } from "components/footer";
 import { Navbar } from "components/navbar";
 import { InnerPageContainer, PageContainer } from "components/pageContainer";
@@ -8,6 +8,7 @@ import { screenSizes } from "components/responsive";
 import { BlackText } from "components/text";
 import { ServicesFilterBar } from "components/servicesFilterBar";
 import { Marginer } from "components/marginer";
+import offeredServicesService from "services/offeredServicesService";
 
 interface IDiscoverPageProps {}
 
@@ -16,11 +17,22 @@ const StyledInnerPageContainer = styled(InnerPageContainer as any)`
 `;
 
 function DiscoverPage(props: IDiscoverPageProps) {
+  useEffect(() => {
+    (async () => {
+      const services = await offeredServicesService
+        .getAndFilterOfferedServices()
+        .catch((err) => {
+          console.log("Error: ", err);
+        });
+      console.log("Services", services);
+    })();
+  }, []);
+
   return (
     <PageContainer>
       <Navbar />
       <StyledInnerPageContainer>
-        <BlackText size={30} black>
+        <BlackText size={36} black>
           Discover More
         </BlackText>
         <Marginer direction="vertical" margin="11px" />
