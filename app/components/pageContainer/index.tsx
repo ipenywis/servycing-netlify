@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import styled from 'styles/styled-components';
-import { scrollToTop } from 'utils/page';
+import React, { useEffect } from "react";
+import styled from "styles/styled-components";
+import { scrollToTop } from "utils/page";
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -9,6 +9,7 @@ const PageWrapper = styled.div`
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 export function PageContainer(props: any) {

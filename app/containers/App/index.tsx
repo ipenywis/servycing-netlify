@@ -32,6 +32,7 @@ import { createPortalContainer } from "utils/common";
 //Page Containers
 import NotFoundPage from "containers/NotFoundPage/Loadable";
 import HomePage from "containers/HomePage/Loadable";
+import DiscoverPage from "containers/DiscoverPage/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -74,6 +75,7 @@ function App() {
       <ApolloProvider client={apolloClient}>
         <Switch>
           <Route exact path={ROUTES.homePage} component={HomePage} />
+          <Route exact path={ROUTES.discoverPage} component={DiscoverPage} />
           {/** Has to be kept last */}
           <Route component={NotFoundPage} />
         </Switch>
