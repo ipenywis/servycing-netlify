@@ -6,6 +6,7 @@ import { SagaInjectionModes } from "redux-injectors";
 import { IAuthenticationState } from "containers/Authentication/types";
 import { FormState } from "final-form";
 import { IFinalFormState } from "finalForm/constants";
+import { IDiscoverPageState } from "containers/DiscoverPage/types";
 
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
@@ -33,6 +34,8 @@ export interface ApplicationRootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
   readonly authentication: IAuthenticationState;
   readonly finalForm: IFinalFormState;
+
+  readonly discoverPage: IDiscoverPageState;
 }
 
 export interface IAction {

@@ -9,6 +9,13 @@ import { BlackText } from "components/text";
 import { ServicesFilterBar } from "components/servicesFilterBar";
 import { Marginer } from "components/marginer";
 import offeredServicesService from "services/offeredServicesService";
+import { Dispatch } from "redux";
+import { IServicesFilter } from "types/offeredService";
+import { setFilters } from "./actions";
+import { useDispatch } from "react-redux";
+import { Services } from "./services";
+import { useInjectReducer } from "redux-injectors";
+import discoverPageReducer, { REDUCER_KEY } from "./reducer";
 
 interface IDiscoverPageProps {}
 
@@ -16,17 +23,15 @@ const StyledInnerPageContainer = styled(InnerPageContainer as any)`
   max-width: ${screenSizes.laptop}px;
 `;
 
+const actionDispatch = (dispatch: Dispatch) => ({
+  setFilters: (filters: IServicesFilter) => dispatch(setFilters(filters)),
+});
+
 function DiscoverPage(props: IDiscoverPageProps) {
-  useEffect(() => {
-    (async () => {
-      const services = await offeredServicesService
-        .getAndFilterOfferedServices()
-        .catch((err) => {
-          console.log("Error: ", err);
-        });
-      console.log("Services", services);
-    })();
-  }, []);
+  //Inject Reducer
+  useInjectReducer({ key: REDUCER_KEY, reducer: discoverPageReducer });
+
+  const { setFilters } = actionDispatch(useDispatch());
 
   return (
     <PageContainer>
@@ -35,10 +40,10 @@ function DiscoverPage(props: IDiscoverPageProps) {
         <BlackText size={36} black>
           Discover More
         </BlackText>
-        <Marginer direction="vertical" margin="11px" />
-        <ServicesFilterBar
-          onChange={(value) => console.log("Change: ", value)}
-        />
+        <Marginer direction="vertical" margin="1.5em" />
+        <ServicesFilterBar onChange={setFilters} />
+        <Marginer direction="vertical" margin="2.5em" />
+        <Services />
       </StyledInnerPageContainer>
       <Footer />
     </PageContainer>

@@ -54,7 +54,7 @@ export const OFFERED_SERVICE_HOURLY_RATE_FILTER: IOfferedServiceHourlyRateFilter
   },
 };
 
-export interface IOffferedService {
+export interface IOfferedService {
   id?: string;
   title: string;
   description: string;

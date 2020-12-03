@@ -1,6 +1,6 @@
 import { apolloClient } from "apolloGraphql";
 import {
-  IOffferedService,
+  IOfferedService,
   IServicesFilter,
   OFFERED_SERVICE_TYPE,
 } from "types/offeredService";
@@ -11,9 +11,9 @@ import { GET_OFFERED_SERVICES } from "./queries";
 
 class OfferedServicesService {
   public async getAndFilterOfferedServices(
-    loadRangeOptions?: ILoadRangeOptions,
-    servicesFilter?: IServicesFilter
-  ): Promise<IOffferedService[]> {
+    servicesFilter?: IServicesFilter,
+    loadRangeOptions?: ILoadRangeOptions
+  ): Promise<IOfferedService[]> {
     const response = await apolloClient
       .query({
         query: GET_OFFERED_SERVICES,

@@ -6,6 +6,7 @@ import {
   OFFERED_SERVICE_HOURLY_RATE_FILTER,
   OFFERED_SERVICE_TYPE,
   OFFERED_SERVICE_RATING_FILTER,
+  IServicesFilter,
 } from "types/offeredService";
 
 import { Range, createSliderWithTooltip } from "rc-slider";
@@ -15,11 +16,7 @@ import { BlackText, GreyText } from "components/text";
 const RangeWithTooltip = createSliderWithTooltip(Range);
 
 interface IServicesFilterBarProps {
-  onChange: (value: {
-    type: OFFERED_SERVICE_TYPE;
-    rating: number;
-    price: { min: number; max: number };
-  }) => void;
+  onChange: (filters: IServicesFilter) => void;
 }
 
 const BarContainer = styled.div`
@@ -76,7 +73,8 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
     onChange({
       type: type || serviceType,
       rating: rating || serviceRating,
-      price: price || servicePrice,
+      minPrice: price ? price.min : servicePrice.min,
+      maxPrice: price ? price.max : servicePrice.max,
     });
   };
 
