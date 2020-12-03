@@ -7,13 +7,10 @@ import {
   OFFERED_SERVICE_TYPE,
   OFFERED_SERVICE_RATING_FILTER,
   IServicesFilter,
+  IOfferedServiceHourlyRateFilter,
 } from "types/offeredService";
 
-import { Range, createSliderWithTooltip } from "rc-slider";
-import "rc-slider/assets/index.css";
 import { BlackText, GreyText } from "components/text";
-
-const RangeWithTooltip = createSliderWithTooltip(Range);
 
 interface IServicesFilterBarProps {
   onChange: (filters: IServicesFilter) => void;
@@ -30,7 +27,6 @@ const FilterWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  justify-content: space-between;
 
   &:not(:last-of-type) {
     margin-right: 12px;
@@ -38,12 +34,10 @@ const FilterWrapper = styled.div`
 `;
 
 const SliderWrapper = styled.div`
-  width: 8em;
-  height: 100%;
+  width: 6em;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  margin-left: 8px;
+  justify-content: center;
 `;
 
 export function ServicesFilterBar(props: IServicesFilterBarProps) {
@@ -60,12 +54,11 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
     OFFERED_SERVICE_RATING_FILTER
   >(OFFERED_SERVICE_RATING_FILTER.ALL);
 
-  const [servicePrice, setServicePrice] = useState<{
-    min: number;
-    max: number;
-  }>({ min: 1, max: 1000 });
+  const [servicePrice, setServicePrice] = useState<
+    IOfferedServiceHourlyRateFilter
+  >(OFFERED_SERVICE_HOURLY_RATE_FILTER["all"] as any);
 
-  const hanldeChange = (type, rating, price) => {
+  const handleChange = (type, rating, price) => {
     if (type) setServiceType(type);
     if (rating) setServiceRating(rating);
     if (price) setServicePrice(price);
@@ -87,7 +80,9 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
   return (
     <BarContainer>
       <FilterWrapper>
-        <GreyText size={13}>Filter by Type</GreyText>
+        <GreyText size={13} marginBottom={5}>
+          Filter by Type
+        </GreyText>
         <Combobox
           width="11em"
           items={offeredServiceTypesKeys}
@@ -97,44 +92,58 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
           placeholder="Filter by Type"
           openOnFocus
           selectedItem={serviceType}
-          onChange={(type) => hanldeChange(type, null, null)}
+          onChange={(type) => handleChange(type, null, null)}
         />
       </FilterWrapper>
       <FilterWrapper>
-        <GreyText size={13}>Filter by Rating</GreyText>
+        <GreyText size={13} marginBottom={5}>
+          Filter by Rating
+        </GreyText>
         <Combobox
           width="11em"
           items={Object.values(OFFERED_SERVICE_RATING_FILTER)}
           placeholder="Filter by Rating"
           selectedItem={serviceRating}
-          onChange={(rating) => hanldeChange(null, rating, null)}
+          onChange={(rating) => handleChange(null, rating, null)}
         />
       </FilterWrapper>
-      {/* <Combobox
-        width="11em"
-        items={Object.values(OFFERED_SERVICE_HOURLY_RATE_FILTER)}
-        itemToString={(item) => (item ? item.label : "")}
-        placeholder="Filter by Hourly Rate"
-      /> */}
-      <SliderWrapper>
-        <GreyText size={13}>Filter by Price</GreyText>
-        <RangeWithTooltip
-          defaultValue={[servicePrice.min, servicePrice.max]}
-          min={1}
-          max={1000}
-          allowCross={false}
-          onChange={(value) =>
-            hanldeChange(null, null, { min: value[0], max: value[1] })
-          }
-          handleStyle={[
-            {
-              width: "11px",
-              height: "11px",
-              marginTop: "-4px",
-            },
-          ]}
+      <FilterWrapper>
+        <GreyText size={13} marginBottom={5}>
+          Filter by Price
+        </GreyText>
+        <Combobox
+          width="11em"
+          items={Object.values(OFFERED_SERVICE_HOURLY_RATE_FILTER)}
+          itemToString={(item) => (item ? item.label : "")}
+          placeholder="Filter by Hourly Rate"
+          selectedItem={servicePrice}
+          onChange={(price) => handleChange(null, null, price)}
         />
-      </SliderWrapper>
+      </FilterWrapper>
+      {/* <FilterWrapper>
+        <GreyText size={13} marginBottom={12}>
+          Filter by Price
+        </GreyText>
+        <SliderWrapper>
+          <RangeWithTooltip
+            defaultValue={[servicePrice.min, servicePrice.max]}
+            min={1}
+            max={1000}
+            allowCross={false}
+            step={10}
+            onChange={(value) =>
+              hanldeChange(null, null, { min: value[0], max: value[1] })
+            }
+            handleStyle={[
+              {
+                width: "11px",
+                height: "11px",
+                marginTop: "-4px",
+              },
+            ]}
+          />
+        </SliderWrapper>
+      </FilterWrapper> */}
     </BarContainer>
   );
 }

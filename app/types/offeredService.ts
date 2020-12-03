@@ -30,29 +30,40 @@ export interface IOfferedServiceHourlyRateFilter {
 }
 
 export const OFFERED_SERVICE_HOURLY_RATE_FILTER: IOfferedServiceHourlyRateFilter = {
+  all: {
+    label: "All",
+    min: 1,
+    max: 1000,
+  },
   lessThan20: {
     label: "less than $20",
     min: 1,
     max: 20,
   },
   between20And50: {
-    label: "From $20 to $50",
+    label: "from $20 to $50",
     min: 20,
     max: 50,
   },
   between50And80: {
-    label: "From $50 to $80",
+    label: "from $50 to $80",
     min: 50,
     max: 80,
   },
   between80And100: {
-    label: "From $80 to $100",
+    label: "from $80 to $100",
     min: 80,
     max: 100,
   },
-  moreThan100: {
-    label: "More than $100",
+  between100To500: {
+    label: "from $100 to $500",
     min: 100,
+    max: 500,
+  },
+  moreThan500: {
+    label: "more than $500",
+    min: 500,
+    max: 1000,
   },
 };
 
