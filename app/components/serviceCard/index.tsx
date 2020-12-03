@@ -8,8 +8,9 @@ import { BlackText, GreyText, MutedText, SuccessText } from "components/text";
 import { HorizontalWrapper } from "components/horizontalWrapper";
 import { Avatar } from "components/avatar";
 import { RatingStars } from "components/ratingStarts";
+import { IOfferedService } from "types/offeredService";
 
-interface IServiceCardProps {}
+interface IServiceCardProps extends IOfferedService {}
 
 const CardContainer = styled.div`
   width: 300px;
@@ -58,6 +59,8 @@ const BottomContainer = styled.div`
 `;
 
 export function ServiceCard(props: IServiceCardProps) {
+  const { title, specialist, rate } = props;
+
   return (
     <CardContainer>
       <TopContainer>
@@ -67,12 +70,12 @@ export function ServiceCard(props: IServiceCardProps) {
       </TopContainer>
       <ContentContainer>
         <BlackText size={17} bold marginBottom={10}>
-          I will landscape your home backyard and make you feel happy
+          {title}
         </BlackText>
         <HorizontalWrapper centerVertically>
           <Avatar size={24} />
           <BlackText size={12} marginLeft={3}>
-            Islem Maboud
+            {specialist.fullName}
           </BlackText>
         </HorizontalWrapper>
       </ContentContainer>
@@ -83,7 +86,7 @@ export function ServiceCard(props: IServiceCardProps) {
             STARTING AT
           </MutedText>
           <SuccessText size={15} bold>
-            $200
+            ${rate}
           </SuccessText>
           <MutedText size={11} verticalCenter>
             /hr

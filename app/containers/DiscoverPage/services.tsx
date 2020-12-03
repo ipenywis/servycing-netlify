@@ -56,13 +56,15 @@ export function Services(props: IServicesProps) {
 
   useEffect(() => {
     fetchOfferedServices();
-  }, []);
+  }, [filters]);
 
   return (
     <ServicesContainer>
       <ServicesWrapper>
         {!isEmptyOfferedServices &&
-          offeredServices.map((service, idx) => <ServiceCard key={idx} />)}
+          offeredServices.map((service, idx) => (
+            <ServiceCard key={idx} {...service} />
+          ))}
       </ServicesWrapper>
     </ServicesContainer>
   );

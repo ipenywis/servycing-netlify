@@ -16,6 +16,8 @@ export default function discoverPageReducer(
   switch (action.type) {
     case ActionTypes.SET_OFFERED_SERVICES:
       return { ...state, offeredServices: action.payload };
+    case ActionTypes.SET_FILTERS:
+      return { ...state, filters: action.payload };
     default:
       return state;
   }

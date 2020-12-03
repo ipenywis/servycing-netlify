@@ -15,7 +15,9 @@ export const GET_OFFERED_SERVICES = gql`
       specialist {
         id
         fullName
+        email
         rating
+        shortBio
       }
       reviews {
         id

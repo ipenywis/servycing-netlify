@@ -63,16 +63,22 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
   const [servicePrice, setServicePrice] = useState<{
     min: number;
     max: number;
-  }>({ min: 1, max: 100 });
+  }>({ min: 1, max: 1000 });
 
   const hanldeChange = (type, rating, price) => {
     if (type) setServiceType(type);
     if (rating) setServiceRating(rating);
     if (price) setServicePrice(price);
 
+    const newType = type || serviceType;
+    const newRating = rating || serviceRating;
+
     onChange({
-      type: type || serviceType,
-      rating: rating || serviceRating,
+      type: newType === offeredServiceTypesKeys[0] ? undefined : newType,
+      rating:
+        newRating === OFFERED_SERVICE_RATING_FILTER.ALL
+          ? undefined
+          : parseInt(newRating),
       minPrice: price ? price.min : servicePrice.min,
       maxPrice: price ? price.max : servicePrice.max,
     });
@@ -115,7 +121,7 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
         <RangeWithTooltip
           defaultValue={[servicePrice.min, servicePrice.max]}
           min={1}
-          max={100}
+          max={1000}
           allowCross={false}
           onChange={(value) =>
             hanldeChange(null, null, { min: value[0], max: value[1] })

@@ -1,3 +1,5 @@
+import { ISpecialist } from "./specialist";
+
 export enum OFFERED_SERVICE_TYPE {
   ALL = "All",
   CAR_REPAIR = "Car repair",
@@ -61,12 +63,12 @@ export interface IOfferedService {
   type: OFFERED_SERVICE_TYPE;
   rate: number;
   preferredHours: string;
-  specialist: any;
+  specialist: ISpecialist;
   reviews: any[];
 }
 
 export interface IServicesFilter {
-  type?: OFFERED_SERVICE_TYPE;
+  type?: string;
   rating?: number;
   minPrice?: number;
   maxPrice?: number;

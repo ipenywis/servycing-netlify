@@ -41,7 +41,13 @@ export function RecommendedServices(props: IRecommendedServicesProps) {
           {Array(8)
             .fill("")
             .map((service, idx) => (
-              <ServiceCard key={idx} />
+              <ServiceCard
+                key={idx}
+                title="I will landscape your garden"
+                specialist={{ fullName: "Islem Maboud" } as any}
+                rate={70}
+                {...(service as any)}
+              />
             ))}
         </ServicesContainer>
         <Marginer direction="vertical" margin="2em" />
