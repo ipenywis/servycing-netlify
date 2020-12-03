@@ -12,3 +12,8 @@ export const makeSelectFilters = createSelector(
   selectDiscoverPage,
   (page) => page.filters
 );
+
+export const makeSelectLoadRange = createSelector(
+  selectDiscoverPage,
+  (page) => page.loadRange
+);

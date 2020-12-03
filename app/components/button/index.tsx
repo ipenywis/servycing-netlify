@@ -42,7 +42,7 @@ const ButtonWrapper = styled.button`
   border-radius: 4px;
   font-size: ${({ size }) => (size ? `${size}px` : "14px")};
   font-weight: ${({ boldText }) => (boldText ? "700" : "500")};
-  padding: 6px 11px;
+  padding: 4.6px 11px;
   line-height: 1.5;
   cursor: pointer;
   transition-property: all;
