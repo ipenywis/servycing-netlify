@@ -37,6 +37,7 @@ import SpecialistRegisterPage from "containers/Specialist/RegisterPage/Loadable"
 import SpecialistLoginPage from "containers/Specialist/LoginPage/Loadable";
 import CustomerLoginPage from "containers/Customer/LoginPage/Loadable";
 import CustomerRegisterPage from "containers/Customer/RegisterPage/Loadable";
+import AdminLoginPage from "containers/Admin/LoginPage/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -102,6 +103,13 @@ function App() {
             exact
             path={ROUTES.specialistLoginPage}
             component={SpecialistLoginPage}
+          />
+
+          {/* ADMIN */}
+          <Route
+            exact
+            path={ROUTES.adminLoginPage}
+            component={AdminLoginPage}
           />
 
           {/** Has to be kept last */}

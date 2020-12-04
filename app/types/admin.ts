@@ -1,13 +1,11 @@
 export interface IAdmin {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  bio: string;
+  fullName: string;
   access_token?: string;
 }
 
-export interface IAdminLoginDTO {
+export interface ILoginAdminDTO {
   email: string;
   password: string;
 }

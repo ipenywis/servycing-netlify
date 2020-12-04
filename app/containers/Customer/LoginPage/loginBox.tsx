@@ -30,6 +30,8 @@ import { VerticalWrapper } from "components/verticalWrapper";
 import { ILoginSpecialistDTO } from "types/specialist";
 import { BrandLogo } from "components/brandLogo";
 import specialistService from "services/specialistService";
+import customerService from "services/customerService";
+import { ILoginCustomerDTO } from "types/customer";
 
 export interface ILoginBoxProps {}
 
@@ -140,18 +142,16 @@ export function LoginBox(props: ILoginBoxProps) {
   const onSubmit = async (values: any, form: FormApi<any>): Promise<any> => {
     setError(null);
 
-    const data: ILoginSpecialistDTO = {
+    const data: ILoginCustomerDTO = {
       email: values.email,
       password: values.password,
     };
-    const specialist = await specialistService.login(data).catch((err) => {
+    const customer = await customerService.login(data).catch((err) => {
       setError(err.message);
     });
 
-    console.log("Specialist: ", specialist);
-
-    if (specialist) {
-      studentAuthenticated(specialist.access_token as string);
+    if (customer) {
+      studentAuthenticated(customer.access_token as string);
       history.push(ROUTES.discoverPage);
     }
   };
@@ -213,7 +213,7 @@ export function LoginBox(props: ILoginBoxProps) {
       <FooterContainer>
         <InfoContainer>
           <InfoText>You don't have an account?</InfoText>
-          <LinkText to={ROUTES.specialistRegisterPage}>Signup</LinkText>
+          <LinkText to={ROUTES.customerSignupPage}>Signup</LinkText>
         </InfoContainer>
         <InfoContainer>
           <InfoText>Forgot your password?</InfoText>

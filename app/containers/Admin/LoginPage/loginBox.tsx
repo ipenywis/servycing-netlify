@@ -13,29 +13,25 @@ import { HorizontalWrapper } from "components/horizontalWrapper";
 import { FORMS } from "finalForm/constants";
 import FinalFormSpy from "finalForm/finalFormSpy";
 import { object, string } from "yup";
-import { FULLNAME_REGEX, PASSWORD_REGEX } from "utils/regex";
-import { setIn, FormApi } from "final-form";
+import { FormApi } from "final-form";
 import messages from "./messages";
-import studentService from "services/studentService";
-import { IStudentRegisterDTO } from "types/student";
 import { useHistory } from "react-router-dom";
 import ROUTES from "containers/ROUTES";
 import { Card } from "components/card";
-import { prepareRouteWithParams } from "utils/route";
+import { Dispatch } from "redux";
+import { studentAuthenticated } from "containers/Authentication/actions";
+import { useDispatch } from "react-redux";
 import { validateForm } from "utils/validation";
-import { BrandLogo } from "components/brandLogo";
 import { VerticalWrapper } from "components/verticalWrapper";
-import { IRegisterSpecialistDTO } from "types/specialist";
-import specialistService from "services/specialistService";
-import { IRegisterCustomerDTO } from "types/customer";
-import customerService from "services/customerService";
+import { BrandLogo } from "components/brandLogo";
+import adminService from "services/adminService";
+import { ILoginAdminDTO } from "types/admin";
 
-export interface ISignupBoxProps {}
+export interface ILoginBoxProps {}
 
-const SignupBoxCard = styled(Card)`
-  width: 26em;
-  min-height: 40em;
-  align-items: center;
+const LoginCard = styled(Card)`
+  width: 23em;
+  min-height: 24em;
   padding-top: 1.2em;
   margin-bottom: 1in;
 `;
@@ -70,7 +66,7 @@ const FooterContainer = styled.div`
   flex-direction: column;
   flex: 1;
   justify-content: flex-end;
-  margin-top: 12px;
+  margin-top: 2em;
 `;
 
 const InfoContainer = styled(HorizontalWrapper)`
@@ -88,6 +84,12 @@ const InfoText = styled(GreyText)`
 const LinkText = styled(Link)`
   font-size: 13px;
   color: ${theme.default.shinyBlue};
+`;
+
+const GithubButton = styled(Button)`
+  width: 100%;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
 `;
 
 const DetailsContainer = styled.div`
@@ -112,48 +114,48 @@ const OrSeperator = styled(MutedText)`
 `;
 
 const validationSchema = object({
-  fullName: string()
-    .trim()
-    .matches(FULLNAME_REGEX, messages.invalidName)
-    .required(messages.nameRequired),
   email: string()
+    .email(messages.enterValidEmail)
     .trim()
-    .email(messages.invalidEmail)
-    .required(messages.emailRequired),
-  password: string()
-    .trim()
-    .matches(PASSWORD_REGEX, messages.invalidPassword)
-    .required(messages.passwordRequired),
+    .required(messages.emailOrUsernameRequired),
+  password: string().trim().required(messages.passwordRequired),
 });
 
-export function SignupBox(props: ISignupBoxProps) {
+const ActionsDispatcher = (dispatch: Dispatch) => ({
+  studentAuthenticated: (token: string) =>
+    dispatch(studentAuthenticated(token)),
+});
+
+export function LoginBox(props: ILoginBoxProps) {
   const [error, setError] = useState<string | null>(null);
 
   const history = useHistory();
 
+  const { studentAuthenticated } = ActionsDispatcher(useDispatch());
+
   const onSubmit = async (values: any, form: FormApi<any>): Promise<any> => {
     setError(null);
 
-    const data: IRegisterCustomerDTO = {
-      fullName: values.fullName,
+    const data: ILoginAdminDTO = {
       email: values.email,
       password: values.password,
     };
-    const customer = await customerService.register(data).catch((err) => {
+    const admin = await adminService.login(data).catch((err) => {
       setError(err.message);
     });
 
-    console.log("Specialist: ", customer);
-
-    if (customer) history.push(ROUTES.customerLoginPage);
+    if (admin) {
+      studentAuthenticated(admin.access_token as string);
+      history.push(ROUTES.discoverPage);
+    }
   };
 
   return (
-    <SignupBoxCard centerTitle>
+    <LoginCard centerTitle>
       <VerticalWrapper centerHorizontally>
         <BrandLogo logoOnly logoSize={70} />
         <BlackText size={20} bold marginTop={14}>
-          Create your Account
+          Login
         </BlackText>
       </VerticalWrapper>
       <FormWrapper>
@@ -171,41 +173,31 @@ export function SignupBox(props: ISignupBoxProps) {
               <DetailsContainer>
                 {error && <SubmitError>{error}</SubmitError>}
               </DetailsContainer>
-              <FinalFormSpy form={FORMS.SIGNUP_FORM} />
-              <FormGroup label="Full Name">
-                <Input
-                  name="fullName"
-                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                  placeholder="Your Name"
-                  clearPlaceholderOnFocus
-                />
-              </FormGroup>
+              <FinalFormSpy form={FORMS.LOGIN_FORM} />
               <FormGroup label="Email">
                 <Input
                   name="email"
                   inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                  placeholder="example@mail.com"
+                  placeholder="Your Email"
                   clearPlaceholderOnFocus
-                  type="email"
                 />
               </FormGroup>
               <FormGroup label="Password">
                 <Input
                   name="password"
                   inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                  placeholder="Strong Password"
+                  placeholder="Your Password"
                   clearPlaceholderOnFocus
                   type="password"
                 />
               </FormGroup>
               <BottomContainer>
                 <SubmitButton
-                  text="Signup"
+                  text="Login"
                   buttonTheme={ButtonTheme.PRIMARY_SOLID}
                   size={14}
                   type="submit"
                   isLoading={submitting}
-                  disabled={hasSubmitErrors && !dirtySinceLastSubmit}
                 />
               </BottomContainer>
             </FormContainer>
@@ -214,14 +206,14 @@ export function SignupBox(props: ISignupBoxProps) {
       </FormWrapper>
       <FooterContainer>
         <InfoContainer>
-          <InfoText>Already have an account?</InfoText>
-          <LinkText to={ROUTES.customerLoginPage}>Login</LinkText>
+          <InfoText>You don't have an account?</InfoText>
+          <LinkText to={ROUTES.customerSignupPage}>Signup</LinkText>
         </InfoContainer>
         <InfoContainer>
           <InfoText>Forgot your password?</InfoText>
           <LinkText to="#">Recovert it</LinkText>
         </InfoContainer>
       </FooterContainer>
-    </SignupBoxCard>
+    </LoginCard>
   );
 }
