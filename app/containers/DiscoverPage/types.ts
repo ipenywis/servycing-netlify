@@ -6,4 +6,5 @@ export interface IDiscoverPageState {
   offeredServicesCount: number | null;
   filters: IServicesFilter | null;
   loadRange: ILoadRangeOptions;
+  isServicesLoading: boolean;
 }

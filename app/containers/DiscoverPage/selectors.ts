@@ -22,3 +22,8 @@ export const makeSelectOfferedServicesCount = createSelector(
   selectDiscoverPage,
   (page) => page.offeredServicesCount
 );
+
+export const makeSelectIsServicesLoading = createSelector(
+  selectDiscoverPage,
+  (page) => page.isServicesLoading
+);

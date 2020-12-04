@@ -9,6 +9,7 @@ const defaultState: IDiscoverPageState = {
   offeredServicesCount: null,
   filters: null,
   loadRange: DEFAULT_LOAD_RANGE,
+  isServicesLoading: false,
 };
 
 export default function discoverPageReducer(
@@ -24,6 +25,8 @@ export default function discoverPageReducer(
       return { ...state, loadRange: action.payload };
     case ActionTypes.SET_OFFERED_SERVICES_COUNT:
       return { ...state, offeredServicesCount: action.payload };
+    case ActionTypes.SET_SERVICES_LOADING:
+      return { ...state, isServicesLoading: action.payload };
     default:
       return state;
   }

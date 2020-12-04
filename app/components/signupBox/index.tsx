@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import styled, { theme } from 'styles/styled-components';
-import { DarkText, MutedText, GreyText, ErrorText } from 'components/text';
-import { Button } from 'components/button';
-import { Link } from 'components/link';
-import { Form } from 'components/form';
-import { FormRenderProps } from 'react-final-form';
-import { FormGroup } from 'components/formGroup';
-import { Input } from 'components/input';
-import { InputTheme } from 'components/input/themes';
-import { ButtonTheme } from 'components/button/themes';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { HorizontalWrapper } from 'components/horizontalWrapper';
-import { FORMS } from 'finalForm/constants';
-import FinalFormSpy from 'finalForm/finalFormSpy';
-import { object, string } from 'yup';
+import React, { useState } from "react";
+import styled, { theme } from "styles/styled-components";
+import { DarkText, MutedText, GreyText, ErrorText } from "components/text";
+import { Button } from "components/button";
+import { Link } from "components/link";
+import { Form } from "components/form";
+import { FormRenderProps } from "react-final-form";
+import { FormGroup } from "components/formGroup";
+import { Input } from "components/input";
+import { InputTheme } from "components/input/themes";
+import { ButtonTheme } from "components/button/themes";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { FORMS } from "finalForm/constants";
+import FinalFormSpy from "finalForm/finalFormSpy";
+import { object, string } from "yup";
 import {
   STUDENT_USERNAME_REGX,
   FULLNAME_REGEX,
   PASSWORD_REGEX,
-} from 'utils/regex';
-import { setIn, FormApi } from 'final-form';
-import messages from './messages';
-import studentService from 'services/studentService';
-import { IStudentRegisterDTO } from 'types/student';
-import { useHistory } from 'react-router-dom';
-import ROUTES from 'containers/ROUTES';
-import { Card } from 'components/card';
-import { prepareRouteWithParams } from 'utils/route';
-import { validateForm } from 'utils/validation';
+} from "utils/regex";
+import { setIn, FormApi } from "final-form";
+import messages from "./messages";
+import studentService from "services/studentService";
+import { IStudentRegisterDTO } from "types/student";
+import { useHistory } from "react-router-dom";
+import ROUTES from "containers/ROUTES";
+import { Card } from "components/card";
+import { prepareRouteWithParams } from "utils/route";
+import { validateForm } from "utils/validation";
 
 export interface ISignupBoxProps {}
 
@@ -149,13 +149,13 @@ export function SignupBox(props: ISignupBoxProps) {
       email: values.email,
       password: values.password,
     };
-    const student = await studentService.register(data).catch(err => {
+    const student = await studentService.register(data).catch((err) => {
       setError(err.message);
     });
 
     if (student)
       history.push(
-        prepareRouteWithParams(ROUTES.verifyStudentEmailPage, student.id),
+        prepareRouteWithParams(ROUTES.verifyStudentEmailPage, student.id)
       );
   };
 
@@ -171,7 +171,7 @@ export function SignupBox(props: ISignupBoxProps) {
       <FormWrapper>
         <Form
           onSubmit={onSubmit}
-          validate={values => validateForm(validationSchema, values)}
+          validate={(values) => validateForm(validationSchema, values)}
           validateOnBlur={false}
         >
           {({

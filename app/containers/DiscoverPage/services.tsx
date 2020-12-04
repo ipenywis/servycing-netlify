@@ -1,5 +1,7 @@
 import { Button } from "components/button";
 import { ButtonTheme } from "components/button/themes";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { Marginer } from "components/marginer";
 import { ServiceCard } from "components/serviceCard";
 import { WarningText } from "components/text";
@@ -11,14 +13,17 @@ import offeredServicesService from "services/offeredServicesService";
 import styled from "styles/styled-components";
 import { IOfferedService } from "types/offeredService";
 import { ILoadRangeOptions } from "types/pagination";
+import { wait } from "utils/common";
 import {
   setLoadRange,
   setOfferedServices,
   setOfferedServicesCount,
+  setServicesLoading,
 } from "./actions";
 import { DEFAULT_LOAD_RANGE } from "./constants";
 import {
   makeSelectFilters,
+  makeSelectIsServicesLoading,
   makeSelectLoadRange,
   makeSelectOfferedServices,
   makeSelectOfferedServicesCount,
@@ -44,11 +49,19 @@ const stateSelector = createSelector(
   makeSelectFilters,
   makeSelectLoadRange,
   makeSelectOfferedServicesCount,
-  (offeredServices, filters, loadRange, offeredServicesCount) => ({
+  makeSelectIsServicesLoading,
+  (
     offeredServices,
     filters,
     loadRange,
     offeredServicesCount,
+    isServicesLoading
+  ) => ({
+    offeredServices,
+    filters,
+    loadRange,
+    offeredServicesCount,
+    isServicesLoading,
   })
 );
 
@@ -58,6 +71,8 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setOfferedServicesCount: (count: number) =>
     dispatch(setOfferedServicesCount(count)),
   setLoadRange: (range: ILoadRangeOptions) => dispatch(setLoadRange(range)),
+  setServicesLoading: (loading: boolean) =>
+    dispatch(setServicesLoading(loading)),
 });
 
 export function Services(props: IServicesProps) {
@@ -66,11 +81,13 @@ export function Services(props: IServicesProps) {
     filters,
     loadRange,
     offeredServicesCount,
+    isServicesLoading,
   } = useSelector(stateSelector);
   const {
     setOfferedServices,
     setLoadRange,
     setOfferedServicesCount,
+    setServicesLoading,
   } = actionDispatch(useDispatch());
 
   const isEmptyOfferedServices =
@@ -82,6 +99,8 @@ export function Services(props: IServicesProps) {
       setLoadRange(DEFAULT_LOAD_RANGE);
     }
 
+    setServicesLoading(true);
+
     const fetchedServicesWithCount = await offeredServicesService
       .getAndFilterOfferedServices(
         filters || undefined,
@@ -90,6 +109,8 @@ export function Services(props: IServicesProps) {
       .catch((err) => {
         console.log("Error: ", err);
       });
+
+    await wait(4000);
 
     if (fetchedServicesWithCount && loadedRange) {
       const fetchedServices = fetchedServicesWithCount.offeredServices;
@@ -102,6 +123,8 @@ export function Services(props: IServicesProps) {
       setOfferedServices(fetchedServices);
       setOfferedServicesCount(count);
     }
+
+    setServicesLoading(false);
   };
 
   const updateLoadRange = () => {
@@ -126,7 +149,12 @@ export function Services(props: IServicesProps) {
   return (
     <ServicesContainer>
       <ServicesWrapper>
-        {isEmptyOfferedServices && (
+        {isServicesLoading && (
+          <HorizontalWrapper centered>
+            <MinimalSpinner />
+          </HorizontalWrapper>
+        )}
+        {!isServicesLoading && isEmptyOfferedServices && (
           <WarningText
             size={14}
             marginTop="4em"
@@ -137,6 +165,7 @@ export function Services(props: IServicesProps) {
           </WarningText>
         )}
         {!isEmptyOfferedServices &&
+          !isServicesLoading &&
           offeredServices.map((service, idx) => (
             <ServiceCard key={idx} {...service} />
           ))}
@@ -144,6 +173,7 @@ export function Services(props: IServicesProps) {
       <Marginer direction="vertical" margin="3em" />
       {!offeredServicesCount ||
         (!isEmptyOfferedServices &&
+          !isServicesLoading &&
           offeredServices.length < offeredServicesCount && (
             <Button
               text="View More"

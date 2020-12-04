@@ -5,7 +5,7 @@ import { InnerPageContainer, PageContainer } from "components/pageContainer";
 import { hot } from "react-hot-loader/root";
 import styled from "styles/styled-components";
 import { screenSizes } from "components/responsive";
-import { BlackText } from "components/text";
+import { BlackText, MutedText } from "components/text";
 import { ServicesFilterBar } from "components/servicesFilterBar";
 import { Marginer } from "components/marginer";
 import offeredServicesService from "services/offeredServicesService";
@@ -37,9 +37,12 @@ function DiscoverPage(props: IDiscoverPageProps) {
     <PageContainer>
       <Navbar />
       <StyledInnerPageContainer>
-        <BlackText size={36} black>
+        <BlackText size={39} black>
           Discover More
         </BlackText>
+        <MutedText size={14}>
+          Explore services that are made especially for you.
+        </MutedText>
         <Marginer direction="vertical" margin="1.5em" />
         <ServicesFilterBar onChange={setFilters} />
         <Marginer direction="vertical" margin="2.5em" />

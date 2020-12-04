@@ -14,3 +14,6 @@ export const setLoadRange = (range: ILoadRangeOptions) =>
 
 export const setOfferedServicesCount = (count: number) =>
   action(ActionTypes.SET_OFFERED_SERVICES_COUNT, count);
+
+export const setServicesLoading = (loading: boolean) =>
+  action(ActionTypes.SET_SERVICES_LOADING, loading);
