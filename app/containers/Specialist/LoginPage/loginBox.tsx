@@ -29,6 +29,7 @@ import { validateForm } from "utils/validation";
 import { VerticalWrapper } from "components/verticalWrapper";
 import { ILoginSpecialistDTO } from "types/specialist";
 import { BrandLogo } from "components/brandLogo";
+import specialistService from "services/specialistService";
 
 export interface ILoginBoxProps {}
 
@@ -143,13 +144,15 @@ export function LoginBox(props: ILoginBoxProps) {
       email: values.email,
       password: values.password,
     };
-    const student = await studentService.login(data).catch((err) => {
+    const specialist = await specialistService.login(data).catch((err) => {
       setError(err.message);
     });
 
-    if (student) {
-      studentAuthenticated(student.access_token as string);
-      history.push(ROUTES.browseCoursesPage);
+    console.log("Specialist: ", specialist);
+
+    if (specialist) {
+      studentAuthenticated(specialist.access_token as string);
+      history.push(ROUTES.discoverPage);
     }
   };
 
@@ -210,7 +213,7 @@ export function LoginBox(props: ILoginBoxProps) {
       <FooterContainer>
         <InfoContainer>
           <InfoText>You don't have an account?</InfoText>
-          <LinkText to={ROUTES.signupPage}>Signup</LinkText>
+          <LinkText to={ROUTES.specialistRegisterPage}>Signup</LinkText>
         </InfoContainer>
         <InfoContainer>
           <InfoText>Forgot your password?</InfoText>
