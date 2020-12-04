@@ -1,6 +1,6 @@
-import { IAuthenticationState } from './types';
-import { IAction } from 'types';
-import { ActionTypes } from './constants';
+import { IAuthenticationState } from "./types";
+import { IAction } from "types";
+import { ActionTypes } from "./constants";
 
 const defaulSate: IAuthenticationState = {
   isStudentAuthenticated: false,
@@ -11,16 +11,16 @@ const defaulSate: IAuthenticationState = {
 
 export default function authenticationReducer(
   state: IAuthenticationState = defaulSate,
-  action: IAction,
+  action: IAction
 ) {
   switch (action.type) {
-    case ActionTypes.STUDENT_AUTHENTICATED:
+    case ActionTypes.CUSTOMER_AUTHENTICATED:
       return { ...state, isStudentAuthenticated: true };
-    case ActionTypes.STUDENT_UNAUTHENTICATED:
+    case ActionTypes.CUSTOMER_UNAUTHENTICATED:
       return { ...state, isStudentAuthenticated: false };
-    case ActionTypes.INSTRUCTOR_AUTHENTICATED:
+    case ActionTypes.SPECIALIST_AUTHENTICATED:
       return { ...state, isInstructorAuthenticated: true };
-    case ActionTypes.INSTRUCTOR_UNAUTHENTICATED:
+    case ActionTypes.SPECIALIST_UNAUTHENTICATED:
       return { ...state, isInstructorAuthenticated: false };
     case ActionTypes.ADMIN_AUTHENTICATED:
       return { ...state, isAdminAuthenticated: true };

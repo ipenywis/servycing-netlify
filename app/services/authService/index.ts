@@ -1,30 +1,30 @@
 class AuthService {
-  public STUDENT_AUTH_TOKEN_KEY = 'auth-token';
-  public INSTRUCTOR_AUTH_TOKEN_KEY = 'author-auth-token';
-  public ADMIN_AUTH_TOKEN_KEY = 'boss-auth-token';
+  public CUSTOMER_AUTH_TOKEN_KEY = "auth-token";
+  public SPECIALIST_AUTH_TOKEN_KEY = "specialist-auth-token";
+  public ADMIN_AUTH_TOKEN_KEY = "boss-auth-token";
 
-  storeStudentToken(token: string) {
-    window.localStorage.setItem(this.STUDENT_AUTH_TOKEN_KEY, token);
+  storeCustomerToken(token: string) {
+    window.localStorage.setItem(this.CUSTOMER_AUTH_TOKEN_KEY, token);
   }
 
-  getStudentToken(): string | null {
-    return window.localStorage.getItem(this.STUDENT_AUTH_TOKEN_KEY);
+  getCustomerToken(): string | null {
+    return window.localStorage.getItem(this.CUSTOMER_AUTH_TOKEN_KEY);
   }
 
-  removeStudentToken() {
-    window.localStorage.removeItem(this.STUDENT_AUTH_TOKEN_KEY);
+  removeCustomerToken() {
+    window.localStorage.removeItem(this.CUSTOMER_AUTH_TOKEN_KEY);
   }
 
-  storeInstructorToken(token: string) {
-    window.localStorage.setItem(this.INSTRUCTOR_AUTH_TOKEN_KEY, token);
+  storeSpecialistToken(token: string) {
+    window.localStorage.setItem(this.SPECIALIST_AUTH_TOKEN_KEY, token);
   }
 
-  getInstructorToken(): string | null {
-    return window.localStorage.getItem(this.INSTRUCTOR_AUTH_TOKEN_KEY);
+  getSpecialistToken(): string | null {
+    return window.localStorage.getItem(this.SPECIALIST_AUTH_TOKEN_KEY);
   }
 
-  removeInstructorToken() {
-    window.localStorage.removeItem(this.INSTRUCTOR_AUTH_TOKEN_KEY);
+  removeSpecialistToken() {
+    window.localStorage.removeItem(this.SPECIALIST_AUTH_TOKEN_KEY);
   }
 
   storeAdminToken(token: string) {
@@ -40,14 +40,13 @@ class AuthService {
   }
 
   getCurrentAuthToken(): string | null {
-    return this.getStudentToken() || this.getInstructorToken();
+    return this.getCustomerToken() || this.getSpecialistToken();
   }
 
   public logout() {
-    console.log('Remiving...');
-    this.removeStudentToken();
+    this.removeCustomerToken();
     this.removeAdminToken();
-    this.removeInstructorToken();
+    this.removeSpecialistToken();
   }
 }
 

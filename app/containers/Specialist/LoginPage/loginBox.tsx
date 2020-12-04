@@ -23,7 +23,7 @@ import ROUTES from "containers/ROUTES";
 import { Card } from "components/card";
 import { prepareRouteWithParams } from "utils/route";
 import { Dispatch } from "redux";
-import { studentAuthenticated } from "containers/Authentication/actions";
+import { specialistAuthenticated } from "containers/Authentication/actions";
 import { useDispatch } from "react-redux";
 import { validateForm } from "utils/validation";
 import { VerticalWrapper } from "components/verticalWrapper";
@@ -126,8 +126,8 @@ const validationSchema = object({
 });
 
 const ActionsDispatcher = (dispatch: Dispatch) => ({
-  studentAuthenticated: (token: string) =>
-    dispatch(studentAuthenticated(token)),
+  specialistAuthenticated: (token: string) =>
+    dispatch(specialistAuthenticated(token)),
 });
 
 export function LoginBox(props: ILoginBoxProps) {
@@ -135,7 +135,7 @@ export function LoginBox(props: ILoginBoxProps) {
 
   const history = useHistory();
 
-  const { studentAuthenticated } = ActionsDispatcher(useDispatch());
+  const { specialistAuthenticated } = ActionsDispatcher(useDispatch());
 
   const onSubmit = async (values: any, form: FormApi<any>): Promise<any> => {
     setError(null);
@@ -148,10 +148,8 @@ export function LoginBox(props: ILoginBoxProps) {
       setError(err.message);
     });
 
-    console.log("Specialist: ", specialist);
-
     if (specialist) {
-      studentAuthenticated(specialist.access_token as string);
+      specialistAuthenticated(specialist.access_token as string);
       history.push(ROUTES.discoverPage);
     }
   };

@@ -18,8 +18,8 @@ import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
 import {
   adminUnauthenticated,
-  instructorUnauthenticated,
-  studentunauthenticated,
+  specialistUnauthenticated,
+  customerunauthenticated,
 } from "containers/Authentication/actions";
 import { UserRole } from "types/user";
 import { Seperator } from "components/lineSeperator";
@@ -92,8 +92,8 @@ const stateSelector = createSelector(
 
 const actionDispatch = (dispatch: Dispatch) => ({
   adminUnauthenticated: () => dispatch(adminUnauthenticated()),
-  instructorUnauthenticated: () => dispatch(instructorUnauthenticated()),
-  studentUnauthenticated: () => dispatch(studentunauthenticated()),
+  specialistUnauthenticated: () => dispatch(specialistUnauthenticated()),
+  customerunauthenticated: () => dispatch(customerunauthenticated()),
 });
 
 function Accessbility() {
@@ -104,8 +104,8 @@ function Accessbility() {
   } = useSelector(stateSelector);
   const {
     adminUnauthenticated,
-    studentUnauthenticated,
-    instructorUnauthenticated,
+    customerunauthenticated,
+    specialistUnauthenticated,
   } = actionDispatch(useDispatch());
 
   const isAuthenticated =
@@ -116,17 +116,17 @@ function Accessbility() {
   const logout = () => {
     authService.logout();
     adminUnauthenticated();
-    instructorUnauthenticated();
-    studentUnauthenticated();
+    specialistUnauthenticated();
+    customerunauthenticated();
     //Redirect to homepage
     history.push(ROUTES.homePage);
   };
 
   const getUserRole = () => {
     if (isAdminAuthenticated) return UserRole.ADMIN;
-    else if (isInstructorAuthenticated) return UserRole.INSTRUCTOR;
-    else if (isStudentAuthenticated) return UserRole.STUDENT;
-    else return UserRole.STUDENT;
+    else if (isInstructorAuthenticated) return UserRole.SPECIALIST;
+    else if (isStudentAuthenticated) return UserRole.CUSTOMER;
+    else return UserRole.CUSTOMER;
   };
 
   if (isAuthenticated) return <ProfileBell userRole={getUserRole()} />;

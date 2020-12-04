@@ -1,27 +1,27 @@
-import React from 'react';
-import { NavContainer, NavItem, LogoutNavItem } from './common';
-import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
-import ROUTES from 'containers/ROUTES';
-import { instructorUnauthenticated } from 'containers/Authentication/actions';
-import { Dispatch } from 'redux';
-import { useDispatch } from 'react-redux';
-import authService from 'services/authService';
-import { prepareRouteWithParams } from 'utils/route';
+import React from "react";
+import { NavContainer, NavItem, LogoutNavItem } from "./common";
+import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import ROUTES from "containers/ROUTES";
+import { specialistUnauthenticated } from "containers/Authentication/actions";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
+import authService from "services/authService";
+import { prepareRouteWithParams } from "utils/route";
 
 export interface IInstructorMenuProps {}
 
 const actionDispatch = (dispatch: Dispatch) => ({
-  instructorUnauthenticated: () => dispatch(instructorUnauthenticated()),
+  specialistUnauthenticated: () => dispatch(specialistUnauthenticated()),
 });
 
 export function InstructorMenu(props: IInstructorMenuProps) {
-  const { instructorUnauthenticated } = actionDispatch(useDispatch());
+  const { specialistUnauthenticated } = actionDispatch(useDispatch());
 
   const history = useHistory();
 
   const onProfileClick = () => {
-    history.push(prepareRouteWithParams(ROUTES.accountSettingsPage, ''));
+    history.push(prepareRouteWithParams(ROUTES.accountSettingsPage, ""));
   };
 
   const onDashboardClick = () => {
@@ -33,8 +33,8 @@ export function InstructorMenu(props: IInstructorMenuProps) {
   const onWhishlistClick = () => {};
 
   const onLogoutClick = () => {
-    authService.removeInstructorToken();
-    instructorUnauthenticated();
+    authService.removeSpecialistToken();
+    specialistUnauthenticated();
     history.push(ROUTES.homePage);
   };
 

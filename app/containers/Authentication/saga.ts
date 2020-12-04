@@ -1,52 +1,51 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
-import { ActionTypes } from './constants';
-import authService from 'services/authService';
-import { IAction } from 'types';
-import { action } from 'typesafe-actions';
+import { takeLatest, put, call } from "redux-saga/effects";
+import { ActionTypes } from "./constants";
+import authService from "services/authService";
+import { IAction } from "types";
+import { action } from "typesafe-actions";
 import {
-  instructorAuthenticated,
-  instructorUnauthenticated,
+  specialistAuthenticated,
+  specialistUnauthenticated,
   adminAuthenticated,
   adminUnauthenticated,
   setAuthenticatedUser,
-} from './actions';
-import Axios from 'axios';
-import userService from 'services/userService';
-import { UserRole } from 'types/user';
+} from "./actions";
+import Axios from "axios";
+import userService from "services/userService";
+import { UserRole } from "types/user";
 
 function setAxiosAuthHeaders(token: string) {
-  Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
 
-function* studentIsAuthenticated(action: IAction) {
+function* customerIsAuthenticated(action: IAction) {
   const authToken = action.payload;
-  authService.storeStudentToken(authToken);
+  authService.storeCustomerToken(authToken);
   setAxiosAuthHeaders(authToken);
   yield fetchAuthenticatedUserInfo(authToken);
 
   //Unauthenticate other users
   adminIsUnauthenticated();
-  instructorIsUnauthenticated();
+  specialistIsUnauthenticated();
 }
 
-function* studentIsUnauthenticated() {
-  console.log('Student gone');
-  authService.removeStudentToken();
+function* customerIsUnauthenticated() {
+  authService.removeCustomerToken();
 }
 
-function* instructorIsAuthenticated(action: IAction) {
+function* specialistIsAuthenticated(action: IAction) {
   const authToken = action.payload;
-  authService.storeInstructorToken(authToken);
+  authService.storeSpecialistToken(authToken);
   setAxiosAuthHeaders(authToken);
   yield fetchAuthenticatedUserInfo(authToken);
 
   //Unauthenticate other users
-  studentIsUnauthenticated();
+  customerIsUnauthenticated();
   adminIsUnauthenticated();
 }
 
-function* instructorIsUnauthenticated() {
-  authService.removeInstructorToken();
+function* specialistIsUnauthenticated() {
+  authService.removeSpecialistToken();
 }
 
 function* adminIsAuthenticated(action: IAction) {
@@ -56,8 +55,8 @@ function* adminIsAuthenticated(action: IAction) {
   yield fetchAuthenticatedUserInfo(authToken);
 
   //Unauthenticate other users
-  instructorIsUnauthenticated();
-  studentIsUnauthenticated();
+  specialistIsUnauthenticated();
+  customerIsUnauthenticated();
 }
 
 function* adminIsUnauthenticated() {
@@ -65,7 +64,7 @@ function* adminIsUnauthenticated() {
 }
 
 function* fetchAuthenticatedUserInfo(token: string, userRole?: UserRole) {
-  const user = yield userService.getAuthenticatedUser().catch(err => {});
+  const user = yield userService.getAuthenticatedUser().catch((err) => {});
   switch (userRole) {
     case UserRole.ADMIN:
       if (user) {
@@ -75,20 +74,20 @@ function* fetchAuthenticatedUserInfo(token: string, userRole?: UserRole) {
         yield adminIsUnauthenticated();
       }
       break;
-    case UserRole.INSTRUCTOR:
+    case UserRole.SPECIALIST:
       if (user) {
-        yield put(action(ActionTypes.INSTRUCTOR_AUTHENTICATED));
+        yield put(action(ActionTypes.CUSTOMER_AUTHENTICATED));
       } else {
-        yield put(action(ActionTypes.INSTRUCTOR_UNAUTHENTICATED));
-        yield instructorIsUnauthenticated();
+        yield put(action(ActionTypes.CUSTOMER_UNAUTHENTICATED));
+        yield specialistIsUnauthenticated();
       }
       break;
-    case UserRole.STUDENT:
+    case UserRole.CUSTOMER:
       if (user) {
-        yield put(action(ActionTypes.STUDENT_AUTHENTICATED));
+        yield put(action(ActionTypes.CUSTOMER_AUTHENTICATED));
       } else {
-        yield put(action(ActionTypes.STUDENT_UNAUTHENTICATED));
-        yield studentIsUnauthenticated();
+        yield put(action(ActionTypes.CUSTOMER_UNAUTHENTICATED));
+        yield customerIsUnauthenticated();
       }
       break;
     default:
@@ -99,24 +98,24 @@ function* fetchAuthenticatedUserInfo(token: string, userRole?: UserRole) {
   }
 }
 
-function* checkIsStudentAuthenticated() {
-  const authToken = authService.getStudentToken();
+function* checkIsCustomerAuthenticated() {
+  const authToken = authService.getCustomerToken();
   if (authToken) {
     //TODO: Fix authentication and token validation LOGIC
     setAxiosAuthHeaders(authToken);
-    yield fetchAuthenticatedUserInfo(authToken, UserRole.STUDENT);
+    yield fetchAuthenticatedUserInfo(authToken, UserRole.CUSTOMER);
   } else {
-    yield put(action(ActionTypes.STUDENT_UNAUTHENTICATED));
+    yield put(action(ActionTypes.CUSTOMER_UNAUTHENTICATED));
   }
 }
 
-function* checkIsInstructorAuthenticated() {
-  const authToken = authService.getInstructorToken();
+function* checkIsSpecialistAuthenticated() {
+  const authToken = authService.getSpecialistToken();
   if (authToken) {
     setAxiosAuthHeaders(authToken);
-    yield fetchAuthenticatedUserInfo(authToken, UserRole.INSTRUCTOR);
+    yield fetchAuthenticatedUserInfo(authToken, UserRole.SPECIALIST);
   } else {
-    yield put(action(ActionTypes.INSTRUCTOR_UNAUTHENTICATED));
+    yield put(action(ActionTypes.SPECIALIST_UNAUTHENTICATED));
   }
 }
 
@@ -131,32 +130,32 @@ function* checkIsAdminAuthenticated() {
 }
 
 function* unauthenticateAll() {
-  console.info('logout');
+  console.info("logout");
   //Remove invalid auth token from the browser storage if-any!
   authService.logout();
   //Unauthenticate all user's types
   yield put(action(ActionTypes.ADMIN_UNAUTHENTICATED));
-  yield put(action(ActionTypes.STUDENT_UNAUTHENTICATED));
-  yield put(action(ActionTypes.INSTRUCTOR_UNAUTHENTICATED));
+  yield put(action(ActionTypes.CUSTOMER_UNAUTHENTICATED));
+  yield put(action(ActionTypes.SPECIALIST_UNAUTHENTICATED));
 }
 
 export default function* rootSaga() {
-  yield call(checkIsStudentAuthenticated);
-  yield call(checkIsInstructorAuthenticated);
+  yield call(checkIsCustomerAuthenticated);
+  yield call(checkIsSpecialistAuthenticated);
   yield call(checkIsAdminAuthenticated);
 
-  yield takeLatest(ActionTypes.STUDENT_AUTHENTICATED, studentIsAuthenticated);
+  yield takeLatest(ActionTypes.CUSTOMER_AUTHENTICATED, customerIsAuthenticated);
   yield takeLatest(
-    ActionTypes.STUDENT_UNAUTHENTICATED,
-    studentIsUnauthenticated,
+    ActionTypes.CUSTOMER_UNAUTHENTICATED,
+    customerIsUnauthenticated
   );
   yield takeLatest(
-    ActionTypes.INSTRUCTOR_AUTHENTICATED,
-    instructorIsAuthenticated,
+    ActionTypes.SPECIALIST_AUTHENTICATED,
+    specialistIsAuthenticated
   );
   yield takeLatest(
-    ActionTypes.INSTRUCTOR_UNAUTHENTICATED,
-    instructorIsUnauthenticated,
+    ActionTypes.SPECIALIST_UNAUTHENTICATED,
+    specialistIsUnauthenticated
   );
   yield takeLatest(ActionTypes.ADMIN_AUTHENTICATED, adminIsAuthenticated);
   yield takeLatest(ActionTypes.ADMIN_UNAUTHENTICATED, adminIsUnauthenticated);

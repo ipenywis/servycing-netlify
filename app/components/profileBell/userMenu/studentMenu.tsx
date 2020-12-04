@@ -1,27 +1,27 @@
-import React from 'react';
-import { NavContainer, NavItem, LogoutNavItem } from './common';
-import styled from 'styled-components';
-import { studentunauthenticated } from 'containers/Authentication/actions';
-import { Dispatch } from 'redux';
-import { useDispatch } from 'react-redux';
-import authService from 'services/authService';
-import { useHistory } from 'react-router-dom';
-import ROUTES from 'containers/ROUTES';
-import { prepareRouteWithParams } from 'utils/route';
+import React from "react";
+import { NavContainer, NavItem, LogoutNavItem } from "./common";
+import styled from "styled-components";
+import { customerunauthenticated } from "containers/Authentication/actions";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
+import authService from "services/authService";
+import { useHistory } from "react-router-dom";
+import ROUTES from "containers/ROUTES";
+import { prepareRouteWithParams } from "utils/route";
 
 export interface IStudentMenuProps {}
 
 const actionDispatch = (dispatch: Dispatch) => ({
-  studentUnauthenticated: () => dispatch(studentunauthenticated()),
+  customerunauthenticated: () => dispatch(customerunauthenticated()),
 });
 
 export function StudentMenu(props: IStudentMenuProps) {
   const history = useHistory();
 
-  const { studentUnauthenticated } = actionDispatch(useDispatch());
+  const { customerunauthenticated } = actionDispatch(useDispatch());
 
   const onProfileClick = () => {
-    history.push(prepareRouteWithParams(ROUTES.accountSettingsPage, ''));
+    history.push(prepareRouteWithParams(ROUTES.accountSettingsPage, ""));
   };
 
   const onDashboardClick = () => {
@@ -33,8 +33,8 @@ export function StudentMenu(props: IStudentMenuProps) {
   const onWhishlistClick = () => {};
 
   const onLogoutClick = () => {
-    authService.removeStudentToken();
-    studentUnauthenticated();
+    authService.removeCustomerToken();
+    customerunauthenticated();
     history.push(ROUTES.homePage);
   };
 

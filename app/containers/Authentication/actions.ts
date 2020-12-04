@@ -1,19 +1,19 @@
-import { action } from 'typesafe-actions';
-import { ActionTypes } from './constants';
-import { IAdmin } from 'types/admin';
-import { IUser } from 'types/user';
+import { action } from "typesafe-actions";
+import { ActionTypes } from "./constants";
+import { IAdmin } from "types/admin";
+import { IUser } from "types/user";
 
-export const studentAuthenticated = (token: string) =>
-  action(ActionTypes.STUDENT_AUTHENTICATED, token);
+export const customerAuthenticated = (token: string) =>
+  action(ActionTypes.CUSTOMER_AUTHENTICATED, token);
 
-export const studentunauthenticated = () =>
-  action(ActionTypes.STUDENT_UNAUTHENTICATED);
+export const customerunauthenticated = () =>
+  action(ActionTypes.CUSTOMER_UNAUTHENTICATED);
 
-export const instructorAuthenticated = (token: string) =>
-  action(ActionTypes.INSTRUCTOR_AUTHENTICATED, token);
+export const specialistAuthenticated = (token: string) =>
+  action(ActionTypes.SPECIALIST_AUTHENTICATED, token);
 
-export const instructorUnauthenticated = () =>
-  action(ActionTypes.INSTRUCTOR_UNAUTHENTICATED);
+export const specialistUnauthenticated = () =>
+  action(ActionTypes.SPECIALIST_UNAUTHENTICATED);
 
 export const adminAuthenticated = (token: string) =>
   action(ActionTypes.ADMIN_AUTHENTICATED, token);
