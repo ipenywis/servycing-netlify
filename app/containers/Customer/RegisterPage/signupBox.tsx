@@ -28,6 +28,7 @@ import { VerticalWrapper } from "components/verticalWrapper";
 import { IRegisterSpecialistDTO } from "types/specialist";
 import specialistService from "services/specialistService";
 import { IRegisterCustomerDTO } from "types/customer";
+import customerService from "services/customerService";
 
 export interface ISignupBoxProps {}
 
@@ -138,13 +139,13 @@ export function SignupBox(props: ISignupBoxProps) {
       email: values.email,
       password: values.password,
     };
-    const specialist = await specialistService.register(data).catch((err) => {
+    const customer = await customerService.register(data).catch((err) => {
       setError(err.message);
     });
 
-    console.log("Specialist: ", specialist);
+    console.log("Specialist: ", customer);
 
-    if (specialist) history.push(ROUTES.specialistLoginPage);
+    if (customer) history.push(ROUTES.customerLoginPage);
   };
 
   return (
