@@ -5,22 +5,25 @@ export const GET_OFFERED_SERVICES = gql`
     $range: LoadRangeOptions
     $filter: ServicesFilterInput
   ) {
-    offeredServices(range: $range, filter: $filter) {
-      id
-      title
-      description
-      type
-      rate
-      preferredHours
-      specialist {
+    offeredServicesWithCount: offeredServices(range: $range, filter: $filter) {
+      count
+      offeredServices {
         id
-        fullName
-        email
-        rating
-        shortBio
-      }
-      reviews {
-        id
+        title
+        description
+        type
+        rate
+        preferredHours
+        specialist {
+          id
+          fullName
+          email
+          rating
+          shortBio
+        }
+        reviews {
+          id
+        }
       }
     }
   }

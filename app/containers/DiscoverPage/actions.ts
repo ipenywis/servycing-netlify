@@ -11,3 +11,6 @@ export const setFilters = (filters: IServicesFilter) =>
 
 export const setLoadRange = (range: ILoadRangeOptions) =>
   action(ActionTypes.SET_LOAD_RANGE, range);
+
+export const setOfferedServicesCount = (count: number) =>
+  action(ActionTypes.SET_OFFERED_SERVICES_COUNT, count);

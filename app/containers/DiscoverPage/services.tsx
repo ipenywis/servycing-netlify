@@ -3,7 +3,7 @@ import { ButtonTheme } from "components/button/themes";
 import { Marginer } from "components/marginer";
 import { ServiceCard } from "components/serviceCard";
 import { WarningText } from "components/text";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
@@ -11,11 +11,17 @@ import offeredServicesService from "services/offeredServicesService";
 import styled from "styles/styled-components";
 import { IOfferedService } from "types/offeredService";
 import { ILoadRangeOptions } from "types/pagination";
-import { setLoadRange, setOfferedServices } from "./actions";
+import {
+  setLoadRange,
+  setOfferedServices,
+  setOfferedServicesCount,
+} from "./actions";
+import { DEFAULT_LOAD_RANGE } from "./constants";
 import {
   makeSelectFilters,
   makeSelectLoadRange,
   makeSelectOfferedServices,
+  makeSelectOfferedServicesCount,
 } from "./selectors";
 
 interface IServicesProps {}
@@ -37,42 +43,76 @@ const stateSelector = createSelector(
   makeSelectOfferedServices,
   makeSelectFilters,
   makeSelectLoadRange,
-  (offeredServices, filters, loadRange) => ({
+  makeSelectOfferedServicesCount,
+  (offeredServices, filters, loadRange, offeredServicesCount) => ({
     offeredServices,
     filters,
     loadRange,
+    offeredServicesCount,
   })
 );
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setOfferedServices: (services: IOfferedService[]) =>
     dispatch(setOfferedServices(services)),
+  setOfferedServicesCount: (count: number) =>
+    dispatch(setOfferedServicesCount(count)),
   setLoadRange: (range: ILoadRangeOptions) => dispatch(setLoadRange(range)),
 });
 
 export function Services(props: IServicesProps) {
-  const { offeredServices, filters, loadRange } = useSelector(stateSelector);
-  const { setOfferedServices, setLoadRange } = actionDispatch(useDispatch());
+  const {
+    offeredServices,
+    filters,
+    loadRange,
+    offeredServicesCount,
+  } = useSelector(stateSelector);
+  const {
+    setOfferedServices,
+    setLoadRange,
+    setOfferedServicesCount,
+  } = actionDispatch(useDispatch());
 
   const isEmptyOfferedServices =
     !offeredServices || (offeredServices && offeredServices.length === 0);
 
   const fetchOfferedServices = async (loadedRange?: boolean) => {
-    const fetchedServices = await offeredServicesService
-      .getAndFilterOfferedServices(filters || undefined, loadRange)
+    if (!loadedRange) {
+      //Reset loaded range on filter
+      setLoadRange(DEFAULT_LOAD_RANGE);
+    }
+
+    const fetchedServicesWithCount = await offeredServicesService
+      .getAndFilterOfferedServices(
+        filters || undefined,
+        loadedRange ? loadRange : DEFAULT_LOAD_RANGE
+      )
       .catch((err) => {
         console.log("Error: ", err);
       });
 
-    console.log("Services: ", fetchedServices, loadedRange);
-
-    if (fetchedServices && loadedRange)
+    if (fetchedServicesWithCount && loadedRange) {
+      const fetchedServices = fetchedServicesWithCount.offeredServices;
+      const count = fetchedServicesWithCount.count;
       setOfferedServices([...offeredServices, ...fetchedServices]);
-    else if (fetchedServices) setOfferedServices(fetchedServices);
+      setOfferedServicesCount(count);
+    } else if (fetchedServicesWithCount) {
+      const fetchedServices = fetchedServicesWithCount.offeredServices;
+      const count = fetchedServicesWithCount.count;
+      setOfferedServices(fetchedServices);
+      setOfferedServicesCount(count);
+    }
   };
 
   const updateLoadRange = () => {
-    setLoadRange({ start: loadRange.range, range: 1 });
+    if (
+      !offeredServicesCount ||
+      (offeredServices && offeredServices.length < offeredServicesCount)
+    )
+      setLoadRange({
+        start: (loadRange.start || 0) + loadRange.range,
+        range: loadRange.range,
+      });
   };
 
   useEffect(() => {
@@ -102,11 +142,15 @@ export function Services(props: IServicesProps) {
           ))}
       </ServicesWrapper>
       <Marginer direction="vertical" margin="3em" />
-      <Button
-        text="View More"
-        buttonTheme={ButtonTheme.GREY_SOLID}
-        onClick={updateLoadRange}
-      />
+      {!offeredServicesCount ||
+        (!isEmptyOfferedServices &&
+          offeredServices.length < offeredServicesCount && (
+            <Button
+              text="View More"
+              buttonTheme={ButtonTheme.GREY_SOLID}
+              onClick={updateLoadRange}
+            />
+          ))}
     </ServicesContainer>
   );
 }

@@ -17,3 +17,8 @@ export const makeSelectLoadRange = createSelector(
   selectDiscoverPage,
   (page) => page.loadRange
 );
+
+export const makeSelectOfferedServicesCount = createSelector(
+  selectDiscoverPage,
+  (page) => page.offeredServicesCount
+);

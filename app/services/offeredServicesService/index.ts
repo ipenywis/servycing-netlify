@@ -1,6 +1,7 @@
 import { apolloClient } from "apolloGraphql";
 import {
   IOfferedService,
+  IOfferedServicesWithCount,
   IServicesFilter,
   OFFERED_SERVICE_TYPE,
 } from "types/offeredService";
@@ -13,7 +14,7 @@ class OfferedServicesService {
   public async getAndFilterOfferedServices(
     servicesFilter?: IServicesFilter,
     loadRangeOptions?: ILoadRangeOptions
-  ): Promise<IOfferedService[]> {
+  ): Promise<IOfferedServicesWithCount> {
     const response = await apolloClient
       .query({
         query: GET_OFFERED_SERVICES,
@@ -23,13 +24,21 @@ class OfferedServicesService {
         throw parseGraphqlError(err);
       });
 
-    if (response && response.data && response.data.offeredServices) {
+    if (
+      response &&
+      response.data &&
+      response.data.offeredServicesWithCount &&
+      response.data.offeredServicesWithCount.offeredServices
+    ) {
       //get the right service type
-      const offeredServices = response.data.offeredServices.map((service) => ({
-        ...service,
-        type: OFFERED_SERVICE_TYPE[service.type],
-      }));
-      return offeredServices;
+      const count = response.data.offeredServicesWithCount.count;
+      const offeredServices = response.data.offeredServicesWithCount.offeredServices.map(
+        (service) => ({
+          ...service,
+          type: OFFERED_SERVICE_TYPE[service.type],
+        })
+      );
+      return { count, offeredServices };
     } else throw new Error(offeredServicesMessages.cannotFetchOfferedServices);
   }
 }

@@ -78,6 +78,11 @@ export interface IOfferedService {
   reviews: any[];
 }
 
+export interface IOfferedServicesWithCount {
+  count: number;
+  offeredServices: IOfferedService[];
+}
+
 export interface IServicesFilter {
   type?: string;
   rating?: number;
