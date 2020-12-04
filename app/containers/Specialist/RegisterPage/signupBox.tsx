@@ -25,6 +25,8 @@ import { prepareRouteWithParams } from "utils/route";
 import { validateForm } from "utils/validation";
 import { BrandLogo } from "components/brandLogo";
 import { VerticalWrapper } from "components/verticalWrapper";
+import { IRegisterSpecialistDTO } from "types/specialist";
+import specialistService from "services/specialistService";
 
 export interface ISignupBoxProps {}
 
@@ -131,20 +133,19 @@ export function SignupBox(props: ISignupBoxProps) {
   const onSubmit = async (values: any, form: FormApi<any>): Promise<any> => {
     setError(null);
 
-    const data: IStudentRegisterDTO = {
+    const data: IRegisterSpecialistDTO = {
       fullName: values.fullName,
-      username: values.username,
+      shortBio: values.shortBio,
       email: values.email,
       password: values.password,
     };
-    const student = await studentService.register(data).catch((err) => {
+    const specialist = await specialistService.register(data).catch((err) => {
       setError(err.message);
     });
 
-    if (student)
-      history.push(
-        prepareRouteWithParams(ROUTES.customerLoginPage, student.id)
-      );
+    console.log("Specialist: ", specialist);
+
+    if (specialist) history.push(ROUTES.customerLoginPage);
   };
 
   return (

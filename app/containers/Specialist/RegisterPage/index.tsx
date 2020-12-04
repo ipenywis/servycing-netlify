@@ -5,6 +5,7 @@ import { SignupBox } from "./signupBox";
 import React from "react";
 import { hot } from "react-hot-loader/root";
 import styled from "styles/styled-components";
+import { DarkText } from "components/text";
 
 interface IRegisterPageProps {}
 
@@ -15,12 +16,15 @@ const RegisterPageContainer = styled.div`
   align-items: center;
 `;
 
-function CustomerRegisterPage(props: IRegisterPageProps) {
+function SpecialistRegisterPage(props: IRegisterPageProps) {
   return (
     <PageContainer>
       <Navbar />
       <InnerPageContainer>
         <RegisterPageContainer>
+          <DarkText size={35} black marginTop="1em" marginBottom="1.5em">
+            Join Now and offer your services
+          </DarkText>
           <SignupBox />
         </RegisterPageContainer>
       </InnerPageContainer>
@@ -29,4 +33,4 @@ function CustomerRegisterPage(props: IRegisterPageProps) {
   );
 }
 
-export default hot(CustomerRegisterPage);
+export default hot(SpecialistRegisterPage);

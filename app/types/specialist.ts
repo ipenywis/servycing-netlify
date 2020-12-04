@@ -9,3 +9,10 @@ export interface ISpecialist {
   offeredServices?: IOfferedService[];
   access_token?: string;
 }
+
+export interface IRegisterSpecialistDTO {
+  fullName: string;
+  email: string;
+  shortBio: string;
+  password: string;
+}
