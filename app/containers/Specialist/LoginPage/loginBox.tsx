@@ -1,31 +1,34 @@
-import React, { useState } from 'react';
-import styled, { theme } from 'styles/styled-components';
-import { MutedText, GreyText, ErrorText } from 'components/text';
-import { Button } from 'components/button';
-import { Link } from 'components/link';
-import { Form } from 'components/form';
-import { FormRenderProps } from 'react-final-form';
-import { FormGroup } from 'components/formGroup';
-import { Input } from 'components/input';
-import { InputTheme } from 'components/input/themes';
-import { ButtonTheme } from 'components/button/themes';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { HorizontalWrapper } from 'components/horizontalWrapper';
-import { FORMS } from 'finalForm/constants';
-import FinalFormSpy from 'finalForm/finalFormSpy';
-import { object, string } from 'yup';
-import { setIn, FormApi } from 'final-form';
-import messages from './messages';
-import studentService from 'services/studentService';
-import { IStudentRegisterDTO, IStudentLoginDTO } from 'types/student';
-import { useHistory } from 'react-router-dom';
-import ROUTES from 'containers/ROUTES';
-import { Card } from 'components/card';
-import { prepareRouteWithParams } from 'utils/route';
-import { Dispatch } from 'redux';
-import { studentAuthenticated } from 'containers/Authentication/actions';
-import { useDispatch } from 'react-redux';
-import { validateForm } from 'utils/validation';
+import React, { useState } from "react";
+import styled, { theme } from "styles/styled-components";
+import { MutedText, GreyText, ErrorText, BlackText } from "components/text";
+import { Button } from "components/button";
+import { Link } from "components/link";
+import { Form } from "components/form";
+import { FormRenderProps } from "react-final-form";
+import { FormGroup } from "components/formGroup";
+import { Input } from "components/input";
+import { InputTheme } from "components/input/themes";
+import { ButtonTheme } from "components/button/themes";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { FORMS } from "finalForm/constants";
+import FinalFormSpy from "finalForm/finalFormSpy";
+import { object, string } from "yup";
+import { setIn, FormApi } from "final-form";
+import messages from "./messages";
+import studentService from "services/studentService";
+import { IStudentRegisterDTO, IStudentLoginDTO } from "types/student";
+import { useHistory } from "react-router-dom";
+import ROUTES from "containers/ROUTES";
+import { Card } from "components/card";
+import { prepareRouteWithParams } from "utils/route";
+import { Dispatch } from "redux";
+import { studentAuthenticated } from "containers/Authentication/actions";
+import { useDispatch } from "react-redux";
+import { validateForm } from "utils/validation";
+import { VerticalWrapper } from "components/verticalWrapper";
+import { ILoginSpecialistDTO } from "types/specialist";
+import { BrandLogo } from "components/brandLogo";
 
 export interface ILoginBoxProps {}
 
@@ -114,7 +117,10 @@ const OrSeperator = styled(MutedText)`
 `;
 
 const validationSchema = object({
-  username: string().trim().required(messages.emailOrUsernameRequired),
+  email: string()
+    .email(messages.enterValidEmail)
+    .trim()
+    .required(messages.emailOrUsernameRequired),
   password: string().trim().required(messages.passwordRequired),
 });
 
@@ -133,11 +139,11 @@ export function LoginBox(props: ILoginBoxProps) {
   const onSubmit = async (values: any, form: FormApi<any>): Promise<any> => {
     setError(null);
 
-    const data: IStudentLoginDTO = {
-      username: values.username,
+    const data: ILoginSpecialistDTO = {
+      email: values.email,
       password: values.password,
     };
-    const student = await studentService.login(data).catch(err => {
+    const student = await studentService.login(data).catch((err) => {
       setError(err.message);
     });
 
@@ -148,18 +154,17 @@ export function LoginBox(props: ILoginBoxProps) {
   };
 
   return (
-    <LoginCard title="Login" centerTitle>
-      <GithubButton
-        buttonTheme={ButtonTheme.BLACK}
-        text="Login with Github"
-        icon={faGithub}
-        iconSize="lg"
-        iconPosition="left"
-      />
+    <LoginCard centerTitle>
+      <VerticalWrapper centerHorizontally>
+        <BrandLogo logoOnly logoSize={70} />
+        <BlackText size={20} bold marginTop={14}>
+          Specialist Login
+        </BlackText>
+      </VerticalWrapper>
       <FormWrapper>
         <Form
           onSubmit={onSubmit}
-          validate={values => validateForm(validationSchema, values)}
+          validate={(values) => validateForm(validationSchema, values)}
           validateOnBlur={false}
         >
           {({
@@ -169,22 +174,21 @@ export function LoginBox(props: ILoginBoxProps) {
           }: FormRenderProps) => (
             <FormContainer>
               <DetailsContainer>
-                {!error && <OrSeperator bold>OR</OrSeperator>}
                 {error && <SubmitError>{error}</SubmitError>}
               </DetailsContainer>
               <FinalFormSpy form={FORMS.LOGIN_FORM} />
-              <FormGroup label="EMAIL">
+              <FormGroup label="Email">
                 <Input
-                  name="username"
-                  inputTheme={InputTheme.INLINE_MINIMAL}
-                  placeholder="Username or Email"
+                  name="email"
+                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
+                  placeholder="Your Email"
                   clearPlaceholderOnFocus
                 />
               </FormGroup>
-              <FormGroup label="PASSWORD">
+              <FormGroup label="Password">
                 <Input
                   name="password"
-                  inputTheme={InputTheme.INLINE_MINIMAL}
+                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
                   placeholder="Your Password"
                   clearPlaceholderOnFocus
                   type="password"

@@ -145,7 +145,7 @@ export function SignupBox(props: ISignupBoxProps) {
 
     console.log("Specialist: ", specialist);
 
-    if (specialist) history.push(ROUTES.customerLoginPage);
+    if (specialist) history.push(ROUTES.specialistLoginPage);
   };
 
   return (
@@ -223,7 +223,7 @@ export function SignupBox(props: ISignupBoxProps) {
       <FooterContainer>
         <InfoContainer>
           <InfoText>Already have an account?</InfoText>
-          <LinkText to={ROUTES.customerLoginPage}>Login</LinkText>
+          <LinkText to={ROUTES.specialistLoginPage}>Login</LinkText>
         </InfoContainer>
         <InfoContainer>
           <InfoText>Forgot your password?</InfoText>

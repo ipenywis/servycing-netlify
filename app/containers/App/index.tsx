@@ -34,6 +34,7 @@ import NotFoundPage from "containers/NotFoundPage/Loadable";
 import HomePage from "containers/HomePage/Loadable";
 import DiscoverPage from "containers/DiscoverPage/Loadable";
 import SpecialistRegisterPage from "containers/Specialist/RegisterPage/Loadable";
+import SpecialistLoginPage from "containers/Specialist/LoginPage/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -82,6 +83,11 @@ function App() {
             exact
             path={ROUTES.specialistRegisterPage}
             component={SpecialistRegisterPage}
+          />
+          <Route
+            exact
+            path={ROUTES.specialistLoginPage}
+            component={SpecialistLoginPage}
           />
 
           {/** Has to be kept last */}
