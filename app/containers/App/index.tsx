@@ -35,6 +35,8 @@ import HomePage from "containers/HomePage/Loadable";
 import DiscoverPage from "containers/DiscoverPage/Loadable";
 import SpecialistRegisterPage from "containers/Specialist/RegisterPage/Loadable";
 import SpecialistLoginPage from "containers/Specialist/LoginPage/Loadable";
+import CustomerLoginPage from "containers/Customer/LoginPage/Loadable";
+import CustomerRegisterPage from "containers/Customer/RegisterPage/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -79,6 +81,18 @@ function App() {
           <Route exact path={ROUTES.homePage} component={HomePage} />
           <Route exact path={ROUTES.discoverPage} component={DiscoverPage} />
           {/* CUSTOMER */}
+          <Route
+            exact
+            path={ROUTES.customerSignupPage}
+            component={CustomerRegisterPage}
+          />
+          <Route
+            exact
+            path={ROUTES.customerLoginPage}
+            component={CustomerLoginPage}
+          />
+
+          {/* SPECIALIST */}
           <Route
             exact
             path={ROUTES.specialistRegisterPage}
