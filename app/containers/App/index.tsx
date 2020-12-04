@@ -33,6 +33,7 @@ import { createPortalContainer } from "utils/common";
 import NotFoundPage from "containers/NotFoundPage/Loadable";
 import HomePage from "containers/HomePage/Loadable";
 import DiscoverPage from "containers/DiscoverPage/Loadable";
+import CustomerRegisterPage from "containers/Customer/RegisterPage/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -76,6 +77,13 @@ function App() {
         <Switch>
           <Route exact path={ROUTES.homePage} component={HomePage} />
           <Route exact path={ROUTES.discoverPage} component={DiscoverPage} />
+          {/* CUSTOMER */}
+          <Route
+            exact
+            path={ROUTES.customerSignupPage}
+            component={CustomerRegisterPage}
+          />
+
           {/** Has to be kept last */}
           <Route component={NotFoundPage} />
         </Switch>

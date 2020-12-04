@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled, { theme } from "styles/styled-components";
-import { DarkText, MutedText, GreyText, ErrorText } from "components/text";
+import { MutedText, GreyText, ErrorText, BlackText } from "components/text";
 import { Button } from "components/button";
 import { Link } from "components/link";
 import { Form } from "components/form";
@@ -9,16 +9,11 @@ import { FormGroup } from "components/formGroup";
 import { Input } from "components/input";
 import { InputTheme } from "components/input/themes";
 import { ButtonTheme } from "components/button/themes";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { HorizontalWrapper } from "components/horizontalWrapper";
 import { FORMS } from "finalForm/constants";
 import FinalFormSpy from "finalForm/finalFormSpy";
 import { object, string } from "yup";
-import {
-  STUDENT_USERNAME_REGX,
-  FULLNAME_REGEX,
-  PASSWORD_REGEX,
-} from "utils/regex";
+import { FULLNAME_REGEX, PASSWORD_REGEX } from "utils/regex";
 import { setIn, FormApi } from "final-form";
 import messages from "./messages";
 import studentService from "services/studentService";
@@ -28,12 +23,14 @@ import ROUTES from "containers/ROUTES";
 import { Card } from "components/card";
 import { prepareRouteWithParams } from "utils/route";
 import { validateForm } from "utils/validation";
+import { BrandLogo } from "components/brandLogo";
+import { VerticalWrapper } from "components/verticalWrapper";
 
 export interface ISignupBoxProps {}
 
 const SignupBoxCard = styled(Card)`
   width: 26em;
-  min-height: 45em;
+  min-height: 40em;
   align-items: center;
   padding-top: 1.2em;
   margin-bottom: 1in;
@@ -69,7 +66,7 @@ const FooterContainer = styled.div`
   flex-direction: column;
   flex: 1;
   justify-content: flex-end;
-  margin-top: 2em;
+  margin-top: 12px;
 `;
 
 const InfoContainer = styled(HorizontalWrapper)`
@@ -87,12 +84,6 @@ const InfoText = styled(GreyText)`
 const LinkText = styled(Link)`
   font-size: 13px;
   color: ${theme.default.shinyBlue};
-`;
-
-const GithubButton = styled(Button)`
-  width: 100%;
-  margin-bottom: 1.5em;
-  margin-top: 1.5em;
 `;
 
 const DetailsContainer = styled.div`
@@ -121,10 +112,7 @@ const validationSchema = object({
     .trim()
     .matches(FULLNAME_REGEX, messages.invalidName)
     .required(messages.nameRequired),
-  username: string()
-    .trim()
-    .matches(STUDENT_USERNAME_REGX, messages.invalidUsername)
-    .required(messages.usernameRequired),
+  shortBio: string().trim().required(messages.shortBioRequired),
   email: string()
     .trim()
     .email(messages.invalidEmail)
@@ -155,19 +143,18 @@ export function SignupBox(props: ISignupBoxProps) {
 
     if (student)
       history.push(
-        prepareRouteWithParams(ROUTES.verifyStudentEmailPage, student.id)
+        prepareRouteWithParams(ROUTES.customerLoginPage, student.id)
       );
   };
 
   return (
-    <SignupBoxCard title="Signup" centerTitle>
-      <GithubButton
-        buttonTheme={ButtonTheme.BLACK}
-        text="Signup with Github"
-        icon={faGithub}
-        iconSize="lg"
-        iconPosition="left"
-      />
+    <SignupBoxCard centerTitle>
+      <VerticalWrapper centerHorizontally>
+        <BrandLogo logoOnly logoSize={70} />
+        <BlackText size={20} bold marginTop={14}>
+          Create new Specialist Account
+        </BlackText>
+      </VerticalWrapper>
       <FormWrapper>
         <Form
           onSubmit={onSubmit}
@@ -181,39 +168,38 @@ export function SignupBox(props: ISignupBoxProps) {
           }: FormRenderProps) => (
             <FormContainer>
               <DetailsContainer>
-                {!error && <OrSeperator bold>OR</OrSeperator>}
                 {error && <SubmitError>{error}</SubmitError>}
               </DetailsContainer>
               <FinalFormSpy form={FORMS.SIGNUP_FORM} />
-              <FormGroup label="FULL NAME">
+              <FormGroup label="Full Name">
                 <Input
                   name="fullName"
-                  inputTheme={InputTheme.INLINE_MINIMAL}
+                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
                   placeholder="Your Name"
                   clearPlaceholderOnFocus
                 />
               </FormGroup>
-              <FormGroup label="USERNAME">
+              <FormGroup label="Short Bio">
                 <Input
-                  name="username"
-                  inputTheme={InputTheme.INLINE_MINIMAL}
-                  placeholder="Your Username"
+                  name="shortBio"
+                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
+                  placeholder="Short Bio about You"
                   clearPlaceholderOnFocus
                 />
               </FormGroup>
-              <FormGroup label="EMAIL">
+              <FormGroup label="Email">
                 <Input
                   name="email"
-                  inputTheme={InputTheme.INLINE_MINIMAL}
+                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
                   placeholder="example@mail.com"
                   clearPlaceholderOnFocus
                   type="email"
                 />
               </FormGroup>
-              <FormGroup label="PASSWORD">
+              <FormGroup label="Password">
                 <Input
                   name="password"
-                  inputTheme={InputTheme.INLINE_MINIMAL}
+                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
                   placeholder="Strong Password"
                   clearPlaceholderOnFocus
                   type="password"
@@ -236,7 +222,7 @@ export function SignupBox(props: ISignupBoxProps) {
       <FooterContainer>
         <InfoContainer>
           <InfoText>Already have an account?</InfoText>
-          <LinkText to={ROUTES.loginPage}>Login</LinkText>
+          <LinkText to={ROUTES.customerLoginPage}>Login</LinkText>
         </InfoContainer>
         <InfoContainer>
           <InfoText>Forgot your password?</InfoText>
