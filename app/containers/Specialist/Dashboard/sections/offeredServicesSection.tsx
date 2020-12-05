@@ -1,5 +1,5 @@
 import { IconButton, Menu, Popover, Position, Table } from "evergreen-ui";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
@@ -11,6 +11,10 @@ import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
 import styled from "styles/styled-components";
 import { BlackText, MutedText } from "components/text";
 import { SectionContainer } from "../common";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { wait } from "utils/common";
+import { Pane } from "components/pane";
 
 interface IOfferedServicesProps {}
 
@@ -43,11 +47,13 @@ function RenderRowMenu() {
 export function OfferedServicesSection(props: IOfferedServicesProps) {
   const { offeredServices } = useSelector(stateSelector);
   const { setOfferedServices } = actionDispatch(useDispatch());
+  const [isLoading, setLoading] = useState(false);
 
   const isEmptyOfferedServices =
     !offeredServices || (offeredServices && offeredServices.length === 0);
 
   const fetchedOfferedServices = async () => {
+    setLoading(true);
     const servicesWithCount = await offeredServicesService
       .getAndFilterOfferedServices(
         undefined,
@@ -59,6 +65,8 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
 
     if (servicesWithCount && servicesWithCount.offeredServices)
       setOfferedServices(servicesWithCount.offeredServices);
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -82,8 +90,14 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
           <Table.TextHeaderCell>Hourly Price</Table.TextHeaderCell>
           <Table.TextHeaderCell>More</Table.TextHeaderCell>
         </Table.Head>
+        {isLoading && (
+          <Pane alignCenter marginTop="5%">
+            <MinimalSpinner />
+          </Pane>
+        )}
         <Table.Body>
-          {!isEmptyOfferedServices &&
+          {!isLoading &&
+            !isEmptyOfferedServices &&
             offeredServices.map((service, idx) => (
               <Table.Row key={idx}>
                 <Table.TextCell flexGrow={3}>{service.title}</Table.TextCell>
