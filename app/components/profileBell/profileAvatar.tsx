@@ -1,13 +1,13 @@
-import React from 'react';
-import { createSelector } from 'reselect';
+import React from "react";
+import { createSelector } from "reselect";
 import {
-  makeSelectIsStudentAuthenticated,
-  makeSelectIsInstructorAuthenticated,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
   makeSelectIsAdminAuthenticated,
   makeSelectAuthenticatedUser,
-} from 'containers/Authentication/selectors';
-import { useSelector } from 'react-redux';
-import { Avatar } from 'components/avatar';
+} from "containers/Authentication/selectors";
+import { useSelector } from "react-redux";
+import { Avatar } from "components/avatar";
 
 export interface IProfileAvatarProps {
   size?: number;
@@ -16,29 +16,29 @@ export interface IProfileAvatarProps {
 }
 
 const stateSelector = createSelector(
-  makeSelectIsStudentAuthenticated,
-  makeSelectIsInstructorAuthenticated,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
   makeSelectIsAdminAuthenticated,
   makeSelectAuthenticatedUser,
   (
-    isStudentAuthenticated,
-    isInstructorAuthenticated,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
     isAdminAuthenticated,
-    authenticatedUser,
+    authenticatedUser
   ) => ({
-    isStudentAuthenticated,
-    isInstructorAuthenticated,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
     isAdminAuthenticated,
     authenticatedUser,
-  }),
+  })
 );
 
 function ProfileAvatar(props: IProfileAvatarProps) {
   const { onClick, size } = props;
 
   const {
-    isStudentAuthenticated,
-    isInstructorAuthenticated,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
     isAdminAuthenticated,
     authenticatedUser,
   } = useSelector(stateSelector);
@@ -50,18 +50,18 @@ function ProfileAvatar(props: IProfileAvatarProps) {
       onClick={onClick}
       isSolid
       src={authenticatedUser?.picture ? authenticatedUser?.picture : undefined}
-      name="Islem Maboud"
+      name={authenticatedUser?.fullName}
       color="green"
       size={size}
     />
   );
 
-  if (isStudentAuthenticated)
-    return React.cloneElement(BaseAvatar, { color: 'green' });
-  else if (isInstructorAuthenticated)
-    return React.cloneElement(BaseAvatar, { color: 'blue' });
+  if (isCustomerAuthenticated)
+    return React.cloneElement(BaseAvatar, { color: "green" });
+  else if (isSpecialistAuthenticated)
+    return React.cloneElement(BaseAvatar, { color: "blue" });
   else if (isAdminAuthenticated)
-    return React.cloneElement(BaseAvatar, { color: 'yellow' });
+    return React.cloneElement(BaseAvatar, { color: "yellow" });
   else return null;
 }
 

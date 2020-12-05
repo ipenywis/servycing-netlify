@@ -1,16 +1,16 @@
-import React from 'react';
-import styled, { theme } from 'styles/styled-components';
-import { ProfileAvatar } from './profileAvatar';
-import { VerticalWrapper } from 'components/verticalWrapper';
-import { BlackText, GreyText } from 'components/text';
-import { Seperator } from 'components/lineSeperator';
-import { createSelector } from 'reselect';
-import { makeSelectAuthenticatedUser } from 'containers/Authentication/selectors';
-import { useSelector } from 'react-redux';
-import { UserRole } from 'types/user';
-import { StudentMenu } from './userMenu/studentMenu';
-import { InstructorMenu } from './userMenu/instructorMenu';
-import { AdminMenu } from './userMenu/adminMenu';
+import React from "react";
+import styled, { theme } from "styles/styled-components";
+import { ProfileAvatar } from "./profileAvatar";
+import { VerticalWrapper } from "components/verticalWrapper";
+import { BlackText, GreyText } from "components/text";
+import { Seperator } from "components/lineSeperator";
+import { createSelector } from "reselect";
+import { makeSelectAuthenticatedUser } from "containers/Authentication/selectors";
+import { useSelector } from "react-redux";
+import { UserRole } from "types/user";
+import { CustomerMenu } from "./userMenu/customerMenu";
+import { SpecialistMenu } from "./userMenu/specialistMenu";
+import { AdminMenu } from "./userMenu/adminMenu";
 
 export interface IProfileMenuProps {
   userRole: UserRole;
@@ -37,7 +37,7 @@ const ProfileMenuContainer = styled.div`
     border-right: 9px solid transparent;
     border-bottom: 9px solid #eee;
     border-left: 9px solid transparent;
-    content: '';
+    content: "";
   }
 `;
 
@@ -61,9 +61,9 @@ const FullName = styled(BlackText)`
 
 const stateSelector = createSelector(
   makeSelectAuthenticatedUser,
-  authenticatedUser => ({
+  (authenticatedUser) => ({
     authenticatedUser,
-  }),
+  })
 );
 
 function UserProfile(props: IProfileMenuProps) {
@@ -72,12 +72,12 @@ function UserProfile(props: IProfileMenuProps) {
   switch (userRole) {
     case UserRole.ADMIN:
       return <AdminMenu />;
-    case UserRole.INSTRUCTOR:
-      return <InstructorMenu />;
-    case UserRole.STUDENT:
-      return <StudentMenu />;
+    case UserRole.SPECIALIST:
+      return <SpecialistMenu />;
+    case UserRole.CUSTOMER:
+      return <CustomerMenu />;
     default:
-      return <StudentMenu />;
+      return <CustomerMenu />;
   }
 }
 
@@ -85,9 +85,7 @@ export function ProfileMenu(props: IProfileMenuProps) {
   const { userRole } = props;
   const { authenticatedUser } = useSelector(stateSelector);
 
-  const fullName =
-    authenticatedUser?.fullName ||
-    `${authenticatedUser?.firstName} ${authenticatedUser?.lastName}`;
+  const fullName = authenticatedUser?.fullName;
 
   return (
     <ProfileMenuContainer>
@@ -96,9 +94,6 @@ export function ProfileMenu(props: IProfileMenuProps) {
         {authenticatedUser && (
           <AccountInfoContainer>
             <FullName size={14}>{fullName}</FullName>
-            <GreyText size={12}>
-              {authenticatedUser.username && `@${authenticatedUser.username}`}
-            </GreyText>
           </AccountInfoContainer>
         )}
       </AccountPreviewContainer>

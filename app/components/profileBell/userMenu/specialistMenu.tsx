@@ -9,13 +9,13 @@ import { useDispatch } from "react-redux";
 import authService from "services/authService";
 import { prepareRouteWithParams } from "utils/route";
 
-export interface IInstructorMenuProps {}
+export interface ISpecialistMenuProps {}
 
 const actionDispatch = (dispatch: Dispatch) => ({
   specialistUnauthenticated: () => dispatch(specialistUnauthenticated()),
 });
 
-export function InstructorMenu(props: IInstructorMenuProps) {
+export function SpecialistMenu(props: ISpecialistMenuProps) {
   const { specialistUnauthenticated } = actionDispatch(useDispatch());
 
   const history = useHistory();
@@ -25,7 +25,7 @@ export function InstructorMenu(props: IInstructorMenuProps) {
   };
 
   const onDashboardClick = () => {
-    history.push(ROUTES.instructorDashboad);
+    history.push(ROUTES.specialistDashboardPage);
   };
 
   const onCoursesClick = () => {};

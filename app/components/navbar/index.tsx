@@ -6,8 +6,8 @@ import { ButtonTheme } from "components/button/themes";
 import ROUTES from "containers/ROUTES";
 import { createSelector } from "reselect";
 import {
-  makeSelectIsStudentAuthenticated,
-  makeSelectIsInstructorAuthenticated,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
   makeSelectIsAdminAuthenticated,
 } from "containers/Authentication/selectors";
 import { useSelector, useDispatch } from "react-redux";
@@ -77,16 +77,16 @@ function LoginButtons() {
 
 const stateSelector = createSelector(
   makeSelectIsAdminAuthenticated,
-  makeSelectIsStudentAuthenticated,
-  makeSelectIsInstructorAuthenticated,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
   (
     isAdminAuthenticated,
-    isStudentAuthenticated,
-    isInstructorAuthenticated
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated
   ) => ({
     isAdminAuthenticated,
-    isStudentAuthenticated,
-    isInstructorAuthenticated,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
   })
 );
 
@@ -99,8 +99,8 @@ const actionDispatch = (dispatch: Dispatch) => ({
 function Accessbility() {
   const {
     isAdminAuthenticated,
-    isInstructorAuthenticated,
-    isStudentAuthenticated,
+    isSpecialistAuthenticated,
+    isCustomerAuthenticated,
   } = useSelector(stateSelector);
   const {
     adminUnauthenticated,
@@ -109,7 +109,9 @@ function Accessbility() {
   } = actionDispatch(useDispatch());
 
   const isAuthenticated =
-    isAdminAuthenticated || isStudentAuthenticated || isInstructorAuthenticated;
+    isAdminAuthenticated ||
+    isCustomerAuthenticated ||
+    isSpecialistAuthenticated;
 
   const history = useHistory();
 
@@ -124,8 +126,8 @@ function Accessbility() {
 
   const getUserRole = () => {
     if (isAdminAuthenticated) return UserRole.ADMIN;
-    else if (isInstructorAuthenticated) return UserRole.SPECIALIST;
-    else if (isStudentAuthenticated) return UserRole.CUSTOMER;
+    else if (isSpecialistAuthenticated) return UserRole.SPECIALIST;
+    else if (isCustomerAuthenticated) return UserRole.CUSTOMER;
     else return UserRole.CUSTOMER;
   };
 

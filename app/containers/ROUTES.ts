@@ -6,6 +6,9 @@ export default {
   specialistRegisterPage: "/specialist/register",
   discoverPage: "/discover",
 
+  //Specialist
+  specialistDashboardPage: "/specialist/dashboard",
+
   //Admin
   adminLoginPage: "/boss/login",
 };

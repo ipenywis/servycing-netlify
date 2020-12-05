@@ -1,25 +1,25 @@
-import { ApplicationRootState } from 'types';
-import { createSelector } from 'reselect';
+import { ApplicationRootState } from "types";
+import { createSelector } from "reselect";
 
 const selectAuthentication = (state: ApplicationRootState) =>
   state.authentication;
 
-export const makeSelectIsStudentAuthenticated = createSelector(
+export const makeSelectIsCustomerAuthenticated = createSelector(
   selectAuthentication,
-  auth => auth.isStudentAuthenticated,
+  (auth) => auth.isCustomerAuthenticated
 );
 
-export const makeSelectIsInstructorAuthenticated = createSelector(
+export const makeSelectIsSpecialistAuthenticated = createSelector(
   selectAuthentication,
-  auth => auth.isInstructorAuthenticated,
+  (auth) => auth.isSpecialistAuthenticated
 );
 
 export const makeSelectIsAdminAuthenticated = createSelector(
   selectAuthentication,
-  auth => auth.isAdminAuthenticated,
+  (auth) => auth.isAdminAuthenticated
 );
 
 export const makeSelectAuthenticatedUser = createSelector(
   selectAuthentication,
-  auth => auth.authenticatedUser,
+  (auth) => auth.authenticatedUser
 );

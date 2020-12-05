@@ -9,13 +9,13 @@ import { useHistory } from "react-router-dom";
 import ROUTES from "containers/ROUTES";
 import { prepareRouteWithParams } from "utils/route";
 
-export interface IStudentMenuProps {}
+export interface ICustomerMenuProps {}
 
 const actionDispatch = (dispatch: Dispatch) => ({
   customerunauthenticated: () => dispatch(customerunauthenticated()),
 });
 
-export function StudentMenu(props: IStudentMenuProps) {
+export function CustomerMenu(props: ICustomerMenuProps) {
   const history = useHistory();
 
   const { customerunauthenticated } = actionDispatch(useDispatch());

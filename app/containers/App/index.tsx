@@ -21,8 +21,8 @@ import { useInjectSaga } from "utils/redux-injectors";
 import appSaga from "./saga";
 import { createSelector } from "reselect";
 import {
-  makeSelectIsStudentAuthenticated,
-  makeSelectIsInstructorAuthenticated,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
   makeSelectIsAdminAuthenticated,
 } from "containers/Authentication/selectors";
 import { useSelector } from "react-redux";
@@ -38,6 +38,7 @@ import SpecialistLoginPage from "containers/Specialist/LoginPage/Loadable";
 import CustomerLoginPage from "containers/Customer/LoginPage/Loadable";
 import CustomerRegisterPage from "containers/Customer/RegisterPage/Loadable";
 import AdminLoginPage from "containers/Admin/LoginPage/Loadable";
+import SpecialistDashboardPage from "containers/Specialist/Dashboard/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -47,16 +48,16 @@ export const AppContainer = styled.div`
 const KEY = "app";
 
 const stateSelector = createSelector(
-  makeSelectIsStudentAuthenticated,
-  makeSelectIsInstructorAuthenticated,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
   makeSelectIsAdminAuthenticated,
   (
-    isStudentAuthenticated,
-    isInstructorAuthenticated,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
     isAdminAuthenticated
   ) => ({
-    isStudentAuthenticated,
-    isInstructorAuthenticated,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
     isAdminAuthenticated,
   })
 );
@@ -65,8 +66,8 @@ function App() {
   useInjectSaga({ key: KEY, saga: appSaga });
 
   const {
-    isStudentAuthenticated,
-    isInstructorAuthenticated,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
     isAdminAuthenticated,
   } = useSelector(stateSelector);
 
@@ -103,6 +104,11 @@ function App() {
             exact
             path={ROUTES.specialistLoginPage}
             component={SpecialistLoginPage}
+          />
+          <Route
+            exact
+            path={ROUTES.specialistDashboardPage}
+            component={SpecialistDashboardPage}
           />
 
           {/* ADMIN */}
