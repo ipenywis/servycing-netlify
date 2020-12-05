@@ -7,6 +7,7 @@ import { IAuthenticationState } from "containers/Authentication/types";
 import { FormState } from "final-form";
 import { IFinalFormState } from "finalForm/constants";
 import { IDiscoverPageState } from "containers/DiscoverPage/types";
+import { ISpecialistDashboardPageState } from "containers/Specialist/Dashboard/types";
 
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
@@ -36,6 +37,8 @@ export interface ApplicationRootState {
   readonly finalForm: IFinalFormState;
 
   readonly discoverPage: IDiscoverPageState;
+
+  readonly specialistDashboardPage: ISpecialistDashboardPageState;
 }
 
 export interface IAction {

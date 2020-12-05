@@ -21,9 +21,14 @@ export function PageContainer(props: any) {
   return <PageWrapper>{props.children}</PageWrapper>;
 }
 
-export const InnerPageContainer = styled.div`
+interface IInnerPageContainerProps {
+  maxWidth?: string;
+}
+
+export const InnerPageContainer = styled.div<IInnerPageContainerProps>`
   flex: 1;
   width: 100%;
+  max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : "auto")};
   /*min-height Need more testing*/
   min-height: 70vh;
   padding: 1em;

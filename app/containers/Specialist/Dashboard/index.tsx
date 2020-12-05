@@ -6,21 +6,26 @@ import { hot } from "react-hot-loader/root";
 import { BlackText, MutedText } from "components/text";
 import { Marginer } from "components/marginer";
 import { OfferedServices } from "./offeredServices";
+import { useInjectReducer } from "redux-injectors";
+import specialistDashboardReducer, { REDUCER_KEY } from "./reducer";
+import { screenSizes } from "components/responsive";
 
 interface ISpecialistDashboardPageProps {}
 
 function SpecialistDashboardPage(props: ISpecialistDashboardPageProps) {
+  useInjectReducer({ key: REDUCER_KEY, reducer: specialistDashboardReducer });
+
   return (
     <PageContainer>
       <Navbar />
-      <InnerPageContainer>
+      <InnerPageContainer maxWidth={`${screenSizes.laptop}px`}>
         <BlackText size={35} black>
           Dashboard
         </BlackText>
-        <MutedText size={16}>
-          View and Manage all of your offered services and pending requests
+        <MutedText size={14}>
+          View and Manage all of your offered services and pending requests.
         </MutedText>
-        <Marginer direction="vertical" margin="4em" />
+        <Marginer direction="vertical" margin="3em" />
         <OfferedServices />
       </InnerPageContainer>
       <Footer />
