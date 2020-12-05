@@ -5,19 +5,14 @@ import { Dispatch } from "redux";
 import { createSelector } from "reselect";
 import offeredServicesService from "services/offeredServicesService";
 import { IOfferedService } from "types/offeredService";
-import { setOfferedServices } from "./actions";
-import { makeSelectOfferedServices } from "./selectors";
-import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "./constants";
+import { setOfferedServices } from "../actions";
+import { makeSelectOfferedServices } from "../selectors";
+import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
 import styled from "styles/styled-components";
 import { BlackText, MutedText } from "components/text";
+import { SectionContainer } from "../common";
 
 interface IOfferedServicesProps {}
-
-const OfferedServicesSectionContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
 
 const stateSelector = createSelector(
   makeSelectOfferedServices,
@@ -45,7 +40,7 @@ function RenderRowMenu() {
   );
 }
 
-export function OfferedServices(props: IOfferedServicesProps) {
+export function OfferedServicesSection(props: IOfferedServicesProps) {
   const { offeredServices } = useSelector(stateSelector);
   const { setOfferedServices } = actionDispatch(useDispatch());
 
@@ -71,11 +66,11 @@ export function OfferedServices(props: IOfferedServicesProps) {
   }, []);
 
   return (
-    <OfferedServicesSectionContainer>
-      <BlackText size={21} bold>
+    <SectionContainer>
+      <BlackText size={19} bold>
         Your Services
       </BlackText>
-      <MutedText size={13} marginBottom="1em">
+      <MutedText size={12} marginBottom="1em">
         All of your offered services are here, view, update or delete.
       </MutedText>
       <Table>
@@ -108,6 +103,6 @@ export function OfferedServices(props: IOfferedServicesProps) {
             ))}
         </Table.Body>
       </Table>
-    </OfferedServicesSectionContainer>
+    </SectionContainer>
   );
 }

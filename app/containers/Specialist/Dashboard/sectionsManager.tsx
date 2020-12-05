@@ -1,3 +1,4 @@
+import { Marginer } from "components/marginer";
 import { Tab, Tablist } from "evergreen-ui";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +7,7 @@ import { createSelector } from "reselect";
 import styled from "styles/styled-components";
 import { setActiveTab } from "./actions";
 import { DASHBOARD_SECTION_TAB } from "./constants";
+import { OfferedServicesSection } from "./sections/offeredServicesSection";
 import { makeSelectActiveTab } from "./selectors";
 
 interface ISectionsManagerProps {}
@@ -43,10 +45,24 @@ function Tabs() {
   );
 }
 
+function RenderSection() {
+  const { activeTab } = useSelector(stateSelector);
+  switch (activeTab) {
+    case DASHBOARD_SECTION_TAB.OVERVIEW:
+      return <></>;
+    case DASHBOARD_SECTION_TAB.OFFERED_SERVICES:
+      return <OfferedServicesSection />;
+    case DASHBOARD_SECTION_TAB.PENDING_REQUESTS:
+      return <></>;
+  }
+}
+
 export function SectionsManager(props: ISectionsManagerProps) {
   return (
     <ManagerContainer>
       <Tabs />
+      <Marginer direction="vertical" margin="2em" />
+      <RenderSection />
     </ManagerContainer>
   );
 }
