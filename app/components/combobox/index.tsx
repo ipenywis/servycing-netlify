@@ -5,7 +5,8 @@ import styled from "styles/styled-components";
 export const Combobox = styled(ECombobox)`
   input {
     transition: all 300ms ease-in-out;
-    height: 30px;
+    height: 33px;
+    box-shadow: 0 0 1px 1px rgba(15, 15, 15, 0.15);
 
     ::placeholder {
       transition: all 300ms ease-in-out;
@@ -20,7 +21,8 @@ export const Combobox = styled(ECombobox)`
   }
 
   button {
-    height: 30px;
+    height: 33px;
+    box-shadow: 0 0 1px 1px rgba(15, 15, 15, 0.15);
     :focus {
       box-shadow: 0 0 1px 1px rgba(15, 15, 15, 0.4);
     }

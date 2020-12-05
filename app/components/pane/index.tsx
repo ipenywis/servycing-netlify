@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styles/styled-components';
-import { BlackText, DarkText } from 'components/text';
-import { VerticalWrapper } from 'components/verticalWrapper';
+import React from "react";
+import styled from "styles/styled-components";
+import { BlackText, DarkText } from "components/text";
+import { VerticalWrapper } from "components/verticalWrapper";
 
 export interface IPaneProps {
   title?: string;
@@ -23,27 +23,27 @@ const PaneContainer = styled.div<IPaneProps>`
   display: flex;
   flex-direction: column;
   width: auto;
-  /*margin-left: ${({ leftMargin }) => leftMargin || '1em'};
-  margin-bottom: ${({ bottomMargin }) => bottomMargin || '1em'};
+  /*margin-left: ${({ leftMargin }) => leftMargin || "1em"};
+  margin-bottom: ${({ bottomMargin }) => bottomMargin || "1em"};
   padding: 1em 3em;*/
 
-  margin-top: ${({ marginTop }) => (marginTop ? marginTop : '10px')};
+  margin-top: ${({ marginTop }) => (marginTop ? marginTop : "10px")};
 `;
 
 const InnerContainer = styled(VerticalWrapper)<IPaneProps>`
-  align-items: ${({ alignCenter }) => alignCenter && 'center'};
+  align-items: ${({ alignCenter }) => alignCenter && "center"};
   flex-wrap: wrap;
-  height: ${({ height }) => height || 'auto'};
-  max-height: ${({ maxHeight }) => maxHeight || 'auto'};
+  height: ${({ height }) => height || "auto"};
+  max-height: ${({ maxHeight }) => maxHeight || "auto"};
 `;
 
 const Title = styled(DarkText)<IPaneProps>`
   width: 100%;
   justify-content: ${({ centerTitle }) =>
-    centerTitle ? 'center' : 'flex-start'};
+    centerTitle ? "center" : "flex-start"};
   display: flex;
-  font-size: ${({ titleSize }) => titleSize || '24px'};
-  font-weight: 400;
+  font-size: ${({ titleSize }) => titleSize || "24px"};
+  font-weight: 500;
   margin-left: ${({ titleLeftMargin }) => titleLeftMargin || 0};
   margin-bottom: ${({ titleBottomMargin }) => titleBottomMargin || 0};
 `;

@@ -7,6 +7,7 @@ import { createSelector } from "reselect";
 import styled from "styles/styled-components";
 import { setActiveTab } from "./actions";
 import { DASHBOARD_SECTION_TAB } from "./constants";
+import { AddNewServiceSection } from "./sections/addNewServiceSection";
 import { OfferedServicesSection } from "./sections/offeredServicesSection";
 import { makeSelectActiveTab } from "./selectors";
 
@@ -53,6 +54,10 @@ function RenderSection() {
     case DASHBOARD_SECTION_TAB.OFFERED_SERVICES:
       return <OfferedServicesSection />;
     case DASHBOARD_SECTION_TAB.PENDING_REQUESTS:
+      return <></>;
+    case DASHBOARD_SECTION_TAB.ADD_NEW_SERVICE:
+      return <AddNewServiceSection />;
+    default:
       return <></>;
   }
 }

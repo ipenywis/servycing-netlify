@@ -1,6 +1,17 @@
 import { ISpecialist } from "./specialist";
 
 export enum OFFERED_SERVICE_TYPE {
+  CAR_REPAIR = "Car repair",
+  CAR_PENTRY = "Car pentry",
+  LANDSCAPING = "Landscaping",
+  CLEANING = "Cleaning",
+  DEMOLITION = "Demolition",
+  HOME_IMPROVEMENT = "Home improvement",
+  MOVING = "Moving",
+  OTHERS = "Others",
+}
+
+export enum OFFERED_SERVICE_TYPE_FILTER {
   ALL = "All",
   CAR_REPAIR = "Car repair",
   CAR_PENTRY = "Car pentry",

@@ -8,6 +8,7 @@ import {
   OFFERED_SERVICE_RATING_FILTER,
   IServicesFilter,
   IOfferedServiceHourlyRateFilter,
+  OFFERED_SERVICE_TYPE_FILTER,
 } from "types/offeredService";
 
 import { BlackText, GreyText } from "components/text";
@@ -44,7 +45,7 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
   const { onChange } = props;
 
   const offeredServiceTypesKeys = useMemo(() => {
-    return Object.keys(OFFERED_SERVICE_TYPE);
+    return Object.keys(OFFERED_SERVICE_TYPE_FILTER);
   }, []);
 
   const [serviceType, setServiceType] = useState<string>(
@@ -87,7 +88,7 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
           width="11em"
           items={offeredServiceTypesKeys}
           itemToString={(itemKey) =>
-            itemKey ? OFFERED_SERVICE_TYPE[itemKey] : ""
+            itemKey ? OFFERED_SERVICE_TYPE_FILTER[itemKey] : ""
           }
           placeholder="Filter by Type"
           openOnFocus

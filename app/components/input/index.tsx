@@ -1,17 +1,17 @@
-import React from 'react';
-import styled, { theme, css } from 'styles/styled-components';
-import { generateInputThemesStyle, InputTheme } from './themes';
-import { FieldProps, useField } from 'react-final-form';
-import { FieldValidator } from 'final-form';
-import { ErrorText } from 'components/text';
+import React from "react";
+import styled, { theme, css } from "styles/styled-components";
+import { generateInputThemesStyle, InputTheme } from "./themes";
+import { FieldProps, useField } from "react-final-form";
+import { FieldValidator } from "final-form";
+import { ErrorText } from "components/text";
 import {
   FontAwesomeIconProps,
   FontAwesomeIcon,
-} from '@fortawesome/react-fontawesome';
+} from "@fortawesome/react-fontawesome";
 
 type INPUT = React.HTMLAttributes<HTMLInputElement> & FieldProps<any, any>;
 
-export interface IInputProps extends Omit<INPUT, 'name'> {
+export interface IInputProps extends Omit<INPUT, "name"> {
   id?: string;
   width?: string;
   height?: string;
@@ -28,7 +28,7 @@ export interface IInputProps extends Omit<INPUT, 'name'> {
   hideError?: boolean;
   hideErrorIndicator?: boolean;
   doNotRenderError?: boolean;
-  icon?: FontAwesomeIconProps['icon'];
+  icon?: FontAwesomeIconProps["icon"];
   iconColor?: string;
   iconSize?: string;
 
@@ -46,9 +46,9 @@ export interface IInputProps extends Omit<INPUT, 'name'> {
 }
 
 const InputContainer = styled.div<any>`
-  display: ${({ hidden }) => (hidden ? 'none' : 'flex')};
+  display: ${({ hidden }) => (hidden ? "none" : "flex")};
   flex-direction: column;
-  width: ${({ width }) => (width ? width : '100%')};
+  width: ${({ width }) => (width ? width : "100%")};
   padding: 0 !important;
   position: relative;
 `;
@@ -59,18 +59,18 @@ interface IErrorProps {
 
 const InputWrapper = styled.input<IInputProps & IErrorProps>`
   width: 100%;
-  height: ${({ height }) => (height ? height : '33px')};
+  height: ${({ height }) => (height ? height : "33px")};
   outline: none;
   background-color: ${theme.default.componentBackground};
   color: ${theme.default.tertiaryText};
   font-size: ${({ size }) =>
-    size ? (typeof size === 'string' ? size : `${size}px`) : '15px'};
+    size ? (typeof size === "string" ? size : `${size}px`) : "15px"};
   font-weight: 400;
   /*border: 1px solid rgba(31, 32, 65, 0.25);*/
   border: none;
   box-shadow: 0 5px 30px -15px rgba(0, 0, 0, 0.2);
   transition: all 250ms ease-in-out;
-  padding: ${({ icon }) => (icon ? '0 26px' : '0 13px')};
+  padding: ${({ icon }) => (icon ? "0 20px" : "0 13px")};
   border-radius: 3px;
 
   &:disabled {
@@ -115,9 +115,9 @@ const InputWrapper = styled.input<IInputProps & IErrorProps>`
 `;
 
 const TextareaWrapper = styled.textarea<IInputProps & IErrorProps>`
-  width: ${({ width }) => (width ? width : '100%')};
-  min-height: ${({ height }) => (height ? height : '50px')};
-  max-height: ${({ maxHeight }) => (maxHeight ? maxHeight : '')};
+  width: ${({ width }) => (width ? width : "100%")};
+  min-height: ${({ height }) => (height ? height : "50px")};
+  max-height: ${({ maxHeight }) => (maxHeight ? maxHeight : "")};
   outline: none;
   background-color: ${theme.default.componentBackground};
   color: ${theme.default.tertiaryText};
@@ -175,16 +175,16 @@ const TextareaWrapper = styled.textarea<IInputProps & IErrorProps>`
 const IconContainer = styled.div<any>`
   display: flex;
   position: absolute;
-  font-size: ${({ size }) => size || '13px'};
+  font-size: ${({ size }) => size || "13px"};
   top: 30%;
-  left: 7px;
+  left: 8px;
   transform: translateY(-50%);
 `;
 
 const MinimalIconContainer = styled.div<any>`
   display: flex;
   position: absolute;
-  font-size: ${({ size }) => size || '13px'};
+  font-size: ${({ size }) => size || "13px"};
   top: 50%;
   left: 9px;
   transform: translateY(-50%);
@@ -233,7 +233,7 @@ function Input(props: IInputProps) {
       maxLength: limit,
     };
 
-    const blurHandler = e => {
+    const blurHandler = (e) => {
       props.onBlur && props.onBlur(e);
       input.onBlur(e);
     };
@@ -242,7 +242,7 @@ function Input(props: IInputProps) {
       if (useAsNumeric) {
         const value = e.target.value;
         const numberValue = new Number(value);
-        if (value !== '' && (isNaN(numberValue as any) || value.includes('.')))
+        if (value !== "" && (isNaN(numberValue as any) || value.includes(".")))
           return;
       }
 
@@ -286,7 +286,7 @@ function Input(props: IInputProps) {
         )}
         {!doNotRenderError && (
           <Error>
-            {!hideError && touched && (error || submitError) ? error : ''}
+            {!hideError && touched && (error || submitError) ? error : ""}
           </Error>
         )}
       </InputContainer>

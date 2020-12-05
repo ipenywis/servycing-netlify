@@ -14,4 +14,5 @@ export enum DASHBOARD_SECTION_TAB {
   OVERVIEW = "Overview",
   OFFERED_SERVICES = "Offered Services",
   PENDING_REQUESTS = "Pending Requests",
+  ADD_NEW_SERVICE = "Add New Service",
 }
