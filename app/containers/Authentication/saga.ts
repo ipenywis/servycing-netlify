@@ -76,9 +76,9 @@ function* fetchAuthenticatedUserInfo(token: string, userRole?: UserRole) {
       break;
     case UserRole.SPECIALIST:
       if (user) {
-        yield put(action(ActionTypes.CUSTOMER_AUTHENTICATED));
+        yield put(action(ActionTypes.SPECIALIST_AUTHENTICATED));
       } else {
-        yield put(action(ActionTypes.CUSTOMER_UNAUTHENTICATED));
+        yield put(action(ActionTypes.SPECIALIST_UNAUTHENTICATED));
         yield specialistIsUnauthenticated();
       }
       break;

@@ -143,8 +143,6 @@ export function SignupBox(props: ISignupBoxProps) {
       setError(err.message);
     });
 
-    console.log("Specialist: ", specialist);
-
     if (specialist) history.push(ROUTES.specialistLoginPage);
   };
 
