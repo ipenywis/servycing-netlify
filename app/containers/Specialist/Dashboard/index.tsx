@@ -9,6 +9,7 @@ import { OfferedServices } from "./offeredServices";
 import { useInjectReducer } from "redux-injectors";
 import specialistDashboardReducer, { REDUCER_KEY } from "./reducer";
 import { screenSizes } from "components/responsive";
+import { SectionsManager } from "./sectionsManager";
 
 interface ISpecialistDashboardPageProps {}
 
@@ -25,8 +26,8 @@ function SpecialistDashboardPage(props: ISpecialistDashboardPageProps) {
         <MutedText size={14}>
           View and Manage all of your offered services and pending requests.
         </MutedText>
-        <Marginer direction="vertical" margin="3em" />
-        <OfferedServices />
+        <Marginer direction="vertical" margin="1.5em" />
+        <SectionsManager />
       </InnerPageContainer>
       <Footer />
     </PageContainer>

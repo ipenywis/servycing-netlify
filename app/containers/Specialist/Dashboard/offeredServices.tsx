@@ -9,7 +9,7 @@ import { setOfferedServices } from "./actions";
 import { makeSelectOfferedServices } from "./selectors";
 import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "./constants";
 import styled from "styles/styled-components";
-import { BlackText } from "components/text";
+import { BlackText, MutedText } from "components/text";
 
 interface IOfferedServicesProps {}
 
@@ -72,9 +72,12 @@ export function OfferedServices(props: IOfferedServicesProps) {
 
   return (
     <OfferedServicesSectionContainer>
-      <BlackText size={21} bold marginBottom="1em">
+      <BlackText size={21} bold>
         Your Services
       </BlackText>
+      <MutedText size={13} marginBottom="1em">
+        All of your offered services are here, view, update or delete.
+      </MutedText>
       <Table>
         <Table.Head>
           <Table.TextHeaderCell flexGrow={3}>Title</Table.TextHeaderCell>
@@ -98,7 +101,7 @@ export function OfferedServices(props: IOfferedServicesProps) {
                     content={RenderRowMenu}
                     position={Position.BOTTOM_RIGHT}
                   >
-                    <IconButton icon="more" appearance="minimal" />
+                    <IconButton icon="more" appearance="minimal" height={24} />
                   </Popover>
                 </Table.Cell>
               </Table.Row>

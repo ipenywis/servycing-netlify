@@ -8,3 +8,8 @@ export const makeSelectOfferedServices = createSelector(
   selectSpecialistDashboardPage,
   (page) => page.offeredServices
 );
+
+export const makeSelectActiveTab = createSelector(
+  selectSpecialistDashboardPage,
+  (page) => page.activeTab
+);
