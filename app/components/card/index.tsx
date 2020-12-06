@@ -1,6 +1,6 @@
-import React from 'react';
-import styled, { theme } from 'styles/styled-components';
-import { DarkText } from 'components/text';
+import React from "react";
+import styled, { theme } from "styles/styled-components";
+import { DarkText } from "components/text";
 
 export interface ICardProps {
   title?: string;
@@ -19,8 +19,14 @@ const CardContainer = styled.div`
   flex-direction: column;
 `;
 
+const InnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Title = styled(DarkText)<ICardProps>`
-  font-size: ${({ titleSize }) => (titleSize ? `${titleSize}px` : '22px')};
+  font-size: ${({ titleSize }) => (titleSize ? `${titleSize}px` : "22px")};
   font-weight: 500;
 `;
 
@@ -28,7 +34,7 @@ const TopContainer = styled.div<ICardProps>`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: ${({ centerTitle }) => (centerTitle ? 'center' : 'flex-start')};
+  align-items: ${({ centerTitle }) => (centerTitle ? "center" : "flex-start")};
 `;
 
 function Card(props: ICardProps) {
@@ -41,7 +47,7 @@ function Card(props: ICardProps) {
           <Title titleSize={titleSize}>{title}</Title>
         </TopContainer>
       )}
-      {props.children}
+      <InnerContainer>{props.children}</InnerContainer>
     </CardContainer>
   );
 }

@@ -20,8 +20,22 @@ import { TimeRangePicker } from "components/timeRangePicker";
 import { setField } from "finalForm/mutators";
 import { FormRenderProps } from "react-final-form";
 import { FormApi } from "final-form";
+import { ImageUploader } from "components/imageUploader";
+import styled from "styles/styled-components";
+import { HorizontalWrapper } from "components/horizontalWrapper";
 
 interface IAddNewServiceSectionProps {}
+
+const InnerFromContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const InnerCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 40em;
+`;
 
 const validationSchema = yup.object({
   title: yup.string().required(),
@@ -70,70 +84,78 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
   return (
     <SectionContainer>
       <Card title="Add New Service" titleSize={19}>
-        <Marginer direction="vertical" margin="1em" />
-        <Form
-          onSubmit={() => {}}
-          mutators={{ setField }}
-          validate={(values) => validateForm(validationSchema, values)}
-        >
-          {({ form }: FormRenderProps) => (
-            <>
-              <FinalFormSpy form={FORMS.SPECIALIST_ADD_NEW_SERVICE_FORM} />
-              <FormGroup label="Title">
-                <Input
-                  name="title"
-                  placeholder="Service Title"
-                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                  width="40%"
-                />
-              </FormGroup>
-              <FormGroup label="Description">
-                <Input
-                  name="description"
-                  placeholder="Service Description"
-                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                  width="63%"
-                  maxHeight={"11em"}
-                  useAsTextarea
-                />
-              </FormGroup>
-              <FormGroup label="Type">
-                <Input name="type" hidden />
-                <Combobox
-                  placeholder="Select Service Type"
-                  items={Object.values(OFFERED_SERVICE_TYPE)}
-                  onChange={(type) => setServiceType(type, form)}
-                />
-                <Marginer direction="vertical" margin="17px" />
-              </FormGroup>
-              <FormGroup label="Hourly Rate">
-                <Input
-                  name="hourlyRate"
-                  placeholder="Service desired hourly rate"
-                  useAsNumeric={true}
-                  inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                  width="40%"
-                  icon={faDollarSign}
-                  iconSize="15px"
-                />
-              </FormGroup>
-              <FormGroup label="Preferred Working Hours">
-                <Input name="preferredHours" hidden />
-                <TimeRangePicker
-                  format="h:m a"
-                  rangeDivider="To"
-                  required={true}
-                  onChange={(range) => updateTimeRange(range, form)}
-                />
-              </FormGroup>
-              <Marginer direction="vertical" margin="1.5em" />
-              <Button
-                text="Offer Service"
-                buttonTheme={ButtonTheme.PRIMARY_PRIMARY}
-              />
-            </>
-          )}
-        </Form>
+        <InnerCardContainer>
+          <Marginer direction="vertical" margin="1em" />
+          <Form
+            onSubmit={() => {}}
+            mutators={{ setField }}
+            validate={(values) => validateForm(validationSchema, values)}
+          >
+            {({ form }: FormRenderProps) => (
+              <InnerFromContainer>
+                <FinalFormSpy form={FORMS.SPECIALIST_ADD_NEW_SERVICE_FORM} />
+                <FormGroup>
+                  <ImageUploader
+                    name="thumbnail"
+                    placeholder="Service Thumbnail"
+                  />
+                </FormGroup>
+                <FormGroup label="Title">
+                  <Input
+                    name="title"
+                    placeholder="Service Title"
+                    inputTheme={InputTheme.MINIMAL_BORDER_DARK}
+                  />
+                </FormGroup>
+                <FormGroup label="Description">
+                  <Input
+                    name="description"
+                    placeholder="Service Description"
+                    inputTheme={InputTheme.MINIMAL_BORDER_DARK}
+                    maxHeight={"11em"}
+                    useAsTextarea
+                  />
+                </FormGroup>
+                <FormGroup label="Type">
+                  <Input name="type" hidden />
+                  <Combobox
+                    width="100%"
+                    placeholder="Select Service Type"
+                    items={Object.values(OFFERED_SERVICE_TYPE)}
+                    onChange={(type) => setServiceType(type, form)}
+                  />
+                  <Marginer direction="vertical" margin="17px" />
+                </FormGroup>
+                <FormGroup label="Hourly Rate">
+                  <Input
+                    name="hourlyRate"
+                    placeholder="Service desired hourly rate"
+                    useAsNumeric={true}
+                    inputTheme={InputTheme.MINIMAL_BORDER_DARK}
+                    icon={faDollarSign}
+                    iconSize="15px"
+                  />
+                </FormGroup>
+                <FormGroup label="Preferred Working Hours">
+                  <Input name="preferredHours" hidden />
+                  <TimeRangePicker
+                    format="h:m a"
+                    rangeDivider="To"
+                    required={true}
+                    onChange={(range) => updateTimeRange(range, form)}
+                  />
+                </FormGroup>
+                <Marginer direction="vertical" margin="1.5em" />
+                <HorizontalWrapper centered>
+                  <Button
+                    text="Offer Service"
+                    buttonTheme={ButtonTheme.PRIMARY_PRIMARY}
+                  />
+                </HorizontalWrapper>
+              </InnerFromContainer>
+            )}
+          </Form>
+        </InnerCardContainer>
       </Card>
     </SectionContainer>
   );
