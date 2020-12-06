@@ -28,3 +28,26 @@ export const GET_OFFERED_SERVICES = gql`
     }
   }
 `;
+
+export const GET_SPECIALIST_MY_OFFERED_SERVICES = gql`
+  query GET_SPECIALIST_OFFERED_SERVICES {
+    offeredServices: specialistMyOfferedServices {
+      id
+      title
+      description
+      type
+      rate
+      preferredHours
+      specialist {
+        id
+        fullName
+        email
+        rating
+        shortBio
+      }
+      reviews {
+        id
+      }
+    }
+  }
+`;

@@ -9,7 +9,7 @@ import { setOfferedServices } from "../actions";
 import { makeSelectOfferedServices } from "../selectors";
 import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
 import styled from "styles/styled-components";
-import { BlackText, MutedText } from "components/text";
+import { BlackText, MutedText, WarningText } from "components/text";
 import { SectionContainer } from "../common";
 import { HorizontalWrapper } from "components/horizontalWrapper";
 import { MinimalSpinner } from "components/loadingSpinner/minimal";
@@ -54,17 +54,13 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
 
   const fetchedOfferedServices = async () => {
     setLoading(true);
-    const servicesWithCount = await offeredServicesService
-      .getAndFilterOfferedServices(
-        undefined,
-        DEFAULT_OFFERED_SERVICES_LOAD_RANGE
-      )
+    const offeredServices = await offeredServicesService
+      .getSpecialistMyOfferedServices()
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (servicesWithCount && servicesWithCount.offeredServices)
-      setOfferedServices(servicesWithCount.offeredServices);
+    if (offeredServices) setOfferedServices(offeredServices);
 
     setLoading(false);
   };
@@ -90,9 +86,12 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
           <Table.TextHeaderCell>Hourly Price</Table.TextHeaderCell>
           <Table.TextHeaderCell>More</Table.TextHeaderCell>
         </Table.Head>
-        {isLoading && (
+        {(isLoading || isEmptyOfferedServices) && (
           <Pane alignCenter marginTop="5%">
-            <MinimalSpinner />
+            {isLoading && <MinimalSpinner />}
+            {isEmptyOfferedServices && (
+              <WarningText>You haven't offered any services yet</WarningText>
+            )}
           </Pane>
         )}
         <Table.Body>
