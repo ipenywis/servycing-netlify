@@ -12,8 +12,10 @@ import offeredServicesMessages from "./offeredServicesMessages";
 import {
   GET_OFFERED_SERVICES,
   GET_SPECIALIST_MY_OFFERED_SERVICES,
+  GET_SPECIALIST_PENDING_SERVICE_REQUESTS,
 } from "./queries";
 import { ADD_NEW_SERVICE } from "./mutations";
+import { IPendingServiceRequest } from "types/pendingServiceRequest";
 
 class OfferedServicesService {
   private resolverServicesType(services: IOfferedService[]): IOfferedService[] {
@@ -87,6 +89,20 @@ class OfferedServicesService {
 
       return offeredServices;
     } else throw new Error(offeredServicesMessages.cannotFetchOfferedServices);
+  }
+
+  public async getSpecialistPendingServiceRequests(): Promise<
+    IPendingServiceRequest[]
+  > {
+    const response = await apolloClient
+      .query({ query: GET_SPECIALIST_PENDING_SERVICE_REQUESTS })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.pendingServiceRequests)
+      return response.data.pendingServiceRequests;
+    else throw new Error(offeredServicesMessages.cannotFetchPendingRequests);
   }
 }
 

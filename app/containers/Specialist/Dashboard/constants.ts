@@ -3,6 +3,7 @@ import { ILoadRangeOptions } from "types/pagination";
 export enum ActionTypes {
   SET_OFFERED_SERVICES = "app/containers/Specialist/Dashboard/SET_OFFERED_SERVICES",
   SET_ACTIVE_TAB_IDX = "app/containers/Specialist/Dashboard/SET_ACTIVE_TAB_IDX",
+  SET_PENDING_SERVICE_REQUESTS = "app/containers/Specialist/Dashboard/SET_PENDING_SERVICE_REQUESTS",
 }
 
 export const DEFAULT_OFFERED_SERVICES_LOAD_RANGE: ILoadRangeOptions = {

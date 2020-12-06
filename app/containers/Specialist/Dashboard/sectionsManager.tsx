@@ -9,6 +9,7 @@ import { setActiveTab } from "./actions";
 import { DASHBOARD_SECTION_TAB } from "./constants";
 import { AddNewServiceSection } from "./sections/addNewServiceSection";
 import { OfferedServicesSection } from "./sections/offeredServicesSection";
+import { PendingRequestsSection } from "./sections/pendingRequestsSection";
 import { makeSelectActiveTab } from "./selectors";
 
 interface ISectionsManagerProps {}
@@ -54,7 +55,7 @@ function RenderSection() {
     case DASHBOARD_SECTION_TAB.OFFERED_SERVICES:
       return <OfferedServicesSection />;
     case DASHBOARD_SECTION_TAB.PENDING_REQUESTS:
-      return <></>;
+      return <PendingRequestsSection />;
     case DASHBOARD_SECTION_TAB.ADD_NEW_SERVICE:
       return <AddNewServiceSection />;
     default:

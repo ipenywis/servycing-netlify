@@ -11,6 +11,12 @@ export enum OFFERED_SERVICE_TYPE {
   OTHERS = "Others",
 }
 
+export enum OFFERED_SERVICE_STATUS {
+  PENDING = "PENDING",
+  WORKING_ON = "WORKING_ON",
+  REJECTED = "REJECTED",
+}
+
 export enum OFFERED_SERVICE_TYPE_FILTER {
   ALL = "All",
   CAR_REPAIR = "Car repair",

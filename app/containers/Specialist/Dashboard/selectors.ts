@@ -13,3 +13,8 @@ export const makeSelectActiveTab = createSelector(
   selectSpecialistDashboardPage,
   (page) => page.activeTab
 );
+
+export const makeSelectPendingServiceRequests = createSelector(
+  selectSpecialistDashboardPage,
+  (page) => page.pendingServiceRequests
+);

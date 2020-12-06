@@ -51,3 +51,20 @@ export const GET_SPECIALIST_MY_OFFERED_SERVICES = gql`
     }
   }
 `;
+
+export const GET_SPECIALIST_PENDING_SERVICE_REQUESTS = gql`
+  query GET_SPECIALIST_PENDING_SERVICE_REQUESTS {
+    pendingServiceRequests: specialistPendingServiceRequests {
+      id
+      offeredService {
+        id
+        title
+      }
+      customer {
+        id
+        fullName
+      }
+      status
+    }
+  }
+`;
