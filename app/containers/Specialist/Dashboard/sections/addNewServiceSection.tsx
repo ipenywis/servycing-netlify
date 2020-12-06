@@ -7,7 +7,7 @@ import { InputTheme } from "components/input/themes";
 import { Marginer } from "components/marginer";
 import { FORMS } from "finalForm/constants";
 import FinalFormSpy from "finalForm/finalFormSpy";
-import React from "react";
+import React, { useState } from "react";
 import { OFFERED_SERVICE_TYPE } from "types/offeredService";
 import { SectionContainer } from "../common";
 import * as yup from "yup";
@@ -16,9 +16,10 @@ import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "components/button";
 import { ButtonTheme } from "components/button/themes";
 
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
-import { DateRangePicker } from "react-date-range";
+import { TimeRangePicker } from "components/timeRangePicker";
+import { setField } from "finalForm/mutators";
+import { FormRenderProps } from "react-final-form";
+import { FormApi } from "final-form";
 
 interface IAddNewServiceSectionProps {}
 
@@ -30,13 +31,32 @@ const validationSchema = yup.object({
     .required("Please choose your service hourly rate")
     .max(2000, "Rate must be less than $2000")
     .min(5, "Rate must be at least $5"),
+  preferredHours: yup
+    .string()
+    .required("Please specify your preferred working hours"),
 });
 
 export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
-  const selectionRange = {
-    startDate: new Date(),
-    endDate: new Date(),
-    key: "selection",
+  const [timeRange, setTimeRange] = useState<string[]>([]);
+
+  const updateTimeRange = (range, form: FormApi<any>) => {
+    if (!range) return;
+    if (!range[0]) {
+      const newRange = [timeRange[0], range[1]];
+      setTimeRange(newRange);
+      form.mutators.setField(
+        "preferredHours",
+        `${newRange[0]} to ${newRange[1]}`
+      );
+    }
+    if (!range[1]) {
+      const newRange = [range[0], timeRange[1]];
+      setTimeRange(newRange);
+      form.mutators.setField(
+        "preferredHours",
+        `${newRange[0]} to ${newRange[1]}`
+      );
+    }
   };
 
   return (
@@ -45,9 +65,10 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
         <Marginer direction="vertical" margin="1em" />
         <Form
           onSubmit={() => {}}
+          mutators={{ setField }}
           validate={(values) => validateForm(validationSchema, values)}
         >
-          {() => (
+          {({ form }: FormRenderProps) => (
             <>
               <FinalFormSpy form={FORMS.SPECIALIST_ADD_NEW_SERVICE_FORM} />
               <FormGroup label="Title">
@@ -87,14 +108,15 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                 />
               </FormGroup>
               <FormGroup label="Preferred Working Hours">
-                <DateRangePicker
-                  ranges={[selectionRange]}
-                  showMonthAndYearPickers={false}
-                  onChange={(ranges) =>
-                    console.log("Selection: ", selectionRange)
-                  }
+                <Input name="preferredHours" hidden />
+                <TimeRangePicker
+                  format="h:m a"
+                  rangeDivider="To"
+                  required={true}
+                  onChange={(range) => updateTimeRange(range, form)}
                 />
               </FormGroup>
+              <Marginer direction="vertical" margin="1.5em" />
               <Button
                 text="Offer Service"
                 buttonTheme={ButtonTheme.PRIMARY_PRIMARY}
