@@ -14,7 +14,10 @@ import {
   GET_SPECIALIST_MY_OFFERED_SERVICES,
   GET_SPECIALIST_PENDING_SERVICE_REQUESTS,
 } from "./queries";
-import { ADD_NEW_SERVICE } from "./mutations";
+import {
+  ADD_NEW_SERVICE,
+  SPECIALIST_ACCEPT_PENDING_SERVICE_REQUEST,
+} from "./mutations";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
 
 class OfferedServicesService {
@@ -103,6 +106,23 @@ class OfferedServicesService {
     if (response && response.data && response.data.pendingServiceRequests)
       return response.data.pendingServiceRequests;
     else throw new Error(offeredServicesMessages.cannotFetchPendingRequests);
+  }
+
+  public async specialistAcceptPendingRequest(
+    requestId: string
+  ): Promise<IPendingServiceRequest> {
+    const response = await apolloClient
+      .mutate({
+        mutation: SPECIALIST_ACCEPT_PENDING_SERVICE_REQUEST,
+        variables: { requestId },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.pendingServiceRequest)
+      return response.data.pendingServiceRequest;
+    else throw new Error(offeredServicesMessages.cannoAcceptPendingRequest);
   }
 }
 

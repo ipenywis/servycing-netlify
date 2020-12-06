@@ -42,11 +42,44 @@ const actionDispatch = (dispatch: Dispatch) => ({
     dispatch(setPendingServiceRequests(requests)),
 });
 
-function RenderRowMenu() {
+interface IMenuProps {
+  request: IPendingServiceRequest;
+}
+
+function RenderRowMenu(props: IMenuProps) {
+  const { request } = props;
+  const { pendingRequests } = useSelector(stateSelector);
+  const { setPendingRequests } = actionDispatch(useDispatch());
+
+  const updatePendingRequest = (
+    id: string,
+    newRequestData: IPendingServiceRequest
+  ) => {
+    const updatedRequests = pendingRequests.map((request) => {
+      if (request.id === id) return { ...newRequestData };
+      else return request;
+    });
+
+    setPendingRequests(updatedRequests);
+  };
+
+  const acceptPendingRequest = async () => {
+    const acceptedPendingRequest = await offeredServicesService
+      .specialistAcceptPendingRequest(request.id)
+      .catch((err) => {
+        console.log("Error accepting: ", err);
+      });
+
+    if (acceptedPendingRequest)
+      updatePendingRequest(request.id, acceptedPendingRequest);
+  };
+
   return (
     <Menu>
       <Menu.Group>
-        <Menu.Item intent="success">Accept</Menu.Item>
+        <Menu.Item intent="success" onSelect={acceptPendingRequest}>
+          Accept
+        </Menu.Item>
         <Menu.Item intent="danger">Reject</Menu.Item>
       </Menu.Group>
     </Menu>
