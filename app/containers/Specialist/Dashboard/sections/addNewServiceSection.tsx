@@ -8,7 +8,11 @@ import { Marginer } from "components/marginer";
 import { FORMS } from "finalForm/constants";
 import FinalFormSpy from "finalForm/finalFormSpy";
 import React, { useState } from "react";
-import { OFFERED_SERVICE_TYPE } from "types/offeredService";
+import {
+  INewOfferedServiceDTO,
+  IOfferedService,
+  OFFERED_SERVICE_TYPE,
+} from "types/offeredService";
 import { SectionContainer } from "../common";
 import * as yup from "yup";
 import { validateForm } from "utils/validation";
@@ -19,10 +23,19 @@ import { ButtonTheme } from "components/button/themes";
 import { TimeRangePicker } from "components/timeRangePicker";
 import { setField } from "finalForm/mutators";
 import { FormRenderProps } from "react-final-form";
-import { FormApi } from "final-form";
+import { FormApi, FORM_ERROR } from "final-form";
 import { ImageUploader } from "components/imageUploader";
 import styled from "styles/styled-components";
 import { HorizontalWrapper } from "components/horizontalWrapper";
+import offeredServicesService from "services/offeredServicesService";
+import { Dispatch } from "redux";
+import { setActiveTab, setOfferedServices } from "../actions";
+import { DASHBOARD_SECTION_TAB } from "../constants";
+import { useDispatch, useSelector } from "react-redux";
+import imageService from "services/imageService";
+import { ErrorText } from "components/text";
+import { createSelector } from "reselect";
+import { makeSelectOfferedServices } from "../selectors";
 
 interface IAddNewServiceSectionProps {}
 
@@ -40,7 +53,7 @@ const InnerCardContainer = styled.div`
 const validationSchema = yup.object({
   title: yup.string().required(),
   description: yup.string().required().max(700).min(150),
-  hourlyRate: yup
+  rate: yup
     .number()
     .required("Please choose your service hourly rate")
     .max(2000, "Rate must be less than $2000")
@@ -51,8 +64,25 @@ const validationSchema = yup.object({
   type: yup.string().required(),
 });
 
+const stateSelector = createSelector(
+  makeSelectOfferedServices,
+  (offeredServices) => ({
+    offeredServices,
+  })
+);
+
+const actionDispatch = (dispatch: Dispatch) => ({
+  setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
+  setOfferedServices: (services: IOfferedService[]) =>
+    dispatch(setOfferedServices(services)),
+});
+
 export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
+  const { setActiveTab, setOfferedServices } = actionDispatch(useDispatch());
+  const { offeredServices } = useSelector(stateSelector);
+
   const [timeRange, setTimeRange] = useState<string[]>([]);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const updateTimeRange = (range, form: FormApi<any>) => {
     if (!range) return;
@@ -81,23 +111,65 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
     form.mutators.setField("type", offeredServiceType);
   };
 
+  const onSubmit = async (values) => {
+    if (!thumbnailFile)
+      return { [FORM_ERROR]: "Please choose a service image thumbnail" };
+
+    //Upload thumbnail
+    const thumbnailUrl = await imageService
+      .uploadImage(thumbnailFile)
+      .catch((err) => {
+        console.log("Image upload Error: ", err);
+      });
+
+    if (!thumbnailUrl) return { [FORM_ERROR]: "Service Thumbnail is invalid!" };
+
+    const newServiceData: INewOfferedServiceDTO = {
+      ...values,
+      rate: parseInt(values.rate),
+      thumbnailUrl,
+    };
+
+    const newOfferedService = await offeredServicesService
+      .addNewOfferedService(newServiceData)
+      .catch((err) => {
+        console.log("Err: ", err);
+      });
+
+    if (newOfferedService) {
+      setOfferedServices([...offeredServices, newOfferedService]);
+      setActiveTab(DASHBOARD_SECTION_TAB.OFFERED_SERVICES);
+    }
+
+    return undefined;
+  };
+
   return (
-    <SectionContainer>
+    <SectionContainer alignCenter>
       <Card title="Add New Service" titleSize={19}>
         <InnerCardContainer>
           <Marginer direction="vertical" margin="1em" />
           <Form
-            onSubmit={() => {}}
+            onSubmit={onSubmit}
             mutators={{ setField }}
             validate={(values) => validateForm(validationSchema, values)}
           >
-            {({ form }: FormRenderProps) => (
+            {({
+              form,
+              values,
+              submitError,
+              hasSubmitErrors,
+              submitting,
+            }: FormRenderProps) => (
               <InnerFromContainer>
                 <FinalFormSpy form={FORMS.SPECIALIST_ADD_NEW_SERVICE_FORM} />
+                {hasSubmitErrors && <ErrorText>{submitError}</ErrorText>}
                 <FormGroup>
                   <ImageUploader
                     name="thumbnail"
+                    src={thumbnailFile}
                     placeholder="Service Thumbnail"
+                    onSelect={setThumbnailFile}
                   />
                 </FormGroup>
                 <FormGroup label="Title">
@@ -128,7 +200,7 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                 </FormGroup>
                 <FormGroup label="Hourly Rate">
                   <Input
-                    name="hourlyRate"
+                    name="rate"
                     placeholder="Service desired hourly rate"
                     useAsNumeric={true}
                     inputTheme={InputTheme.MINIMAL_BORDER_DARK}
@@ -141,7 +213,6 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                   <TimeRangePicker
                     format="h:m a"
                     rangeDivider="To"
-                    required={true}
                     onChange={(range) => updateTimeRange(range, form)}
                   />
                 </FormGroup>
@@ -149,7 +220,9 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                 <HorizontalWrapper centered>
                   <Button
                     text="Offer Service"
+                    type="submit"
                     buttonTheme={ButtonTheme.PRIMARY_PRIMARY}
+                    isLoading={submitting}
                   />
                 </HorizontalWrapper>
               </InnerFromContainer>

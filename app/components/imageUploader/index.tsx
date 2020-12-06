@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import styled, { theme, css } from 'styles/styled-components';
-import ImageLoader from 'react-imageloader';
-import { FilePicker } from 'evergreen-ui';
-import { MinimalSpinner } from 'components/loadingSpinner/minimal';
-import { HorizontalWrapper } from 'components/horizontalWrapper';
-import { fileToBase64 } from 'utils/file';
+import React, { useState, useEffect } from "react";
+import styled, { theme, css } from "styles/styled-components";
+import ImageLoader from "react-imageloader";
+import { FilePicker } from "evergreen-ui";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { fileToBase64 } from "utils/file";
 
 export interface IIMageUploaderProps {
   name: string;
@@ -54,7 +54,7 @@ const NoImagePlaceholder = styled.div`
   color: ${theme.default.greyText};
 `;
 
-const IMAGE_FORMATS = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml'];
+const IMAGE_FORMATS = ["image/png", "image/jpg", "image/jpeg", "image/svg+xml"];
 
 export function ImageUploader(props: IIMageUploaderProps) {
   const { src, onSelect, name, placeholder } = props;
@@ -82,7 +82,7 @@ export function ImageUploader(props: IIMageUploaderProps) {
         <ImagePreviewContainer>
           {!thumbnailData && (
             <NoImagePlaceholder>
-              {placeholder || 'Select Course Thumbnail'}
+              {placeholder || "Select Course Thumbnail"}
             </NoImagePlaceholder>
           )}
           {thumbnailData && (
@@ -102,8 +102,8 @@ export function ImageUploader(props: IIMageUploaderProps) {
           name={name}
           accept={IMAGE_FORMATS}
           placeholder="Select Image"
-          required={true}
-          onChange={files =>
+          required={false}
+          onChange={(files) =>
             onSelect &&
             onSelect &&
             files &&

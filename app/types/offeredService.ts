@@ -89,6 +89,15 @@ export interface IOfferedService {
   reviews: any[];
 }
 
+export interface INewOfferedServiceDTO {
+  title: string;
+  description: string;
+  type: OFFERED_SERVICE_TYPE;
+  rate: number;
+  preferredHours: string;
+  thumbnailUrl: string;
+}
+
 export interface IOfferedServicesWithCount {
   count: number;
   offeredServices: IOfferedService[];
