@@ -34,6 +34,7 @@ const validationSchema = yup.object({
   preferredHours: yup
     .string()
     .required("Please specify your preferred working hours"),
+  type: yup.string().required(),
 });
 
 export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
@@ -57,6 +58,13 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
         `${newRange[0]} to ${newRange[1]}`
       );
     }
+  };
+
+  const setServiceType = (type: string, form: FormApi<any>) => {
+    const offeredServiceType = Object.keys(OFFERED_SERVICE_TYPE).find(
+      (key) => OFFERED_SERVICE_TYPE[key] === type
+    );
+    form.mutators.setField("type", offeredServiceType);
   };
 
   return (
@@ -90,9 +98,11 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                 />
               </FormGroup>
               <FormGroup label="Type">
+                <Input name="type" hidden />
                 <Combobox
                   placeholder="Select Service Type"
                   items={Object.values(OFFERED_SERVICE_TYPE)}
+                  onChange={(type) => setServiceType(type, form)}
                 />
                 <Marginer direction="vertical" margin="17px" />
               </FormGroup>

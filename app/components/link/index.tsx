@@ -1,11 +1,12 @@
-import styled, { css } from 'styles/styled-components';
-import { Link as RLink } from 'react-router-dom';
+import React from "react";
+import styled, { css } from "styles/styled-components";
+import { Link as RLink } from "react-router-dom";
 
 export interface ILinkProps {
   noEffects?: boolean;
 }
 
-export const Link = styled(RLink)<ILinkProps>`
+export const Link = styled(({ noEffects, ...rest }) => <RLink {...rest} />)`
   text-decoration: none;
   color: inherit;
 
