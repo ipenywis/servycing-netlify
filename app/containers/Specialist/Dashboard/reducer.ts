@@ -4,7 +4,7 @@ import { ISpecialistDashboardPageState } from "./types";
 
 const defaultState: ISpecialistDashboardPageState = {
   offeredServices: [],
-  activeTab: DASHBOARD_SECTION_TAB.OVERVIEW,
+  activeTab: DASHBOARD_SECTION_TAB.OFFERED_SERVICES,
   pendingServiceRequests: [],
 };
 

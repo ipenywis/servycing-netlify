@@ -145,7 +145,9 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
           <Pane alignCenter marginTop="5%">
             {!isEmptyPendingRequests && isLoading && <MinimalSpinner />}
             {!isLoading && isEmptyPendingRequests && (
-              <WarningText>You have no service's requests yet!</WarningText>
+              <WarningText size={14}>
+                You have no Pending service's requests
+              </WarningText>
             )}
           </Pane>
         )}
