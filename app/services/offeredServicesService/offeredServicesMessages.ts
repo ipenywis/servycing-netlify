@@ -7,6 +7,8 @@ export default {
     "Cannot fetch your pending services requests, Please try again later!",
   cannotFetchRejectedRequests:
     "Cannot fetch your rejected services requests, Please try again later!",
+  cannotFetchFinishedProjects:
+    "Cannot fetch your finished services projects, Please try again later!",
   cannoAcceptPendingRequest:
     "Cannot accept current pending request, Please try again later!",
   cannoRejectPendingRequest:

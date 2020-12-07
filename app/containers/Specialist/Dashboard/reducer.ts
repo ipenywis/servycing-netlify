@@ -7,6 +7,7 @@ const defaultState: ISpecialistDashboardPageState = {
   activeTab: DASHBOARD_SECTION_TAB.OFFERED_SERVICES,
   pendingServiceRequests: [],
   rejectedServiceRequests: [],
+  finishedProjects: [],
   toUpdateOfferedService: null,
 };
 
@@ -27,6 +28,8 @@ export default function specialistDashboardReducer(
       return { ...state, toUpdateOfferedService: action.payload };
     case ActionTypes.SET_REJECTED_SERVICE_REQUESTS:
       return { ...state, rejectedServiceRequests: action.payload };
+    case ActionTypes.SET_FINISHED_PROJECTS:
+      return { ...state, finishedProjects: action.payload };
     default:
       return state;
   }

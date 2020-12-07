@@ -1,3 +1,4 @@
+import { IFinishedProject } from "types/finishedProject";
 import { IOfferedService } from "types/offeredService";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
 import { action } from "typesafe-actions";
@@ -18,3 +19,6 @@ export const setToUpdateOfferedService = (service: IOfferedService | null) =>
 export const setRejectedServiceRequests = (
   requests: IPendingServiceRequest[]
 ) => action(ActionTypes.SET_REJECTED_SERVICE_REQUESTS, requests);
+
+export const setFinishedProjects = (projects: IFinishedProject[]) =>
+  action(ActionTypes.SET_FINISHED_PROJECTS, projects);

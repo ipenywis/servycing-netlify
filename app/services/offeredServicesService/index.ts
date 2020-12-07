@@ -12,6 +12,7 @@ import { parseGraphqlError } from "utils/error";
 import offeredServicesMessages from "./offeredServicesMessages";
 import {
   GET_OFFERED_SERVICES,
+  GET_SPECIALIST_ALL_FINISHED_PROJECTS,
   GET_SPECIALIST_MY_OFFERED_SERVICES,
   GET_SPECIALIST_PENDING_SERVICE_REQUESTS,
   GET_SPECIALIST_REJECTED_SERVICE_REQUESTS,
@@ -24,6 +25,7 @@ import {
   UPDATE_OFFERED_SERVICE,
 } from "./mutations";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
+import { IFinishedProject } from "types/finishedProject";
 
 class OfferedServicesService {
   private resolverServicesType(services: IOfferedService[]): IOfferedService[] {
@@ -189,6 +191,21 @@ class OfferedServicesService {
     if (response && response.data && response.data.rejectedRequests)
       return response.data.rejectedRequests;
     else throw new Error(offeredServicesMessages.cannotFetchRejectedRequests);
+  }
+
+  public async getSpecialistAllFinishedProjects(): Promise<IFinishedProject[]> {
+    const response = await apolloClient
+      .query({
+        query: GET_SPECIALIST_ALL_FINISHED_PROJECTS,
+        fetchPolicy: "network-only",
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.finishedProjects)
+      return response.data.finishedProjects;
+    else throw new Error(offeredServicesMessages.cannotFetchFinishedProjects);
   }
 }
 

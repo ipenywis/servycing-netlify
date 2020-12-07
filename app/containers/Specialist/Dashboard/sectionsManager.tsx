@@ -8,6 +8,7 @@ import styled from "styles/styled-components";
 import { setActiveTab } from "./actions";
 import { DASHBOARD_SECTION_TAB } from "./constants";
 import { AddNewServiceSection } from "./sections/addNewServiceSection";
+import { FinishedProjectsSection } from "./sections/finishedProjectsSection";
 import { OfferedServicesSection } from "./sections/offeredServicesSection";
 import { PendingRequestsSection } from "./sections/pendingRequestsSection";
 import { RejectedRequestsSection } from "./sections/rejectedRequestsSection";
@@ -75,6 +76,8 @@ function RenderSection() {
       return <UpdateServiceSection />;
     case DASHBOARD_SECTION_TAB.REJECTED_SERVICES:
       return <RejectedRequestsSection />;
+    case DASHBOARD_SECTION_TAB.FINISHED_PROJECTS:
+      return <FinishedProjectsSection />;
     default:
       return <></>;
   }

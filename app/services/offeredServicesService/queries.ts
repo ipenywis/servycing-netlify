@@ -87,3 +87,21 @@ export const GET_SPECIALIST_REJECTED_SERVICE_REQUESTS = gql`
     }
   }
 `;
+
+export const GET_SPECIALIST_ALL_FINISHED_PROJECTS = gql`
+  query GET_SPECIALIST_FINISHED_PROJECTS {
+    finishedProjects: specialistAllFinishedServices {
+      id
+      offeredService {
+        id
+        title
+        rate
+      }
+      customer {
+        id
+        fullName
+      }
+      status
+    }
+  }
+`;
