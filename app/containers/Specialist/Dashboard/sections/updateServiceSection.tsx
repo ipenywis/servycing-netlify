@@ -93,6 +93,7 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const updateTimeRange = (range, form: FormApi<any>) => {
+    console.log("Range: ", range);
     if (!range) return;
     if (!range[0]) {
       const newRange = [timeRange[0], range[1]];
@@ -110,6 +111,10 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
         `${newRange[0]} to ${newRange[1]}`
       );
     }
+    if (range[0] && range[1]) {
+      setTimeRange(range);
+      form.mutators.setField("preferredHours", `${range[0]} to ${range[1]}`);
+    }
   };
 
   const setServiceType = (type: string, form: FormApi<any>) => {
@@ -119,7 +124,13 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
     form.mutators.setField("type", offeredServiceType);
   };
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, form: FormApi<any>) => {
+    if (!toUpdateOfferedService)
+      return {
+        [FORM_ERROR]:
+          "Unexpected error occured! Please refresh your page and try again!",
+      };
+
     //Upload thumbnail
     let thumbnailUrl: string | void = undefined;
     if (thumbnailFile) {
@@ -133,20 +144,26 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
         return { [FORM_ERROR]: "Service Thumbnail is invalid!" };
     }
 
-    const updatedServiceData: IUpdateOfferedServiceDTO = {
-      ...values,
-      rate: parseInt(values.rate),
+    const dirtyFields = form.getState().dirtyFields;
+
+    const updatedServiceData: IUpdateOfferedServiceDTO | any = {
+      id: toUpdateOfferedService.id,
       thumbnailUrl,
     };
+    for (const fieldName of Object.keys(dirtyFields)) {
+      if (dirtyFields[fieldName] && fieldName !== "rate")
+        updatedServiceData[fieldName] = values[fieldName];
+      else if (dirtyFields[fieldName] && fieldName === "rate")
+        updatedServiceData[fieldName] = parseInt(values[fieldName]);
+    }
 
-    const newOfferedService = await offeredServicesService
+    const serviceUpdated = await offeredServicesService
       .updateOfferedService(updatedServiceData)
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (newOfferedService) {
-      setOfferedServices([...offeredServices, newOfferedService]);
+    if (serviceUpdated) {
       setActiveTab(DASHBOARD_SECTION_TAB.OFFERED_SERVICES);
     }
 
@@ -215,6 +232,7 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
                     width="100%"
                     placeholder="Select Service Type"
                     items={Object.values(OFFERED_SERVICE_TYPE)}
+                    selectedItem={values.type}
                     onChange={(type) => setServiceType(type, form)}
                   />
                   <Marginer direction="vertical" margin="17px" />
@@ -245,7 +263,7 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
                     type="submit"
                     buttonTheme={ButtonTheme.PRIMARY_PRIMARY}
                     isLoading={submitting}
-                    disabled={pristine}
+                    disabled={pristine && !thumbnailFile}
                   />
                 </HorizontalWrapper>
               </InnerFromContainer>

@@ -52,7 +52,9 @@ export const SPECIALIST_REJECT_PENDING_SERVICE_REQUEST = gql`
 `;
 
 export const UPDATE_OFFERED_SERVICE = gql`
-  mutation UPDATE_OFFERED_SERVICE($updateServiceInput: UpdateServiceInput!) {
+  mutation UPDATE_OFFERED_SERVICE(
+    $updateServiceInput: UpdateOfferedServiceInput!
+  ) {
     updateService(updateServiceInput: $updateServiceInput)
   }
 `;
