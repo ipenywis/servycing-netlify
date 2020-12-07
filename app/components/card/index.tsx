@@ -6,7 +6,9 @@ export interface ICardProps {
   title?: string;
   className?: string;
   titleSize?: number;
+  titleBlack?: boolean;
   centerTitle?: boolean;
+  seperateTitle?: boolean;
   children: any | any[];
 }
 
@@ -14,20 +16,20 @@ const CardContainer = styled.div`
   background-color: ${theme.default.componentBackground};
   border-radius: 4px;
   box-shadow: 0 0px 1px 1px rgba(0, 0, 0, 0.2);
-  padding: 12px 1.3em;
   display: flex;
+  padding-bottom: 0.8em;
   flex-direction: column;
 `;
 
 const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 0 1.3em;
 `;
 
 const Title = styled(DarkText)<ICardProps>`
   font-size: ${({ titleSize }) => (titleSize ? `${titleSize}px` : "22px")};
-  font-weight: 500;
+  font-weight: ${({ titleBlack }) => (titleBlack ? "700" : "500")};
 `;
 
 const TopContainer = styled.div<ICardProps>`
@@ -35,16 +37,28 @@ const TopContainer = styled.div<ICardProps>`
   display: flex;
   flex-direction: column;
   align-items: ${({ centerTitle }) => (centerTitle ? "center" : "flex-start")};
+  border-bottom: ${({ seperateTitle }) =>
+    seperateTitle && `1px solid ${theme.default.lightMutedBorderColor}`};
+  padding: 12px 1.3em;
 `;
 
 function Card(props: ICardProps) {
-  const { className, title, titleSize, centerTitle } = props;
+  const {
+    className,
+    title,
+    titleSize,
+    centerTitle,
+    titleBlack,
+    seperateTitle,
+  } = props;
 
   return (
     <CardContainer className={className}>
       {title && (
-        <TopContainer centerTitle={centerTitle}>
-          <Title titleSize={titleSize}>{title}</Title>
+        <TopContainer centerTitle={centerTitle} seperateTitle={seperateTitle}>
+          <Title titleSize={titleSize} titleBlack={titleBlack}>
+            {title}
+          </Title>
         </TopContainer>
       )}
       <InnerContainer>{props.children}</InnerContainer>

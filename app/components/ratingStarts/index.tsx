@@ -9,6 +9,8 @@ export interface IRatingStarsProps {
   rating: number;
   showRatingNumber?: boolean;
   showAllStars?: boolean;
+  size?: number;
+  textSize?: number;
 
   onRateChange?: (rate: number) => void;
 }
@@ -22,27 +24,27 @@ const RatingWidget = styled(BRatings.Widget)`
   fill: blue;
 `;
 
-const RatingContainer = styled.div`
+const RatingContainer = styled.div<any>`
   height: 20px;
   display: flex;
   align-items: flex-end;
 `;
 
-const RatingValue = styled(BlackText)`
-  font-size: 14px;
+const RatingValue = styled(BlackText)<any>`
+  font-size: ${({ textSize }) => (textSize ? textSize + "px" : "15px")};
   margin-left: 3px;
   font-weight: 500;
 `;
 
 function RatingStars(props: IRatingStarsProps) {
-  const { rating, showRatingNumber, showAllStars } = props;
+  const { rating, showRatingNumber, showAllStars, size, textSize } = props;
 
   return (
-    <RatingContainer>
+    <RatingContainer size={size}>
       <Ratings
         rating={rating}
         ignoreInlineStyles={false}
-        widgetDimensions="18px"
+        widgetDimensions={size || "18px"}
         widgetSpacings="2px"
         typeOfWidget="Star"
         widgetRatedColors={theme.default.gold}
@@ -53,10 +55,14 @@ function RatingStars(props: IRatingStarsProps) {
         {Array(showAllStars ? 5 : 1)
           .fill("")
           .map((item, idx) => (
-            <RatingWidget key={idx} />
+            <RatingWidget key={idx} s />
           ))}
       </Ratings>
-      {showRatingNumber && <RatingValue verticalCenter>{rating}</RatingValue>}
+      {showRatingNumber && (
+        <RatingValue textSize={textSize} verticalCenter>
+          {rating}
+        </RatingValue>
+      )}
     </RatingContainer>
   );
 }

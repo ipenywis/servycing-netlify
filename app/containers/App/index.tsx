@@ -39,6 +39,7 @@ import CustomerLoginPage from "containers/Customer/LoginPage/Loadable";
 import CustomerRegisterPage from "containers/Customer/RegisterPage/Loadable";
 import AdminLoginPage from "containers/Admin/LoginPage/Loadable";
 import SpecialistDashboardPage from "containers/Specialist/Dashboard/Loadable";
+import ServicePage from "containers/ServicePage/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -82,6 +83,8 @@ function App() {
         <Switch>
           <Route exact path={ROUTES.homePage} component={HomePage} />
           <Route exact path={ROUTES.discoverPage} component={DiscoverPage} />
+          <Route exact path={ROUTES.servicePage} component={ServicePage} />
+
           {/* CUSTOMER */}
           <Route
             exact

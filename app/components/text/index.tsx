@@ -15,6 +15,7 @@ export interface ITextProps {
   flashingAnimation?: boolean;
   clickable?: boolean;
   lineHeight?: number;
+  underline?: boolean;
 }
 
 const FlashingAnimation = keyframes`
@@ -41,6 +42,14 @@ export const Text = styled.div<ITextProps>`
   line-height: ${({ lineHeight }) => lineHeight && lineHeight};
 
   cursor: ${({ clickable }) => clickable && "pointer"};
+
+  ${({ underline }) =>
+    underline &&
+    css`
+      border-bottom: 2px solid ${theme.default.greyText};
+      padding-bottom: 1px;
+      align-self: flex-start;
+    `};
 
   ${({ flashingAnimation }) =>
     flashingAnimation &&
