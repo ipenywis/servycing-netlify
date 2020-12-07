@@ -20,17 +20,9 @@ export function SpecialistMenu(props: ISpecialistMenuProps) {
 
   const history = useHistory();
 
-  const onProfileClick = () => {
-    history.push(prepareRouteWithParams(ROUTES.accountSettingsPage, ""));
-  };
-
   const onDashboardClick = () => {
     history.push(ROUTES.specialistDashboardPage);
   };
-
-  const onCoursesClick = () => {};
-
-  const onWhishlistClick = () => {};
 
   const onLogoutClick = () => {
     authService.removeSpecialistToken();
@@ -40,10 +32,7 @@ export function SpecialistMenu(props: ISpecialistMenuProps) {
 
   return (
     <NavContainer>
-      <NavItem onClick={onProfileClick}>Profile</NavItem>
       <NavItem onClick={onDashboardClick}>Dashboard</NavItem>
-      <NavItem onClick={onCoursesClick}>Courses</NavItem>
-      <NavItem onClick={onWhishlistClick}>Whishlist</NavItem>
       <LogoutNavItem onClick={onLogoutClick}>Logout</LogoutNavItem>
     </NavContainer>
   );

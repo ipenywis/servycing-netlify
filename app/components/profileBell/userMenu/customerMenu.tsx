@@ -20,17 +20,9 @@ export function CustomerMenu(props: ICustomerMenuProps) {
 
   const { customerunauthenticated } = actionDispatch(useDispatch());
 
-  const onProfileClick = () => {
-    history.push(prepareRouteWithParams(ROUTES.accountSettingsPage, ""));
-  };
-
   const onDashboardClick = () => {
-    history.push(ROUTES.studentDashboardPage);
+    history.push(ROUTES.customerDashboardPage);
   };
-
-  const onCoursesClick = () => {};
-
-  const onWhishlistClick = () => {};
 
   const onLogoutClick = () => {
     authService.removeCustomerToken();
@@ -40,10 +32,7 @@ export function CustomerMenu(props: ICustomerMenuProps) {
 
   return (
     <NavContainer>
-      <NavItem onClick={onProfileClick}>Profile</NavItem>
       <NavItem onClick={onDashboardClick}>Dashboard</NavItem>
-      <NavItem onClick={onCoursesClick}>Courses</NavItem>
-      <NavItem onClick={onWhishlistClick}>Whishlist</NavItem>
       <LogoutNavItem onClick={onLogoutClick}>Logout</LogoutNavItem>
     </NavContainer>
   );
