@@ -64,3 +64,14 @@ export const DELETE_OFFERED_SERVICE = gql`
     deleted: deleteService(serviceId: $serviceId)
   }
 `;
+
+export const REQUEST_SERVICE = gql`
+  mutation REQUEST_SERVICE($serviceId: String!) {
+    pendingServiceRequest: requestService(serviceId: $serviceId) {
+      id
+      offeredService {
+        id
+      }
+    }
+  }
+`;

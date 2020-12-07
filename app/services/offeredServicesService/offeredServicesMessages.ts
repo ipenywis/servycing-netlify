@@ -19,4 +19,5 @@ export default {
     "Cannot delete service at the moment, Please try again later!",
   cannotFetchOfferedServiceById:
     "Cannot find service data, Please try again later!",
+  cannotRequestService: "Cannot request Service, Please try again later!",
 };

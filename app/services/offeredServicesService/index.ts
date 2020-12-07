@@ -21,6 +21,7 @@ import {
 import {
   ADD_NEW_SERVICE,
   DELETE_OFFERED_SERVICE,
+  REQUEST_SERVICE,
   SPECIALIST_ACCEPT_PENDING_SERVICE_REQUEST,
   SPECIALIST_REJECT_PENDING_SERVICE_REQUEST,
   UPDATE_OFFERED_SERVICE,
@@ -224,6 +225,23 @@ class OfferedServicesService {
     if (response && response.data && response.data.offeredService)
       return response.data.offeredService;
     else throw new Error(offeredServicesMessages.cannotFetchOfferedServiceById);
+  }
+
+  public async requestService(
+    serviceId: string
+  ): Promise<IPendingServiceRequest> {
+    const response = await apolloClient
+      .mutate({
+        mutation: REQUEST_SERVICE,
+        variables: { serviceId },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.pendingServiceRequest)
+      return response.data.pendingServiceRequest;
+    else throw new Error(offeredServicesMessages.cannotRequestService);
   }
 }
 

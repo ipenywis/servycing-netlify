@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { theme } from "styles/styled-components";
-import { DarkText } from "components/text";
+import { DarkText, ErrorText, SuccessText } from "components/text";
 
 export interface ICardProps {
   title?: string;
@@ -9,6 +9,8 @@ export interface ICardProps {
   titleBlack?: boolean;
   centerTitle?: boolean;
   seperateTitle?: boolean;
+  error?: string;
+  success?: string;
   children: any | any[];
 }
 
@@ -50,6 +52,8 @@ function Card(props: ICardProps) {
     centerTitle,
     titleBlack,
     seperateTitle,
+    error,
+    success,
   } = props;
 
   return (
@@ -59,6 +63,12 @@ function Card(props: ICardProps) {
           <Title titleSize={titleSize} titleBlack={titleBlack}>
             {title}
           </Title>
+          {error && (
+            <ErrorText size={14} marginTop={6}>
+              {error}
+            </ErrorText>
+          )}
+          {!error && success && <SuccessText size={14}>{success}</SuccessText>}
         </TopContainer>
       )}
       <InnerContainer>{props.children}</InnerContainer>

@@ -5,9 +5,11 @@ import { HorizontalWrapper } from "components/horizontalWrapper";
 import { Marginer } from "components/marginer";
 import { RatingStars } from "components/ratingStarts";
 import { BlackText, GreyText, SuccessText } from "components/text";
-import React from "react";
+import { makeSelectIsCustomerAuthenticated } from "containers/Authentication/selectors";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
+import offeredServicesService from "services/offeredServicesService";
 import styled from "styles/styled-components";
 import { makeSelectService } from "./selectors";
 
@@ -24,12 +26,54 @@ const OrderCard = styled(Card)`
   max-width: 18em;
 `;
 
-const stateSelector = createSelector(makeSelectService, (service) => ({
-  service,
-}));
+const stateSelector = createSelector(
+  makeSelectService,
+  makeSelectIsCustomerAuthenticated,
+  (service, isCustomerAuthenticated) => ({
+    service,
+    isCustomerAuthenticated,
+  })
+);
 
 export function OrderService(props: IOderServiceProps) {
-  const { service } = useSelector(stateSelector);
+  const { service, isCustomerAuthenticated } = useSelector(stateSelector);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState(false);
+
+  const orderService = async () => {
+    //Clear error
+    setError(null);
+
+    setLoading(true);
+
+    if (!service) {
+      setError("Unexpected error occured!");
+      setLoading(false);
+      return;
+    }
+
+    if (!isCustomerAuthenticated) {
+      setError(
+        "Please login or create a customer account before your can place orders!"
+      );
+      setLoading(false);
+      return;
+    }
+
+    const pendingServiceRequest = await offeredServicesService
+      .requestService(service.id)
+      .catch((err) => {
+        setError((err && err.message) || "Unexpected error occured!");
+      });
+
+    if (pendingServiceRequest)
+      setSuccess(
+        `Thanks for ordering a service, Check your dashboard ${service.specialist.fullName} will be in touch with you soon!`
+      );
+
+    setLoading(false);
+  };
 
   if (!service) return null;
 
@@ -39,6 +83,8 @@ export function OrderService(props: IOderServiceProps) {
         title={`Order service from ${service.specialist.fullName}`}
         titleBlack
         seperateTitle
+        error={error || undefined}
+        success={success || undefined}
       >
         <Marginer direction="vertical" margin={12} />
         <BlackText size={18} black>
@@ -75,6 +121,8 @@ export function OrderService(props: IOderServiceProps) {
           <Button
             text={`Order Now $${service.rate}/hr`}
             buttonTheme={ButtonTheme.PRIMARY_SOLID}
+            isLoading={isLoading}
+            onClick={orderService}
           />
         </HorizontalWrapper>
       </OrderCard>
