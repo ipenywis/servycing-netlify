@@ -4,6 +4,7 @@ import { Marginer } from "components/marginer";
 import { screenSizes } from "components/responsive";
 import { ServiceCard } from "components/serviceCard";
 import { BlackText } from "components/text";
+import ROUTES from "containers/ROUTES";
 import React from "react";
 import styled from "styles/styled-components";
 
@@ -51,7 +52,11 @@ export function RecommendedServices(props: IRecommendedServicesProps) {
             ))}
         </ServicesContainer>
         <Marginer direction="vertical" margin="2em" />
-        <Button text="View More" buttonTheme={ButtonTheme.GREY_SOLID} />
+        <Button
+          text="View More"
+          buttonTheme={ButtonTheme.GREY_SOLID}
+          to={ROUTES.discoverPage}
+        />
       </InnerContainer>
     </RecommendedServicesContainer>
   );

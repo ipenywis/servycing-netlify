@@ -132,11 +132,10 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
   return (
     <SectionContainer>
       <BlackText size={19} bold>
-        Pending Services Requests
+        Your Finished Projects
       </BlackText>
       <MutedText size={12} marginBottom="1em">
-        View and Manage all requests coming from customers for your offered
-        services.
+        View and Accept or Reject your requested services by specialists.
       </MutedText>
       <Table>
         <Table.Head>
