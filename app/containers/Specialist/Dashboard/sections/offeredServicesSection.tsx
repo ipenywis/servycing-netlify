@@ -5,9 +5,16 @@ import { Dispatch } from "redux";
 import { createSelector } from "reselect";
 import offeredServicesService from "services/offeredServicesService";
 import { IOfferedService } from "types/offeredService";
-import { setOfferedServices } from "../actions";
+import {
+  setActiveTab,
+  setOfferedServices,
+  setToUpdateOfferedService,
+} from "../actions";
 import { makeSelectOfferedServices } from "../selectors";
-import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
+import {
+  DASHBOARD_SECTION_TAB,
+  DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
+} from "../constants";
 import styled from "styles/styled-components";
 import { BlackText, MutedText, WarningText } from "components/text";
 import { SectionContainer } from "../common";
@@ -28,13 +35,30 @@ const stateSelector = createSelector(
 const actionDispatch = (dispatch: Dispatch) => ({
   setOfferedServices: (services: IOfferedService[]) =>
     dispatch(setOfferedServices(services)),
+  setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
+  setToUpdateOfferedService: (service: IOfferedService) =>
+    dispatch(setToUpdateOfferedService(service)),
 });
 
-function RenderRowMenu() {
+interface IMenuProps {
+  offeredService: IOfferedService;
+}
+
+function RenderRowMenu(props: IMenuProps) {
+  const { offeredService } = props;
+  const { setActiveTab, setToUpdateOfferedService } = actionDispatch(
+    useDispatch()
+  );
+
+  const goToUpdateSection = () => {
+    setToUpdateOfferedService(offeredService);
+    setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_SERVICE);
+  };
+
   return (
     <Menu>
       <Menu.Group>
-        <Menu.Item>Update</Menu.Item>
+        <Menu.Item onSelect={goToUpdateSection}>Update</Menu.Item>
         <Menu.Divider />
       </Menu.Group>
       <Menu.Group>
@@ -106,7 +130,7 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
                 <Table.TextCell isNumber>${service.rate}</Table.TextCell>
                 <Table.Cell>
                   <Popover
-                    content={RenderRowMenu}
+                    content={<RenderRowMenu offeredService={service} />}
                     position={Position.BOTTOM_RIGHT}
                   >
                     <IconButton icon="more" appearance="minimal" height={24} />

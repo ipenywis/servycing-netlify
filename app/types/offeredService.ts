@@ -93,6 +93,7 @@ export interface IOfferedService {
   preferredHours: string;
   specialist: ISpecialist;
   reviews: any[];
+  thumbnailUrl: string;
 }
 
 export interface INewOfferedServiceDTO {
@@ -102,6 +103,16 @@ export interface INewOfferedServiceDTO {
   rate: number;
   preferredHours: string;
   thumbnailUrl: string;
+}
+
+export interface IUpdateOfferedServiceDTO {
+  id: string;
+  title?: string;
+  description?: string;
+  type?: OFFERED_SERVICE_TYPE;
+  rate?: number;
+  preferredHours?: string;
+  thumbnailUrl?: string;
 }
 
 export interface IOfferedServicesWithCount {

@@ -18,3 +18,8 @@ export const makeSelectPendingServiceRequests = createSelector(
   selectSpecialistDashboardPage,
   (page) => page.pendingServiceRequests
 );
+
+export const makeSelectToUpdateOfferedService = createSelector(
+  selectSpecialistDashboardPage,
+  (page) => page.toUpdateOfferedService
+);

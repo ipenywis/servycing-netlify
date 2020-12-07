@@ -6,6 +6,7 @@ const defaultState: ISpecialistDashboardPageState = {
   offeredServices: [],
   activeTab: DASHBOARD_SECTION_TAB.OFFERED_SERVICES,
   pendingServiceRequests: [],
+  toUpdateOfferedService: null,
 };
 
 export const REDUCER_KEY = "specialistDashboardPage";
@@ -21,6 +22,8 @@ export default function specialistDashboardReducer(
       return { ...state, activeTab: action.payload };
     case ActionTypes.SET_PENDING_SERVICE_REQUESTS:
       return { ...state, pendingServiceRequests: action.payload };
+    case ActionTypes.SET_TO_UPDATE_OFFERED_SERVICE:
+      return { ...state, toUpdateOfferedService: action.payload };
     default:
       return state;
   }

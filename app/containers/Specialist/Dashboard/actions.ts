@@ -11,3 +11,6 @@ export const setActiveTab = (tab: DASHBOARD_SECTION_TAB) =>
 
 export const setPendingServiceRequests = (requests: IPendingServiceRequest[]) =>
   action(ActionTypes.SET_PENDING_SERVICE_REQUESTS, requests);
+
+export const setToUpdateOfferedService = (service: IOfferedService | null) =>
+  action(ActionTypes.SET_TO_UPDATE_OFFERED_SERVICE, service);

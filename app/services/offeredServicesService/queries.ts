@@ -38,6 +38,7 @@ export const GET_SPECIALIST_MY_OFFERED_SERVICES = gql`
       type
       rate
       preferredHours
+      thumbnailUrl
       specialist {
         id
         fullName

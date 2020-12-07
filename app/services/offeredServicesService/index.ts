@@ -4,6 +4,7 @@ import {
   IOfferedService,
   IOfferedServicesWithCount,
   IServicesFilter,
+  IUpdateOfferedServiceDTO,
   OFFERED_SERVICE_TYPE,
 } from "types/offeredService";
 import { ILoadRangeOptions } from "types/pagination";
@@ -18,6 +19,7 @@ import {
   ADD_NEW_SERVICE,
   SPECIALIST_ACCEPT_PENDING_SERVICE_REQUEST,
   SPECIALIST_REJECT_PENDING_SERVICE_REQUEST,
+  UPDATE_OFFERED_SERVICE,
 } from "./mutations";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
 
@@ -141,6 +143,22 @@ class OfferedServicesService {
     if (response && response.data && response.data.pendingServiceRequest)
       return response.data.pendingServiceRequest;
     else throw new Error(offeredServicesMessages.cannoAcceptPendingRequest);
+  }
+
+  public async updateOfferedService(
+    updateData: IUpdateOfferedServiceDTO
+  ): Promise<boolean> {
+    const response = await apolloClient
+      .mutate({
+        mutation: UPDATE_OFFERED_SERVICE,
+        variables: { updateServiceInput: updateData },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data) return true;
+    else throw new Error(offeredServicesMessages.cannotUpdateService);
   }
 }
 
