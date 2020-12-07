@@ -20,4 +20,10 @@ export default {
   cannotFetchOfferedServiceById:
     "Cannot find service data, Please try again later!",
   cannotRequestService: "Cannot request Service, Please try again later!",
+  cannotFetchCustomerFinishedServices:
+    "Cannot fetch customer finished services, Please try again later!",
+  cannotRejectFinishedProject:
+    "Cannot reject current finished service project, Please try again later!",
+  cannotAcceptFinishedProject:
+    "Cannot accept current finished service project, Please try again later!",
 };

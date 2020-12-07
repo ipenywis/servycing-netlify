@@ -40,6 +40,7 @@ import CustomerRegisterPage from "containers/Customer/RegisterPage/Loadable";
 import AdminLoginPage from "containers/Admin/LoginPage/Loadable";
 import SpecialistDashboardPage from "containers/Specialist/Dashboard/Loadable";
 import ServicePage from "containers/ServicePage/Loadable";
+import CustomerDashboardPage from "containers/Customer/Dashboard/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -95,6 +96,12 @@ function App() {
             exact
             path={ROUTES.customerLoginPage}
             component={CustomerLoginPage}
+          />
+          <PrivateRoute
+            allow={isCustomerAuthenticated}
+            exact
+            path={ROUTES.customerDashboardPage}
+            component={CustomerDashboardPage}
           />
 
           {/* SPECIALIST */}

@@ -17,9 +17,12 @@ import {
   GET_SPECIALIST_MY_OFFERED_SERVICES,
   GET_SPECIALIST_PENDING_SERVICE_REQUESTS,
   GET_SPECIALIST_REJECTED_SERVICE_REQUESTS,
+  GET_CUSTOMER_ALL_FINISHED_SERVICES,
 } from "./queries";
 import {
   ADD_NEW_SERVICE,
+  CUSTOMER_ACCEPT_FINISHED_SERVICE,
+  CUSTOMER_REJECT_FINISHED_SERVICE,
   DELETE_OFFERED_SERVICE,
   REQUEST_SERVICE,
   SPECIALIST_ACCEPT_PENDING_SERVICE_REQUEST,
@@ -242,6 +245,57 @@ class OfferedServicesService {
     if (response && response.data && response.data.pendingServiceRequest)
       return response.data.pendingServiceRequest;
     else throw new Error(offeredServicesMessages.cannotRequestService);
+  }
+
+  public async getCustomerAllFinishedProjects(): Promise<IFinishedProject[]> {
+    const response = await apolloClient
+      .query({
+        query: GET_CUSTOMER_ALL_FINISHED_SERVICES,
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.finishedProjects)
+      return response.data.finishedProjects;
+    else
+      throw new Error(
+        offeredServicesMessages.cannotFetchCustomerFinishedServices
+      );
+  }
+
+  public async customerAcceptFinishedService(
+    finishedServiceId: string
+  ): Promise<IFinishedProject> {
+    const response = await apolloClient
+      .mutate({
+        mutation: CUSTOMER_ACCEPT_FINISHED_SERVICE,
+        variables: { finishedServiceId },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.finishedProject)
+      return response.data.finishedProject;
+    else throw new Error(offeredServicesMessages.cannotAcceptFinishedProject);
+  }
+
+  public async customerRejectFinishedService(
+    finishedServiceId: string
+  ): Promise<IFinishedProject> {
+    const response = await apolloClient
+      .mutate({
+        mutation: CUSTOMER_REJECT_FINISHED_SERVICE,
+        variables: { finishedServiceId },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.finishedProject)
+      return response.data.finishedProject;
+    else throw new Error(offeredServicesMessages.cannotRejectFinishedProject);
   }
 }
 

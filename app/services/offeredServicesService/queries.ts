@@ -130,3 +130,20 @@ export const GET_OFFERED_SERVICE = gql`
     }
   }
 `;
+
+export const GET_CUSTOMER_ALL_FINISHED_SERVICES = gql`
+  query GET_CUSTOMER_ALL_FINISHED_SERVICES {
+    finishedProjects: customerAllFinishedServices {
+      id
+      offeredService {
+        id
+        title
+      }
+      customer {
+        id
+        fullName
+      }
+      status
+    }
+  }
+`;

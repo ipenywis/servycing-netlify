@@ -9,6 +9,7 @@ import { IFinalFormState } from "finalForm/constants";
 import { IDiscoverPageState } from "containers/DiscoverPage/types";
 import { ISpecialistDashboardPageState } from "containers/Specialist/Dashboard/types";
 import { IServicePageState } from "containers/ServicePage/types";
+import { ICustomerDashboardPageState } from "containers/Customer/Dashboard/types";
 
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
@@ -39,6 +40,7 @@ export interface ApplicationRootState {
 
   readonly discoverPage: IDiscoverPageState;
   readonly servicePage: IServicePageState;
+  readonly customerDashboardPage: ICustomerDashboardPageState;
 
   readonly specialistDashboardPage: ISpecialistDashboardPageState;
 }

@@ -75,3 +75,41 @@ export const REQUEST_SERVICE = gql`
     }
   }
 `;
+
+export const CUSTOMER_ACCEPT_FINISHED_SERVICE = gql`
+  mutation CUSTOMER_ACCEPT_FINISHED_SERVICE($finishedServiceId: String!) {
+    finishedProject: customerAcceptFinishedService(
+      finishedServiceId: $finishedServiceId
+    ) {
+      if
+      offeredService {
+        id
+        title
+      }
+      customer {
+        id
+        fullName
+      }
+      status
+    }
+  }
+`;
+
+export const CUSTOMER_REJECT_FINISHED_SERVICE = gql`
+  mutation CUSTOMER_REJECT_FINISHED_SERVICE($finishedServiceId: String!) {
+    finishedProject: customerRejectFinishedService(
+      finishedServiceId: $finishedServiceId
+    ) {
+      if
+      offeredService {
+        id
+        title
+      }
+      customer {
+        id
+        fullName
+      }
+      status
+    }
+  }
+`;

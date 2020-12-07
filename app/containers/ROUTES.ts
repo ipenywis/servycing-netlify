@@ -7,6 +7,9 @@ export default {
   discoverPage: "/discover",
   servicePage: "/service/:id",
 
+  //Customer
+  customerDashboardPage: "/dashboard",
+
   //Specialist
   specialistDashboardPage: "/specialist/dashboard",
 
