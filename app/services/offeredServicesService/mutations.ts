@@ -58,3 +58,9 @@ export const UPDATE_OFFERED_SERVICE = gql`
     updateService(updateServiceInput: $updateServiceInput)
   }
 `;
+
+export const DELETE_OFFERED_SERVICE = gql`
+  mutation DELETE_OFFERED_SERVICE($serviceId: String!) {
+    deleted: deleteService(serviceId: $serviceId)
+  }
+`;

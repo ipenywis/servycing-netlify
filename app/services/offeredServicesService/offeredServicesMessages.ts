@@ -11,4 +11,5 @@ export default {
     "Cannot reject current pending request, Please try again later!",
   cannotUpdateService:
     "Cannot update service at the moment, Please try again later!",
+  cannotDeleteService: "Cannot delete service at the moment, Please try again later!"
 };

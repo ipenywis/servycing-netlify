@@ -17,6 +17,7 @@ import {
 } from "./queries";
 import {
   ADD_NEW_SERVICE,
+  DELETE_OFFERED_SERVICE,
   SPECIALIST_ACCEPT_PENDING_SERVICE_REQUEST,
   SPECIALIST_REJECT_PENDING_SERVICE_REQUEST,
   UPDATE_OFFERED_SERVICE,
@@ -159,6 +160,17 @@ class OfferedServicesService {
 
     if (response && response.data) return true;
     else throw new Error(offeredServicesMessages.cannotUpdateService);
+  }
+
+  public async deleteOfferedService(serviceId: string): Promise<boolean> {
+    const response = await apolloClient
+      .mutate({ mutation: DELETE_OFFERED_SERVICE, variables: { serviceId } })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.deleted) return true;
+    else throw new Error(offeredServicesMessages.cannotDeleteService);
   }
 }
 

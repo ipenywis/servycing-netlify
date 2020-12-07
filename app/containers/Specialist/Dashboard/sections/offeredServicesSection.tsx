@@ -1,4 +1,11 @@
-import { IconButton, Menu, Popover, Position, Table } from "evergreen-ui";
+import {
+  IconButton,
+  Menu,
+  Popover,
+  Position,
+  Spinner,
+  Table,
+} from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
@@ -22,6 +29,9 @@ import { HorizontalWrapper } from "components/horizontalWrapper";
 import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { wait } from "utils/common";
 import { Pane } from "components/pane";
+import { VerticalWrapper } from "components/verticalWrapper";
+import { Marginer } from "components/marginer";
+import { closePopupByClickOutside } from "types/common";
 
 interface IOfferedServicesProps {}
 
@@ -46,13 +56,40 @@ interface IMenuProps {
 
 function RenderRowMenu(props: IMenuProps) {
   const { offeredService } = props;
-  const { setActiveTab, setToUpdateOfferedService } = actionDispatch(
-    useDispatch()
-  );
+  const { offeredServices } = useSelector(stateSelector);
+  const {
+    setActiveTab,
+    setToUpdateOfferedService,
+    setOfferedServices,
+  } = actionDispatch(useDispatch());
+  const [isDeleting, setDeleting] = useState(false);
 
   const goToUpdateSection = () => {
     setToUpdateOfferedService(offeredService);
     setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_SERVICE);
+  };
+
+  const deleteServiceFromState = (id: string) => {
+    const updatedServices = offeredServices.filter((service) => {
+      return service.id !== id;
+    });
+
+    setOfferedServices(updatedServices);
+  };
+
+  const deleteService = async () => {
+    setDeleting(true);
+    const deleted = await offeredServicesService
+      .deleteOfferedService(offeredService.id)
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+
+    if (deleted) deleteServiceFromState(offeredService.id);
+
+    closePopupByClickOutside();
+
+    setDeleting(false);
   };
 
   return (
@@ -62,7 +99,18 @@ function RenderRowMenu(props: IMenuProps) {
         <Menu.Divider />
       </Menu.Group>
       <Menu.Group>
-        <Menu.Item intent="danger">Delete</Menu.Item>
+        <Menu.Item intent="danger" onSelect={deleteService}>
+          <HorizontalWrapper centerVertically>
+            <VerticalWrapper centerVertically>
+              Delete
+              <MutedText size={12}>
+                All associated requests will be deleted!
+              </MutedText>
+            </VerticalWrapper>
+            <Marginer direction="horizontal" margin="10px" />
+            {isDeleting && <Spinner size={14} />}
+          </HorizontalWrapper>
+        </Menu.Item>
       </Menu.Group>
     </Menu>
   );
