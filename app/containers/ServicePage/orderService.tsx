@@ -3,6 +3,7 @@ import { ButtonTheme } from "components/button/themes";
 import { Card } from "components/card";
 import { HorizontalWrapper } from "components/horizontalWrapper";
 import { Marginer } from "components/marginer";
+import { RatingStars } from "components/ratingStarts";
 import { BlackText, GreyText, SuccessText } from "components/text";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -43,7 +44,7 @@ export function OrderService(props: IOderServiceProps) {
         <BlackText size={18} black>
           More Details
         </BlackText>
-        <BlackText size={14} marginTop={5} bold verticalCenter>
+        <BlackText size={14} marginTop={8} bold verticalCenter>
           Service Type:
           <GreyText size={14} marginLeft={6}>
             {service.type.toLowerCase()}
@@ -54,6 +55,11 @@ export function OrderService(props: IOderServiceProps) {
           <GreyText size={14} marginLeft={6}>
             {service.preferredHours}
           </GreyText>
+        </BlackText>
+        <BlackText size={14} marginTop={3} bold>
+          Rating:
+          <Marginer direction="horizontal" margin="7px" />
+          <RatingStars size={14} rating={5} showRatingNumber={false} />
         </BlackText>
         <BlackText size={14} marginTop={3} bold verticalCenter>
           Hourly Rate:
