@@ -40,20 +40,22 @@ const stateSelector = createSelector(makeSelectService, (service) => ({
 export function ServiceInfo(props: IServiceInfoProps) {
   const { service } = useSelector(stateSelector);
 
+  if (!service) return null;
+
   return (
     <ServiceInfoContainer>
       <DarkText size={30} black lineHeight={1.3} marginBottom={9}>
-        I will landscape your home backyard from top to bottom
+        {service.title}
       </DarkText>
       <HorizontalWrapper height="auto" centerVertically>
-        <Avatar name="Islem Maboud" color="green" size={28} />
+        <Avatar name={service.specialist.fullName} color="green" size={29} />
         <GreyText size={12} marginLeft={5} verticalCenter>
-          Kane Morker
+          {service.specialist.fullName}
         </GreyText>
         <Marginer direction="horizontal" margin="10px" />
         <RatingStars textSize={14} size={15} rating={5} showRatingNumber />
         <BlackText size={12} marginLeft={11} verticalCenter>
-          Landscaping
+          {service.type.toLowerCase()}
         </BlackText>
       </HorizontalWrapper>
       <Marginer direction="vertical" margin="1em" />
@@ -65,14 +67,7 @@ export function ServiceInfo(props: IServiceInfoProps) {
         About the service
       </BlackText>
       <GreyText size={14} marginTop="1em" lineHeight={1.7}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-        sagittis dui eget mi porttitor, non interdum risus molestie. Proin
-        semper turpis vitae ipsum euismod, a mattis orci commodo. Nullam nec
-        metus vehicula, iaculis velit a, congue neque. Duis ultricies felis id
-        diam aliquam, id accumsan lacus pretium. Praesent sagittis condimentum
-        felis id mollis. Mauris vitae risus iaculis enim sodales molestie.
-        Suspendisse orci neque, placerat at erat dignissim, venenatis porta
-        diam. Proin egestas, mauris id faucibus condimentum, diam lacus aliquet
+        {service.description}
       </GreyText>
     </ServiceInfoContainer>
   );

@@ -105,3 +105,27 @@ export const GET_SPECIALIST_ALL_FINISHED_PROJECTS = gql`
     }
   }
 `;
+
+export const GET_OFFERED_SERVICE = gql`
+  query OFFERED_SERVICES($serviceId: String!) {
+    offeredService: offeredService(id: $serviceId) {
+      id
+      title
+      description
+      type
+      rate
+      preferredHours
+      thumbnailUrl
+      specialist {
+        id
+        fullName
+        email
+        rating
+        shortBio
+      }
+      reviews {
+        id
+      }
+    }
+  }
+`;

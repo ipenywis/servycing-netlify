@@ -11,6 +11,7 @@ import { ILoadRangeOptions } from "types/pagination";
 import { parseGraphqlError } from "utils/error";
 import offeredServicesMessages from "./offeredServicesMessages";
 import {
+  GET_OFFERED_SERVICE,
   GET_OFFERED_SERVICES,
   GET_SPECIALIST_ALL_FINISHED_PROJECTS,
   GET_SPECIALIST_MY_OFFERED_SERVICES,
@@ -206,6 +207,23 @@ class OfferedServicesService {
     if (response && response.data && response.data.finishedProjects)
       return response.data.finishedProjects;
     else throw new Error(offeredServicesMessages.cannotFetchFinishedProjects);
+  }
+
+  public async getOfferedServiceById(
+    serviceId: string
+  ): Promise<IOfferedService> {
+    const response = await apolloClient
+      .query({
+        query: GET_OFFERED_SERVICE,
+        variables: { serviceId },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.offeredService)
+      return response.data.offeredService;
+    else throw new Error(offeredServicesMessages.cannotFetchOfferedServiceById);
   }
 }
 
