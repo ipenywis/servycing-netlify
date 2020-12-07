@@ -69,3 +69,21 @@ export const GET_SPECIALIST_PENDING_SERVICE_REQUESTS = gql`
     }
   }
 `;
+
+export const GET_SPECIALIST_REJECTED_SERVICE_REQUESTS = gql`
+  query GET_SPECIALIST_REJECTED_SERVICE_REQUESTS {
+    rejectedRequests: specialistRejectedServiceRequests {
+      id
+      offeredService {
+        id
+        title
+        rate
+      }
+      customer {
+        id
+        fullName
+      }
+      status
+    }
+  }
+`;

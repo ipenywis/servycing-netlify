@@ -5,6 +5,7 @@ export enum ActionTypes {
   SET_ACTIVE_TAB_IDX = "app/containers/Specialist/Specialist/Dashboard/SET_ACTIVE_TAB_IDX",
   SET_PENDING_SERVICE_REQUESTS = "app/containers/Specialist/Dashboard/SET_PENDING_SERVICE_REQUESTS",
   SET_TO_UPDATE_OFFERED_SERVICE = "app/containers/Specialist/Dashboard/SET_TO_UPDATE_OFFERED_SERVICE",
+  SET_REJECTED_SERVICE_REQUESTS = "app/containers/Specialist/Dashboard/SET_REJECTED_SERVICE_REQUESTS",
 }
 
 export const DEFAULT_OFFERED_SERVICES_LOAD_RANGE: ILoadRangeOptions = {

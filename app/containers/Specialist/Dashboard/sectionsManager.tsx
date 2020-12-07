@@ -10,6 +10,7 @@ import { DASHBOARD_SECTION_TAB } from "./constants";
 import { AddNewServiceSection } from "./sections/addNewServiceSection";
 import { OfferedServicesSection } from "./sections/offeredServicesSection";
 import { PendingRequestsSection } from "./sections/pendingRequestsSection";
+import { RejectedRequestsSection } from "./sections/rejectedRequestsSection";
 import { UpdateServiceSection } from "./sections/updateServiceSection";
 import {
   makeSelectActiveTab,
@@ -72,6 +73,8 @@ function RenderSection() {
       return <AddNewServiceSection />;
     case DASHBOARD_SECTION_TAB.UPDATE_SERVICE:
       return <UpdateServiceSection />;
+    case DASHBOARD_SECTION_TAB.REJECTED_SERVICES:
+      return <RejectedRequestsSection />;
     default:
       return <></>;
   }

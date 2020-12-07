@@ -14,6 +14,7 @@ import {
   GET_OFFERED_SERVICES,
   GET_SPECIALIST_MY_OFFERED_SERVICES,
   GET_SPECIALIST_PENDING_SERVICE_REQUESTS,
+  GET_SPECIALIST_REJECTED_SERVICE_REQUESTS,
 } from "./queries";
 import {
   ADD_NEW_SERVICE,
@@ -171,6 +172,23 @@ class OfferedServicesService {
 
     if (response && response.data && response.data.deleted) return true;
     else throw new Error(offeredServicesMessages.cannotDeleteService);
+  }
+
+  public async getSpecialistRejectedServiceRequests(): Promise<
+    IPendingServiceRequest[]
+  > {
+    const response = await apolloClient
+      .query({
+        query: GET_SPECIALIST_REJECTED_SERVICE_REQUESTS,
+        fetchPolicy: "network-only",
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.rejectedRequests)
+      return response.data.rejectedRequests;
+    else throw new Error(offeredServicesMessages.cannotFetchRejectedRequests);
   }
 }
 

@@ -6,5 +6,6 @@ export interface ISpecialistDashboardPageState {
   offeredServices: IOfferedService[];
   activeTab: DASHBOARD_SECTION_TAB;
   pendingServiceRequests: IPendingServiceRequest[];
+  rejectedServiceRequests: IPendingServiceRequest[];
   toUpdateOfferedService: IOfferedService | null;
 }

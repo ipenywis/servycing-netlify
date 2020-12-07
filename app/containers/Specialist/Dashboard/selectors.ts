@@ -23,3 +23,8 @@ export const makeSelectToUpdateOfferedService = createSelector(
   selectSpecialistDashboardPage,
   (page) => page.toUpdateOfferedService
 );
+
+export const makeSelectRejectedServiceRequests = createSelector(
+  selectSpecialistDashboardPage,
+  (page) => page.rejectedServiceRequests
+);

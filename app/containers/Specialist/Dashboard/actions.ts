@@ -14,3 +14,7 @@ export const setPendingServiceRequests = (requests: IPendingServiceRequest[]) =>
 
 export const setToUpdateOfferedService = (service: IOfferedService | null) =>
   action(ActionTypes.SET_TO_UPDATE_OFFERED_SERVICE, service);
+
+export const setRejectedServiceRequests = (
+  requests: IPendingServiceRequest[]
+) => action(ActionTypes.SET_REJECTED_SERVICE_REQUESTS, requests);
