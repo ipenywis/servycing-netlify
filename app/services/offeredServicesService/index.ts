@@ -17,6 +17,7 @@ import {
 import {
   ADD_NEW_SERVICE,
   SPECIALIST_ACCEPT_PENDING_SERVICE_REQUEST,
+  SPECIALIST_REJECT_PENDING_SERVICE_REQUEST,
 } from "./mutations";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
 
@@ -114,6 +115,23 @@ class OfferedServicesService {
     const response = await apolloClient
       .mutate({
         mutation: SPECIALIST_ACCEPT_PENDING_SERVICE_REQUEST,
+        variables: { requestId },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.pendingServiceRequest)
+      return response.data.pendingServiceRequest;
+    else throw new Error(offeredServicesMessages.cannoAcceptPendingRequest);
+  }
+
+  public async specialistRejectPendingRequest(
+    requestId: string
+  ): Promise<IPendingServiceRequest> {
+    const response = await apolloClient
+      .mutate({
+        mutation: SPECIALIST_REJECT_PENDING_SERVICE_REQUEST,
         variables: { requestId },
       })
       .catch((err) => {

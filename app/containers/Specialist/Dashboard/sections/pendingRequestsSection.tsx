@@ -74,13 +74,26 @@ function RenderRowMenu(props: IMenuProps) {
       updatePendingRequest(request.id, acceptedPendingRequest);
   };
 
+  const rejectPendingRequest = async () => {
+    const rejectedPendingRequest = await offeredServicesService
+      .specialistRejectPendingRequest(request.id)
+      .catch((err) => {
+        console.log("Error rejecting: ", err);
+      });
+
+    if (rejectedPendingRequest)
+      updatePendingRequest(request.id, rejectedPendingRequest);
+  };
+
   return (
     <Menu>
       <Menu.Group>
         <Menu.Item intent="success" onSelect={acceptPendingRequest}>
           Accept
         </Menu.Item>
-        <Menu.Item intent="danger">Reject</Menu.Item>
+        <Menu.Item intent="danger" onSelect={rejectPendingRequest}>
+          Reject
+        </Menu.Item>
       </Menu.Group>
     </Menu>
   );
@@ -164,7 +177,7 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
                   <Table.Cell>
                     {isPending && (
                       <Popover
-                        content={RenderRowMenu}
+                        content={<RenderRowMenu request={request} />}
                         position={Position.BOTTOM_RIGHT}
                       >
                         <IconButton
@@ -174,7 +187,9 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
                         />
                       </Popover>
                     )}
-                    {!isPending && <GreyText>Already took action</GreyText>}
+                    {!isPending && (
+                      <GreyText size={12}>Already took action</GreyText>
+                    )}
                   </Table.Cell>
                 </Table.Row>
               );

@@ -7,4 +7,6 @@ export default {
     "Cannot fetch your pending services requests, Please try again later!",
   cannoAcceptPendingRequest:
     "Cannot accept current pending request, Please try again later!",
+  cannoRejectPendingRequest:
+    "Cannot reject current pending request, Please try again later!",
 };
