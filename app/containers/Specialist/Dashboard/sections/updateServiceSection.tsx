@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import {
   INewOfferedServiceDTO,
   IOfferedService,
+  IUpdateOfferedServiceDTO,
   OFFERED_SERVICE_TYPE,
 } from "types/offeredService";
 import { SectionContainer } from "../common";
@@ -119,26 +120,27 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
   };
 
   const onSubmit = async (values) => {
-    if (!thumbnailFile)
-      return { [FORM_ERROR]: "Please choose a service image thumbnail" };
-
     //Upload thumbnail
-    const thumbnailUrl = await imageService
-      .uploadImage(thumbnailFile)
-      .catch((err) => {
-        console.log("Image upload Error: ", err);
-      });
+    let thumbnailUrl: string | void = undefined;
+    if (thumbnailFile) {
+      thumbnailUrl = await imageService
+        .uploadImage(thumbnailFile)
+        .catch((err) => {
+          console.log("Image upload Error: ", err);
+        });
 
-    if (!thumbnailUrl) return { [FORM_ERROR]: "Service Thumbnail is invalid!" };
+      if (!thumbnailUrl)
+        return { [FORM_ERROR]: "Service Thumbnail is invalid!" };
+    }
 
-    const newServiceData: INewOfferedServiceDTO = {
+    const updatedServiceData: IUpdateOfferedServiceDTO = {
       ...values,
       rate: parseInt(values.rate),
       thumbnailUrl,
     };
 
     const newOfferedService = await offeredServicesService
-      .addNewOfferedService(newServiceData)
+      .updateOfferedService(updatedServiceData)
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -150,6 +152,16 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
 
     return undefined;
   };
+
+  useEffect(() => {
+    if (toUpdateOfferedService) {
+      //Parse preffered hours time
+      const hoursArray = toUpdateOfferedService.preferredHours.split("to");
+      const startTime = hoursArray[0].trim();
+      const endTime = hoursArray[1].trim();
+      setTimeRange([startTime, endTime]);
+    }
+  }, [toUpdateOfferedService]);
 
   return (
     <SectionContainer alignCenter>
@@ -168,6 +180,7 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
               submitError,
               hasSubmitErrors,
               submitting,
+              pristine,
             }: FormRenderProps) => (
               <InnerFromContainer>
                 <FinalFormSpy form={FORMS.SPECIALIST_ADD_NEW_SERVICE_FORM} />
@@ -221,16 +234,18 @@ export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
                   <TimeRangePicker
                     format="h:m a"
                     rangeDivider="To"
+                    value={timeRange}
                     onChange={(range) => updateTimeRange(range, form)}
                   />
                 </FormGroup>
                 <Marginer direction="vertical" margin="1.5em" />
                 <HorizontalWrapper centered>
                   <Button
-                    text="Offer Service"
+                    text="Update"
                     type="submit"
                     buttonTheme={ButtonTheme.PRIMARY_PRIMARY}
                     isLoading={submitting}
+                    disabled={pristine}
                   />
                 </HorizontalWrapper>
               </InnerFromContainer>
