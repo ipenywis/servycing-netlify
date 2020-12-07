@@ -60,7 +60,7 @@ export function ServiceInfo(props: IServiceInfoProps) {
       </HorizontalWrapper>
       <Marginer direction="vertical" margin="1em" />
       <ServiceThumbnail>
-        <ImageLoader src={Img} />
+        <ImageLoader src={service.thumbnailUrl} />
       </ServiceThumbnail>
       <Marginer direction="vertical" margin="2em" />
       <BlackText size={18} black>

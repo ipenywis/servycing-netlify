@@ -9,6 +9,9 @@ import { HorizontalWrapper } from "components/horizontalWrapper";
 import { Avatar } from "components/avatar";
 import { RatingStars } from "components/ratingStarts";
 import { IOfferedService } from "types/offeredService";
+import { Link } from "components/link";
+import { prepareRouteWithParams } from "utils/route";
+import ROUTES from "containers/ROUTES";
 
 interface IServiceCardProps extends IOfferedService {}
 
@@ -59,19 +62,25 @@ const BottomContainer = styled.div`
 `;
 
 export function ServiceCard(props: IServiceCardProps) {
-  const { title, specialist, rate } = props;
+  const { id, title, specialist, rate, thumbnailUrl } = props;
+
+  const servicePage = prepareRouteWithParams(ROUTES.servicePage, id);
 
   return (
     <CardContainer>
       <TopContainer>
-        <ServiceThumbnail>
-          <ImageLoader src={GardenImg} />
-        </ServiceThumbnail>
+        <Link to={servicePage}>
+          <ServiceThumbnail>
+            <ImageLoader src={thumbnailUrl} />
+          </ServiceThumbnail>
+        </Link>
       </TopContainer>
       <ContentContainer>
-        <BlackText size={17} bold marginBottom={10}>
-          {title}
-        </BlackText>
+        <Link to={servicePage}>
+          <BlackText size={17} bold marginBottom={10}>
+            {title}
+          </BlackText>
+        </Link>
         <HorizontalWrapper centerVertically>
           <Avatar size={24} />
           <BlackText size={12} marginLeft={3}>

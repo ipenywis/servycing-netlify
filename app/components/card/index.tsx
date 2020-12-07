@@ -68,7 +68,11 @@ function Card(props: ICardProps) {
               {error}
             </ErrorText>
           )}
-          {!error && success && <SuccessText size={14}>{success}</SuccessText>}
+          {!error && success && (
+            <SuccessText size={14} marginTop={6}>
+              {success}
+            </SuccessText>
+          )}
         </TopContainer>
       )}
       <InnerContainer>{props.children}</InnerContainer>

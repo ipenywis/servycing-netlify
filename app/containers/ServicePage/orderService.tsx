@@ -69,7 +69,7 @@ export function OrderService(props: IOderServiceProps) {
 
     if (pendingServiceRequest)
       setSuccess(
-        `Thanks for ordering a service, Check your dashboard ${service.specialist.fullName} will be in touch with you soon!`
+        `Thanks for ordering a service, Please Check your dashboard, ${service.specialist.fullName} will be in touch with you soon!`
       );
 
     setLoading(false);

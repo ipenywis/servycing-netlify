@@ -110,8 +110,6 @@ export function Services(props: IServicesProps) {
         console.log("Error: ", err);
       });
 
-    await wait(4000);
-
     if (fetchedServicesWithCount && loadedRange) {
       const fetchedServices = fetchedServicesWithCount.offeredServices;
       const count = fetchedServicesWithCount.count;
