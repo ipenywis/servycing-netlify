@@ -138,6 +138,10 @@ export const GET_CUSTOMER_ALL_FINISHED_SERVICES = gql`
       offeredService {
         id
         title
+        specialist {
+          id
+          fullName
+        }
       }
       customer {
         id

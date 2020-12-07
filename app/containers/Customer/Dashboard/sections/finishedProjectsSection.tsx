@@ -10,11 +10,7 @@ import {
   setOfferedServices,
   setPendingServiceRequests,
 } from "../actions";
-import {
-  makeSelectFinishedProjects,
-  makeSelectOfferedServices,
-  makeSelectPendingServiceRequests,
-} from "../selectors";
+import { makeSelectFinishedProjects } from "../selectors";
 import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
 import styled from "styles/styled-components";
 import {
@@ -60,7 +56,7 @@ function RenderRowMenu(props: IMenuProps) {
   const { finishedProjects } = useSelector(stateSelector);
   const { setFinishedProjects } = actionDispatch(useDispatch());
 
-  const updatePendingRequest = (
+  const updateFinishedProject = (
     id: string,
     newProjectData: IFinishedProject
   ) => {
@@ -72,35 +68,35 @@ function RenderRowMenu(props: IMenuProps) {
     setFinishedProjects(updatedProjects);
   };
 
-  const acceptPendingRequest = async () => {
-    const acceptedPendingRequest = await offeredServicesService
-      .specialistAcceptPendingRequest(request.id)
+  const acceptFinishedProject = async () => {
+    const acceptedFinishedProject = await offeredServicesService
+      .customerAcceptFinishedService(project.id)
       .catch((err) => {
         console.log("Error accepting: ", err);
       });
 
-    if (acceptedPendingRequest)
-      updatePendingRequest(request.id, acceptedPendingRequest);
+    if (acceptedFinishedProject)
+      updateFinishedProject(project.id, acceptedFinishedProject);
   };
 
-  const rejectPendingRequest = async () => {
-    const rejectedPendingRequest = await offeredServicesService
-      .specialistRejectPendingRequest(request.id)
+  const rejectFinishedProject = async () => {
+    const rejectedFinishedProject = await offeredServicesService
+      .customerRejectFinishedService(project.id)
       .catch((err) => {
         console.log("Error rejecting: ", err);
       });
 
-    if (rejectedPendingRequest)
-      updatePendingRequest(request.id, rejectedPendingRequest);
+    if (rejectedFinishedProject)
+      updateFinishedProject(project.id, rejectedFinishedProject);
   };
 
   return (
     <Menu>
       <Menu.Group>
-        <Menu.Item intent="success" onSelect={acceptPendingRequest}>
+        <Menu.Item intent="success" onSelect={acceptFinishedProject}>
           Accept
         </Menu.Item>
-        <Menu.Item intent="danger" onSelect={rejectPendingRequest}>
+        <Menu.Item intent="danger" onSelect={rejectFinishedProject}>
           Reject
         </Menu.Item>
       </Menu.Group>
@@ -119,7 +115,7 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
   const fetchFinishedProjects = async () => {
     setLoading(true);
     const finishedProjects = await offeredServicesService
-      .getSpecialistPendingServiceRequests()
+      .getCustomerAllFinishedProjects()
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -145,8 +141,8 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
       <Table>
         <Table.Head>
           <Table.TextHeaderCell flexGrow={1}>Id</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Service</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Customer</Table.TextHeaderCell>
+          <Table.TextHeaderCell flexGrow={2}>Service</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Specialist</Table.TextHeaderCell>
           <Table.TextHeaderCell>Status</Table.TextHeaderCell>
           <Table.TextHeaderCell>More</Table.TextHeaderCell>
         </Table.Head>
@@ -174,10 +170,12 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
               return (
                 <Table.Row key={idx}>
                   <Table.TextCell flexGrow={1}>{project.id}</Table.TextCell>
-                  <Table.TextCell>
+                  <Table.TextCell flexGrow={2}>
                     {project.offeredService.title}
                   </Table.TextCell>
-                  <Table.TextCell>{project.customer.fullName}</Table.TextCell>
+                  <Table.TextCell>
+                    {project.offeredService.specialist.fullName}
+                  </Table.TextCell>
                   <Table.Cell>
                     {isPending && <InfoText size={14}>Pending</InfoText>}
                     {isAccepted && (

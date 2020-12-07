@@ -14,16 +14,8 @@ export default function customerDashboardReducer(
   action: IAction
 ) {
   switch (action.type) {
-    case ActionTypes.SET_OFFERED_SERVICES:
-      return { ...state, offeredServices: action.payload };
     case ActionTypes.SET_ACTIVE_TAB_IDX:
       return { ...state, activeTab: action.payload };
-    case ActionTypes.SET_PENDING_SERVICE_REQUESTS:
-      return { ...state, pendingServiceRequests: action.payload };
-    case ActionTypes.SET_TO_UPDATE_OFFERED_SERVICE:
-      return { ...state, toUpdateOfferedService: action.payload };
-    case ActionTypes.SET_REJECTED_SERVICE_REQUESTS:
-      return { ...state, rejectedServiceRequests: action.payload };
     case ActionTypes.SET_FINISHED_PROJECTS:
       return { ...state, finishedProjects: action.payload };
     default:

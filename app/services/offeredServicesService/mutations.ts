@@ -81,10 +81,14 @@ export const CUSTOMER_ACCEPT_FINISHED_SERVICE = gql`
     finishedProject: customerAcceptFinishedService(
       finishedServiceId: $finishedServiceId
     ) {
-      if
+      id
       offeredService {
         id
         title
+        specialist {
+          id
+          fullName
+        }
       }
       customer {
         id
@@ -100,10 +104,14 @@ export const CUSTOMER_REJECT_FINISHED_SERVICE = gql`
     finishedProject: customerRejectFinishedService(
       finishedServiceId: $finishedServiceId
     ) {
-      if
+      id
       offeredService {
         id
         title
+        specialist {
+          id
+          fullName
+        }
       }
       customer {
         id
