@@ -7,13 +7,14 @@ import { InputTheme } from "components/input/themes";
 import { Marginer } from "components/marginer";
 import { FORMS } from "finalForm/constants";
 import FinalFormSpy from "finalForm/finalFormSpy";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   INewOfferedServiceDTO,
   IOfferedService,
+  IUpdateOfferedServiceDTO,
   OFFERED_SERVICE_TYPE,
 } from "types/offeredService";
-import { SectionContainer } from "../common";
+import { SectionContainer } from "../../common";
 import * as yup from "yup";
 import { validateForm } from "utils/validation";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
@@ -29,15 +30,18 @@ import styled from "styles/styled-components";
 import { HorizontalWrapper } from "components/horizontalWrapper";
 import offeredServicesService from "services/offeredServicesService";
 import { Dispatch } from "redux";
-import { setActiveTab, setOfferedServices } from "../actions";
-import { DASHBOARD_SECTION_TAB } from "../constants";
+import { setActiveTab, setOfferedServices } from "../../actions";
+import { DASHBOARD_SECTION_TAB } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import imageService from "services/imageService";
 import { ErrorText } from "components/text";
 import { createSelector } from "reselect";
-import { makeSelectOfferedServices } from "../selectors";
+import {
+  makeSelectOfferedServices,
+  makeSelectToUpdateOfferedService,
+} from "../../selectors";
 
-interface IAddNewServiceSectionProps {}
+interface IUpdateServiceSectionProps {}
 
 const InnerFromContainer = styled.div`
   display: flex;
@@ -66,8 +70,10 @@ const validationSchema = yup.object({
 
 const stateSelector = createSelector(
   makeSelectOfferedServices,
-  (offeredServices) => ({
+  makeSelectToUpdateOfferedService,
+  (offeredServices, toUpdateOfferedService) => ({
     offeredServices,
+    toUpdateOfferedService,
   })
 );
 
@@ -77,14 +83,17 @@ const actionDispatch = (dispatch: Dispatch) => ({
     dispatch(setOfferedServices(services)),
 });
 
-export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
+export function UpdateServiceSection(props: IUpdateServiceSectionProps) {
   const { setActiveTab, setOfferedServices } = actionDispatch(useDispatch());
-  const { offeredServices } = useSelector(stateSelector);
+  const { offeredServices, toUpdateOfferedService } = useSelector(
+    stateSelector
+  );
 
   const [timeRange, setTimeRange] = useState<string[]>([]);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const updateTimeRange = (range, form: FormApi<any>) => {
+    console.log("Range: ", range);
     if (!range) return;
     if (!range[0]) {
       const newRange = [timeRange[0], range[1]];
@@ -102,6 +111,10 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
         `${newRange[0]} to ${newRange[1]}`
       );
     }
+    if (range[0] && range[1]) {
+      setTimeRange(range);
+      form.mutators.setField("preferredHours", `${range[0]} to ${range[1]}`);
+    }
   };
 
   const setServiceType = (type: string, form: FormApi<any>) => {
@@ -111,48 +124,72 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
     form.mutators.setField("type", offeredServiceType);
   };
 
-  const onSubmit = async (values) => {
-    if (!thumbnailFile)
-      return { [FORM_ERROR]: "Please choose a service image thumbnail" };
+  const onSubmit = async (values, form: FormApi<any>) => {
+    if (!toUpdateOfferedService)
+      return {
+        [FORM_ERROR]:
+          "Unexpected error occured! Please refresh your page and try again!",
+      };
 
     //Upload thumbnail
-    const thumbnailUrl = await imageService
-      .uploadImage(thumbnailFile)
-      .catch((err) => {
-        console.log("Image upload Error: ", err);
-      });
+    let thumbnailUrl: string | void = undefined;
+    if (thumbnailFile) {
+      thumbnailUrl = await imageService
+        .uploadImage(thumbnailFile)
+        .catch((err) => {
+          console.log("Image upload Error: ", err);
+        });
 
-    if (!thumbnailUrl) return { [FORM_ERROR]: "Service Thumbnail is invalid!" };
+      if (!thumbnailUrl)
+        return { [FORM_ERROR]: "Service Thumbnail is invalid!" };
+    }
 
-    const newServiceData: INewOfferedServiceDTO = {
-      ...values,
-      rate: parseInt(values.rate),
+    const dirtyFields = form.getState().dirtyFields;
+
+    const updatedServiceData: IUpdateOfferedServiceDTO | any = {
+      id: toUpdateOfferedService.id,
       thumbnailUrl,
     };
+    for (const fieldName of Object.keys(dirtyFields)) {
+      if (dirtyFields[fieldName] && fieldName !== "rate")
+        updatedServiceData[fieldName] = values[fieldName];
+      else if (dirtyFields[fieldName] && fieldName === "rate")
+        updatedServiceData[fieldName] = parseInt(values[fieldName]);
+    }
 
-    const newOfferedService = await offeredServicesService
-      .addNewOfferedService(newServiceData)
+    const serviceUpdated = await offeredServicesService
+      .updateOfferedService(updatedServiceData)
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (newOfferedService) {
-      setOfferedServices([...offeredServices, newOfferedService]);
+    if (serviceUpdated) {
       setActiveTab(DASHBOARD_SECTION_TAB.OFFERED_SERVICES);
     }
 
     return undefined;
   };
 
+  useEffect(() => {
+    if (toUpdateOfferedService) {
+      //Parse preffered hours time
+      const hoursArray = toUpdateOfferedService.preferredHours.split("to");
+      const startTime = hoursArray[0].trim();
+      const endTime = hoursArray[1].trim();
+      setTimeRange([startTime, endTime]);
+    }
+  }, [toUpdateOfferedService]);
+
   return (
     <SectionContainer alignCenter>
-      <Card title="Add New Service" titleSize={19}>
+      <Card title="Update Service" titleSize={19}>
         <InnerCardContainer>
           <Marginer direction="vertical" margin="1em" />
           <Form
             onSubmit={onSubmit}
             mutators={{ setField }}
             validate={(values) => validateForm(validationSchema, values)}
+            initialValues={toUpdateOfferedService || {}}
           >
             {({
               form,
@@ -160,6 +197,7 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
               submitError,
               hasSubmitErrors,
               submitting,
+              pristine,
             }: FormRenderProps) => (
               <InnerFromContainer>
                 <FinalFormSpy form={FORMS.SPECIALIST_ADD_NEW_SERVICE_FORM} />
@@ -167,7 +205,7 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                 <FormGroup>
                   <ImageUploader
                     name="thumbnail"
-                    src={thumbnailFile}
+                    src={thumbnailFile || toUpdateOfferedService?.thumbnailUrl}
                     placeholder="Service Thumbnail"
                     onSelect={setThumbnailFile}
                   />
@@ -194,6 +232,7 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                     width="100%"
                     placeholder="Select Service Type"
                     items={Object.values(OFFERED_SERVICE_TYPE)}
+                    selectedItem={values.type}
                     onChange={(type) => setServiceType(type, form)}
                   />
                   <Marginer direction="vertical" margin="17px" />
@@ -213,16 +252,18 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                   <TimeRangePicker
                     format="h:m a"
                     rangeDivider="To"
+                    value={timeRange}
                     onChange={(range) => updateTimeRange(range, form)}
                   />
                 </FormGroup>
                 <Marginer direction="vertical" margin="1.5em" />
                 <HorizontalWrapper centered>
                   <Button
-                    text="Offer Service"
+                    text="Update"
                     type="submit"
                     buttonTheme={ButtonTheme.PRIMARY_PRIMARY}
                     isLoading={submitting}
+                    disabled={pristine && !thumbnailFile}
                   />
                 </HorizontalWrapper>
               </InnerFromContainer>

@@ -1,6 +1,7 @@
 import { IFinishedProject } from "types/finishedProject";
 import { IOfferedService } from "types/offeredService";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
+import { ISpecialist } from "types/specialist";
 import { action } from "typesafe-actions";
 import { ActionTypes, DASHBOARD_SECTION_TAB } from "./constants";
 
@@ -15,3 +16,6 @@ export const setToUpdateOfferedService = (service: IOfferedService | null) =>
 
 export const setOfferedServicesCount = (count: number) =>
   action(ActionTypes.SET_OFFERED_SERVICES_COUNT, count);
+
+export const setSpecialists = (specialists: ISpecialist[]) =>
+  action(ActionTypes.SET_SPECIALISTS, specialists);

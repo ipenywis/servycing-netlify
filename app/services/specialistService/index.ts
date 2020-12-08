@@ -5,8 +5,8 @@ import {
   ISpecialist,
 } from "types/specialist";
 import { parseGraphqlError } from "utils/error";
-import { REGISTER_SPECIALIST } from "./mutations";
-import { LOGIN_SPECIALIST } from "./queries";
+import { DELETE_SPECIALIST, REGISTER_SPECIALIST } from "./mutations";
+import { GET_SPECIALISTS, LOGIN_SPECIALIST } from "./queries";
 import specialistMessages from "./specialistMessages";
 
 class SpecialistService {
@@ -49,6 +49,29 @@ class SpecialistService {
     )
       return loginResponse.data.specialist;
     else throw new Error(specialistMessages.errorLoginSpecialist);
+  }
+
+  public async getSpecialists(): Promise<ISpecialist[]> {
+    const response = await apolloClient
+      .query({ query: GET_SPECIALISTS, fetchPolicy: "network-only" })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.specialists)
+      return response.data.specialists;
+    else throw new Error(specialistMessages.cannotFetchSpecialists);
+  }
+
+  public async delete(specialistId: string): Promise<boolean> {
+    const response = await apolloClient
+      .mutate({ mutation: DELETE_SPECIALIST, variables: { specialistId } })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.deleted) return true;
+    else throw new Error(specialistMessages.cannotFetchSpecialists);
   }
 }
 

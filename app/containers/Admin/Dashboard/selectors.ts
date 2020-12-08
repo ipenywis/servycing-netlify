@@ -1,25 +1,30 @@
 import { createSelector } from "reselect";
 import { ApplicationRootState } from "types";
 
-const selectSpecialistDashboardPage = (state: ApplicationRootState) =>
+const selectAdminDashboardPage = (state: ApplicationRootState) =>
   state.adminDashboardPage;
 
 export const makeSelectOfferedServices = createSelector(
-  selectSpecialistDashboardPage,
+  selectAdminDashboardPage,
   (page) => page.offeredServices
 );
 
 export const makeSelectActiveTab = createSelector(
-  selectSpecialistDashboardPage,
+  selectAdminDashboardPage,
   (page) => page.activeTab
 );
 
 export const makeSelectToUpdateOfferedService = createSelector(
-  selectSpecialistDashboardPage,
+  selectAdminDashboardPage,
   (page) => page.toUpdateOfferedService
 );
 
 export const makeSelectOfferedServicesCount = createSelector(
-  selectSpecialistDashboardPage,
+  selectAdminDashboardPage,
   (page) => page.offeredServicesCount
+);
+
+export const makeSelectSpecialists = createSelector(
+  selectAdminDashboardPage,
+  (page) => page.specialists
 );

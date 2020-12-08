@@ -7,6 +7,7 @@ const defaultState: IAdminDashboardPageState = {
   activeTab: DASHBOARD_SECTION_TAB.OFFERED_SERVICES,
   toUpdateOfferedService: null,
   offeredServicesCount: 0,
+  specialists: [],
 };
 
 export const REDUCER_KEY = "adminDashboardPage";
@@ -24,6 +25,8 @@ export default function adminDashboardReducer(
       return { ...state, toUpdateOfferedService: action.payload };
     case ActionTypes.SET_OFFERED_SERVICES_COUNT:
       return { ...state, offeredServicesCount: action.payload };
+    case ActionTypes.SET_SPECIALISTS:
+      return { ...state, specialists: action.payload };
     default:
       return state;
   }

@@ -7,9 +7,10 @@ import { createSelector } from "reselect";
 import styled from "styles/styled-components";
 import { setActiveTab } from "./actions";
 import { DASHBOARD_SECTION_TAB } from "./constants";
-import { AddNewServiceSection } from "./sections/addNewServiceSection";
-import { OfferedServicesSection } from "./sections/offeredServicesSection";
-import { UpdateServiceSection } from "./sections/updateServiceSection";
+import { AddNewServiceSection } from "./sections/offeredServices/addNewServiceSection";
+import { OfferedServicesSection } from "./sections/offeredServices/offeredServicesSection";
+import { UpdateServiceSection } from "./sections/offeredServices/updateServiceSection";
+import { SpecialistsSection } from "./sections/specialists/specialistsSection";
 import {
   makeSelectActiveTab,
   makeSelectToUpdateOfferedService,
@@ -69,6 +70,8 @@ function RenderSection() {
       return <AddNewServiceSection />;
     case DASHBOARD_SECTION_TAB.UPDATE_SERVICE:
       return <UpdateServiceSection />;
+    case DASHBOARD_SECTION_TAB.SPECIALISTS:
+      return <SpecialistsSection />;
     default:
       return <></>;
   }

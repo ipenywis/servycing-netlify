@@ -11,3 +11,9 @@ export const REGISTER_SPECIALIST = gql`
     }
   }
 `;
+
+export const DELETE_SPECIALIST = gql`
+  mutation DELETE_SPECIALIST($specialistId: String!) {
+    deleted: deleteSpecialist(specialistId: $specialistId)
+  }
+`;

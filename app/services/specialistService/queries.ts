@@ -12,3 +12,15 @@ export const LOGIN_SPECIALIST = gql`
     }
   }
 `;
+
+export const GET_SPECIALISTS = gql`
+  query GET_SPECIALISTS {
+    specialists {
+      id
+      fullName
+      email
+      shortBio
+      rating
+    }
+  }
+`;

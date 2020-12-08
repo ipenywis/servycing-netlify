@@ -1,7 +1,7 @@
 import { IOfferedService } from "./offeredService";
 
 export interface ISpecialist {
-  id?: string;
+  id: string;
   fullName: string;
   email: string;
   rating: number;
