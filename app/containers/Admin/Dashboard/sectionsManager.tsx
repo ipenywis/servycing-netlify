@@ -10,7 +10,9 @@ import { DASHBOARD_SECTION_TAB } from "./constants";
 import { AddNewServiceSection } from "./sections/offeredServices/addNewServiceSection";
 import { OfferedServicesSection } from "./sections/offeredServices/offeredServicesSection";
 import { UpdateServiceSection } from "./sections/offeredServices/updateServiceSection";
+import { AddNewSpecialistSection } from "./sections/specialists/addNewSpecialistSection";
 import { SpecialistsSection } from "./sections/specialists/specialistsSection";
+import { UpdateSpecialistSection } from "./sections/specialists/updateSpecialistSection";
 import {
   makeSelectActiveTab,
   makeSelectToUpdateOfferedService,
@@ -46,6 +48,8 @@ function Tabs() {
       {Object.values(DASHBOARD_SECTION_TAB).map((tab, idx) => {
         //Hide update service section tab
         if (tab === DASHBOARD_SECTION_TAB.UPDATE_SERVICE) return null;
+        else if (tab === DASHBOARD_SECTION_TAB.ADD_NEW_SPECIALIST) return null;
+        else if (tab === DASHBOARD_SECTION_TAB.UPDATE_SPECIALIST) return null;
         else
           return (
             <Tab
@@ -72,6 +76,10 @@ function RenderSection() {
       return <UpdateServiceSection />;
     case DASHBOARD_SECTION_TAB.SPECIALISTS:
       return <SpecialistsSection />;
+    case DASHBOARD_SECTION_TAB.ADD_NEW_SPECIALIST:
+      return <AddNewSpecialistSection />;
+    case DASHBOARD_SECTION_TAB.UPDATE_SPECIALIST:
+      return <UpdateSpecialistSection />;
     default:
       return <></>;
   }

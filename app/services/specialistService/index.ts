@@ -3,9 +3,14 @@ import {
   ILoginSpecialistDTO,
   IRegisterSpecialistDTO,
   ISpecialist,
+  IUpdateSpecialistDTO,
 } from "types/specialist";
 import { parseGraphqlError } from "utils/error";
-import { DELETE_SPECIALIST, REGISTER_SPECIALIST } from "./mutations";
+import {
+  DELETE_SPECIALIST,
+  REGISTER_SPECIALIST,
+  UPDATE_SPECIALIST,
+} from "./mutations";
 import { GET_SPECIALISTS, LOGIN_SPECIALIST } from "./queries";
 import specialistMessages from "./specialistMessages";
 
@@ -72,6 +77,20 @@ class SpecialistService {
 
     if (response && response.data && response.data.deleted) return true;
     else throw new Error(specialistMessages.cannotFetchSpecialists);
+  }
+
+  public async update(updatedData: IUpdateSpecialistDTO): Promise<boolean> {
+    const response = await apolloClient
+      .mutate({
+        mutation: UPDATE_SPECIALIST,
+        variables: { updateSpecialistInput: updatedData },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.updated) return true;
+    else throw new Error(specialistMessages.cannotUpdateSpecialist);
   }
 }
 

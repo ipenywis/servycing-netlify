@@ -17,3 +17,9 @@ export const DELETE_SPECIALIST = gql`
     deleted: deleteSpecialist(specialistId: $specialistId)
   }
 `;
+
+export const UPDATE_SPECIALIST = gql`
+  mutation UPDATE_SPECIALIST($updateSpecialistInput: UpdateSpecialistInput!) {
+    updated: updateSpecialist(updateSpecialistInput: $updateSpecialistInput)
+  }
+`;

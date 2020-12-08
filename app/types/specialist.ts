@@ -17,6 +17,13 @@ export interface IRegisterSpecialistDTO {
   password: string;
 }
 
+export interface IUpdateSpecialistDTO {
+  id: string;
+  fullName?: string;
+  shortBio?: string;
+  password?: string;
+}
+
 export interface ILoginSpecialistDTO {
   email: string;
   password: string;

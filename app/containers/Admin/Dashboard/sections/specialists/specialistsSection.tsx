@@ -18,6 +18,7 @@ import {
   setOfferedServicesCount,
   setSpecialists,
   setToUpdateOfferedService,
+  setToUpdateSpecialist,
 } from "../../actions";
 import {
   makeSelectOfferedServices,
@@ -43,6 +44,7 @@ import { ButtonTheme } from "components/button/themes";
 import { ILoadRangeOptions } from "types/pagination";
 import { ISpecialist } from "types/specialist";
 import specialistService from "services/specialistService";
+import { Seperator } from "components/lineSeperator";
 
 interface ISpecialistsProps {}
 
@@ -53,6 +55,8 @@ const stateSelector = createSelector(makeSelectSpecialists, (specialists) => ({
 const actionDispatch = (dispatch: Dispatch) => ({
   setSpecialists: (specialists: ISpecialist[]) =>
     dispatch(setSpecialists(specialists)),
+  setToUpdateSpecialist: (specialist: ISpecialist | null) =>
+    dispatch(setToUpdateSpecialist(specialist)),
   setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
 });
 
@@ -63,12 +67,16 @@ interface IMenuProps {
 function RenderRowMenu(props: IMenuProps) {
   const { specialist } = props;
   const { specialists } = useSelector(stateSelector);
-  const { setActiveTab, setSpecialists } = actionDispatch(useDispatch());
+  const {
+    setActiveTab,
+    setSpecialists,
+    setToUpdateSpecialist,
+  } = actionDispatch(useDispatch());
   const [isDeleting, setDeleting] = useState(false);
 
   const goToUpdateSection = () => {
-    //setToUpdateOfferedService(offeredService);
-    setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_SERVICE);
+    setToUpdateSpecialist(specialist);
+    setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_SPECIALIST);
   };
 
   const deleteSpecialistsFromState = (id: string) => {
@@ -120,7 +128,7 @@ function RenderRowMenu(props: IMenuProps) {
 
 export function SpecialistsSection(props: ISpecialistsProps) {
   const { specialists } = useSelector(stateSelector);
-  const { setSpecialists } = actionDispatch(useDispatch());
+  const { setSpecialists, setActiveTab } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
   const [loadRange, setLoadRange] = useState<ILoadRangeOptions | null>(
     DEFAULT_OFFERED_SERVICES_LOAD_RANGE
@@ -165,9 +173,17 @@ export function SpecialistsSection(props: ISpecialistsProps) {
 
   return (
     <SectionContainer>
-      <BlackText size={19} bold>
-        Your Services
-      </BlackText>
+      <HorizontalWrapper>
+        <BlackText size={19} bold>
+          Specialists
+        </BlackText>
+        <Button
+          size={14}
+          text="Add New Specialist"
+          buttonTheme={ButtonTheme.FULL_MINIMAL_BLUE}
+          onClick={() => setActiveTab(DASHBOARD_SECTION_TAB.ADD_NEW_SPECIALIST)}
+        />
+      </HorizontalWrapper>
       <MutedText size={12} marginBottom="1em">
         All of offered services by all specialist are here, you can view, update
         or delete.

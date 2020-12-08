@@ -181,7 +181,7 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
   return (
     <SectionContainer>
       <BlackText size={19} bold>
-        Your Services
+        Services
       </BlackText>
       <MutedText size={12} marginBottom="1em">
         All of offered services by all specialist are here, you can view, update

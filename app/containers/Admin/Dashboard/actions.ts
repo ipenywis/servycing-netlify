@@ -19,3 +19,6 @@ export const setOfferedServicesCount = (count: number) =>
 
 export const setSpecialists = (specialists: ISpecialist[]) =>
   action(ActionTypes.SET_SPECIALISTS, specialists);
+
+export const setToUpdateSpecialist = (specialist: ISpecialist | null) =>
+  action(ActionTypes.SET_TO_UPDATE_SPECIALIST, specialist);

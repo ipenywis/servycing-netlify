@@ -10,4 +10,5 @@ export interface IAdminDashboardPageState {
   activeTab: DASHBOARD_SECTION_TAB;
   toUpdateOfferedService: IOfferedService | null;
   specialists: ISpecialist[];
+  toUpdateSpecialist: ISpecialist | null;
 }

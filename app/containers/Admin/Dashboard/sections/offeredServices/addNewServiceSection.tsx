@@ -146,7 +146,7 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
 
   return (
     <SectionContainer alignCenter>
-      <Card title="Add New Service" titleSize={19}>
+      <Card title="Add New Service" titleSize={19} centerTitle>
         <InnerCardContainer>
           <Marginer direction="vertical" margin="1em" />
           <Form
@@ -162,7 +162,7 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
               submitting,
             }: FormRenderProps) => (
               <InnerFromContainer>
-                <FinalFormSpy form={FORMS.SPECIALIST_ADD_NEW_SERVICE_FORM} />
+                <FinalFormSpy form={FORMS.ADMIN_ADD_NEW_SERVICE_FORM} />
                 {hasSubmitErrors && <ErrorText>{submitError}</ErrorText>}
                 <FormGroup>
                   <ImageUploader

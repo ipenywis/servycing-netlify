@@ -28,3 +28,8 @@ export const makeSelectSpecialists = createSelector(
   selectAdminDashboardPage,
   (page) => page.specialists
 );
+
+export const makeSelectToUpdateSpecialist = createSelector(
+  selectAdminDashboardPage,
+  (page) => page.toUpdateSpecialist
+);
