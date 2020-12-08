@@ -42,12 +42,14 @@ class OfferedServicesService {
 
   public async getAndFilterOfferedServices(
     servicesFilter?: IServicesFilter,
-    loadRangeOptions?: ILoadRangeOptions
+    loadRangeOptions?: ILoadRangeOptions,
+    noCache?: boolean
   ): Promise<IOfferedServicesWithCount> {
     const response = await apolloClient
       .query({
         query: GET_OFFERED_SERVICES,
         variables: { range: loadRangeOptions, filter: servicesFilter },
+        fetchPolicy: (noCache && "network-only") || undefined,
       })
       .catch((err) => {
         throw parseGraphqlError(err);

@@ -146,7 +146,7 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
   const fetchedOfferedServices = async () => {
     setLoading(true);
     const offeredServicesWithCount = await offeredServicesService
-      .getAndFilterOfferedServices(undefined, loadRange || undefined)
+      .getAndFilterOfferedServices(undefined, loadRange || undefined, true)
       .catch((err) => {
         console.log("Err: ", err);
       });
