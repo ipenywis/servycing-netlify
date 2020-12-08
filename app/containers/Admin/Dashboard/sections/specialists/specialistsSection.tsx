@@ -173,21 +173,19 @@ export function SpecialistsSection(props: ISpecialistsProps) {
 
   return (
     <SectionContainer>
-      <HorizontalWrapper>
-        <BlackText size={19} bold>
-          Specialists
-        </BlackText>
-        <Button
-          size={14}
-          text="Add New Specialist"
-          buttonTheme={ButtonTheme.FULL_MINIMAL_BLUE}
-          onClick={() => setActiveTab(DASHBOARD_SECTION_TAB.ADD_NEW_SPECIALIST)}
-        />
-      </HorizontalWrapper>
+      <BlackText size={19} bold>
+        Specialists
+      </BlackText>
       <MutedText size={12} marginBottom="1em">
         All of offered services by all specialist are here, you can view, update
         or delete.
       </MutedText>
+      <Button
+        size={14}
+        text="Add New Specialist"
+        buttonTheme={ButtonTheme.FULL_MINIMAL_BLUE}
+        onClick={() => setActiveTab(DASHBOARD_SECTION_TAB.ADD_NEW_SPECIALIST)}
+      />
       <Table>
         <Table.Head>
           <Table.TextHeaderCell>Id</Table.TextHeaderCell>

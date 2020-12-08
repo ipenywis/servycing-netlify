@@ -190,6 +190,7 @@ const BORDERED_MINIMAL_BLACK_THEME: IButtonThemeStyle = {
 
 const FULL_MINIMAL_BLUE: IButtonThemeStyle = {
   name: ButtonTheme.FULL_MINIMAL_BLUE,
+  padding: "0 0",
   normal: {
     color: theme.default.shinyBlue,
     backgroundColor: "transparent",

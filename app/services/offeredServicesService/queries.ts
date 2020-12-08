@@ -119,7 +119,7 @@ export const GET_OFFERED_SERVICE = gql`
       rate
       preferredHours
       thumbnailUrl
-      ratting
+      rating
       specialist {
         id
         fullName
