@@ -55,6 +55,7 @@ class CustomerService {
     const loginResponse = await apolloClient
       .query({
         query: GET_CUSTOMERS,
+        fetchPolicy: "network-only",
       })
       .catch((err) => {
         throw parseGraphqlError(err);

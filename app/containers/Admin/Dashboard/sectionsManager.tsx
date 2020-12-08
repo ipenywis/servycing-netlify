@@ -7,6 +7,7 @@ import { createSelector } from "reselect";
 import styled from "styles/styled-components";
 import { setActiveTab } from "./actions";
 import { DASHBOARD_SECTION_TAB } from "./constants";
+import { AddNewCustomerSection } from "./sections/customers/addNewCustomerSection";
 import { CustomersSection } from "./sections/customers/customersSection";
 import { AddNewServiceSection } from "./sections/offeredServices/addNewServiceSection";
 import { OfferedServicesSection } from "./sections/offeredServices/offeredServicesSection";
@@ -51,6 +52,7 @@ function Tabs() {
         if (tab === DASHBOARD_SECTION_TAB.UPDATE_SERVICE) return null;
         else if (tab === DASHBOARD_SECTION_TAB.ADD_NEW_SPECIALIST) return null;
         else if (tab === DASHBOARD_SECTION_TAB.UPDATE_SPECIALIST) return null;
+        else if (tab === DASHBOARD_SECTION_TAB.ADD_NEW_CUSTOMER) return null;
         else
           return (
             <Tab
@@ -83,6 +85,8 @@ function RenderSection() {
       return <UpdateSpecialistSection />;
     case DASHBOARD_SECTION_TAB.CUSTOMERS:
       return <CustomersSection />;
+    case DASHBOARD_SECTION_TAB.ADD_NEW_CUSTOMER:
+      return <AddNewCustomerSection />;
     default:
       return <></>;
   }

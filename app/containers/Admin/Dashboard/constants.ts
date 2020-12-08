@@ -24,4 +24,5 @@ export enum DASHBOARD_SECTION_TAB {
   ADD_NEW_SPECIALIST = "Add New Specialist",
   UPDATE_SPECIALIST = "Update Specialist",
   CUSTOMERS = "Customers",
+  ADD_NEW_CUSTOMER = "Add New Customer",
 }

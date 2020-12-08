@@ -177,7 +177,7 @@ export function CustomersSection(props: ICustomersSectionProps) {
         size={14}
         text="Add New Customer"
         buttonTheme={ButtonTheme.FULL_MINIMAL_BLUE}
-        onClick={() => setActiveTab(DASHBOARD_SECTION_TAB.ADD_NEW_SPECIALIST)}
+        onClick={() => setActiveTab(DASHBOARD_SECTION_TAB.ADD_NEW_CUSTOMER)}
       />
       <Table>
         <Table.Head>

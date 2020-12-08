@@ -39,8 +39,10 @@ import { makeSelectOfferedServices } from "../../selectors";
 import { FULLNAME_REGEX, PASSWORD_REGEX } from "utils/regex";
 import { IRegisterSpecialistDTO } from "types/specialist";
 import specialistService from "services/specialistService";
+import { IRegisterCustomerDTO } from "types/customer";
+import customerService from "services/customerService";
 
-interface IAddNewSpecialistSectionProps {}
+interface IAddNewCustomerSectionProps {}
 
 const InnerFromContainer = styled.div`
   display: flex;
@@ -59,7 +61,6 @@ const validationSchema = yup.object({
     .trim()
     .matches(FULLNAME_REGEX, "Please enter full name of specialist")
     .required("Specialist full name is required"),
-  shortBio: yup.string().trim().required("Short bio is required"),
   email: yup
     .string()
     .trim()
@@ -84,29 +85,28 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
 });
 
-export function AddNewSpecialistSection(props: IAddNewSpecialistSectionProps) {
+export function AddNewCustomerSection(props: IAddNewCustomerSectionProps) {
   const { setActiveTab } = actionDispatch(useDispatch());
   const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async (values: any, form: FormApi<any>): Promise<any> => {
     setError(null);
 
-    const data: IRegisterSpecialistDTO = {
+    const data: IRegisterCustomerDTO = {
       fullName: values.fullName,
-      shortBio: values.shortBio,
       email: values.email,
       password: values.password,
     };
-    const specialist = await specialistService.register(data).catch((err) => {
+    const customer = await customerService.register(data).catch((err) => {
       setError(err.message);
     });
 
-    if (specialist) setActiveTab(DASHBOARD_SECTION_TAB.SPECIALISTS);
+    if (customer) setActiveTab(DASHBOARD_SECTION_TAB.CUSTOMERS);
   };
 
   return (
     <SectionContainer alignCenter>
-      <Card title="Add Specialist" titleSize={19} centerTitle>
+      <Card title="Add Customer" titleSize={19} centerTitle>
         <InnerCardContainer>
           <Form
             onSubmit={onSubmit}
@@ -128,14 +128,6 @@ export function AddNewSpecialistSection(props: IAddNewSpecialistSectionProps) {
                     name="fullName"
                     inputTheme={InputTheme.MINIMAL_BORDER_DARK}
                     placeholder="Your Name"
-                    clearPlaceholderOnFocus
-                  />
-                </FormGroup>
-                <FormGroup label="Short Bio">
-                  <Input
-                    name="shortBio"
-                    inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                    placeholder="Short Bio about You"
                     clearPlaceholderOnFocus
                   />
                 </FormGroup>
