@@ -15,9 +15,13 @@ import { IOfferedService } from "types/offeredService";
 import {
   setActiveTab,
   setOfferedServices,
+  setOfferedServicesCount,
   setToUpdateOfferedService,
 } from "../actions";
-import { makeSelectOfferedServices } from "../selectors";
+import {
+  makeSelectOfferedServices,
+  makeSelectOfferedServicesCount,
+} from "../selectors";
 import {
   DASHBOARD_SECTION_TAB,
   DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
@@ -32,13 +36,18 @@ import { Pane } from "components/pane";
 import { VerticalWrapper } from "components/verticalWrapper";
 import { Marginer } from "components/marginer";
 import { closePopupByClickOutside } from "types/common";
+import { Button } from "components/button";
+import { ButtonTheme } from "components/button/themes";
+import { ILoadRangeOptions } from "types/pagination";
 
 interface IOfferedServicesProps {}
 
 const stateSelector = createSelector(
   makeSelectOfferedServices,
-  (offeredServices) => ({
+  makeSelectOfferedServicesCount,
+  (offeredServices, offeredServicesCount) => ({
     offeredServices,
+    offeredServicesCount,
   })
 );
 
@@ -48,6 +57,8 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
   setToUpdateOfferedService: (service: IOfferedService) =>
     dispatch(setToUpdateOfferedService(service)),
+  setOfferedServicesCount: (count: number) =>
+    dispatch(setOfferedServicesCount(count)),
 });
 
 interface IMenuProps {
@@ -117,30 +128,55 @@ function RenderRowMenu(props: IMenuProps) {
 }
 
 export function OfferedServicesSection(props: IOfferedServicesProps) {
-  const { offeredServices } = useSelector(stateSelector);
-  const { setOfferedServices } = actionDispatch(useDispatch());
+  const { offeredServices, offeredServicesCount } = useSelector(stateSelector);
+  const { setOfferedServices, setOfferedServicesCount } = actionDispatch(
+    useDispatch()
+  );
   const [isLoading, setLoading] = useState(false);
+  const [loadRange, setLoadRange] = useState<ILoadRangeOptions | null>(
+    DEFAULT_OFFERED_SERVICES_LOAD_RANGE
+  );
 
   const isEmptyOfferedServices =
     !offeredServices || (offeredServices && offeredServices.length === 0);
 
+  const cantLoadMore =
+    offeredServices && offeredServices.length === offeredServicesCount;
+
   const fetchedOfferedServices = async () => {
     setLoading(true);
     const offeredServicesWithCount = await offeredServicesService
-      .getAndFilterOfferedServices()
+      .getAndFilterOfferedServices(undefined, loadRange || undefined)
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (offeredServicesWithCount)
+    if (offeredServicesWithCount) {
       setOfferedServices(offeredServicesWithCount.offeredServices);
+      setOfferedServicesCount(offeredServicesWithCount.count);
+    }
 
     setLoading(false);
   };
 
+  const loadMore = () => {
+    //Load 20 more
+    setLoadRange({
+      start: 0,
+      range: loadRange
+        ? loadRange.range + 20
+        : DEFAULT_OFFERED_SERVICES_LOAD_RANGE.range,
+    });
+  };
+
+  const loadAll = () => {
+    //Load All services
+    setLoadRange(null);
+  };
+
   useEffect(() => {
     fetchedOfferedServices();
-  }, []);
+  }, [loadRange]);
 
   return (
     <SectionContainer>
@@ -189,6 +225,23 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
             ))}
         </Table.Body>
       </Table>
+      <Marginer direction="vertical" margin="2em" />
+      <HorizontalWrapper centered>
+        <Button
+          text="Load More"
+          size={12}
+          buttonTheme={ButtonTheme.GREY_SOLID}
+          onClick={loadMore}
+          disabled={cantLoadMore}
+        />
+        <Button
+          text="Load All"
+          size={12}
+          buttonTheme={ButtonTheme.GREY_SOLID}
+          onClick={loadAll}
+          disabled={cantLoadMore}
+        />
+      </HorizontalWrapper>
     </SectionContainer>
   );
 }

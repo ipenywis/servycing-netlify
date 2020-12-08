@@ -10,6 +10,7 @@ import { IDiscoverPageState } from "containers/DiscoverPage/types";
 import { ISpecialistDashboardPageState } from "containers/Specialist/Dashboard/types";
 import { IServicePageState } from "containers/ServicePage/types";
 import { ICustomerDashboardPageState } from "containers/Customer/Dashboard/types";
+import { IAdminDashboardPageState } from "containers/Admin/Dashboard/types";
 
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
@@ -43,6 +44,8 @@ export interface ApplicationRootState {
   readonly customerDashboardPage: ICustomerDashboardPageState;
 
   readonly specialistDashboardPage: ISpecialistDashboardPageState;
+
+  readonly adminDashboardPage: IAdminDashboardPageState;
 }
 
 export interface IAction {

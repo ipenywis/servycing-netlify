@@ -6,14 +6,14 @@ import { hot } from "react-hot-loader/root";
 import { BlackText, MutedText } from "components/text";
 import { Marginer } from "components/marginer";
 import { useInjectReducer } from "redux-injectors";
-import specialistDashboardReducer, { REDUCER_KEY } from "./reducer";
+import adminDashboardReducer, { REDUCER_KEY } from "./reducer";
 import { screenSizes } from "components/responsive";
 import { SectionsManager } from "./sectionsManager";
 
 interface IAdminDashboardPageProps {}
 
 function AdminDashboardPage(props: IAdminDashboardPageProps) {
-  useInjectReducer({ key: REDUCER_KEY, reducer: specialistDashboardReducer });
+  useInjectReducer({ key: REDUCER_KEY, reducer: adminDashboardReducer });
 
   return (
     <PageContainer>

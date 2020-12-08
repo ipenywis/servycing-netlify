@@ -3,8 +3,9 @@ import { IOfferedService } from "types/offeredService";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
 import { DASHBOARD_SECTION_TAB } from "./constants";
 
-export interface ISpecialistDashboardPageState {
+export interface IAdminDashboardPageState {
   offeredServices: IOfferedService[];
+  offeredServicesCount: number;
   activeTab: DASHBOARD_SECTION_TAB;
   toUpdateOfferedService: IOfferedService | null;
 }
