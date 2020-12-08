@@ -74,8 +74,8 @@ function RenderRowMenu(props: IMenuProps) {
   const [isDeleting, setDeleting] = useState(false);
 
   const goToUpdateSection = () => {
-    //setToUpdateCustomer(review);
-    setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_CUSTOMER);
+    setToUpdateReview(review);
+    setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_REVIEW);
   };
 
   const deleteReviewFromState = (id: string) => {

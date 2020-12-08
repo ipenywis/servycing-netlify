@@ -5,3 +5,9 @@ export const DELETE_REVIEW = gql`
     deleted: deleteReview(reviewId: $reviewId)
   }
 `;
+
+export const UPDATE_REVIEW = gql`
+  mutation UPDATE_REVIEW($updateReviewInput: UpdateReviewInput!) {
+    updated: updateReview(updateReviewInput: $updateReviewInput)
+  }
+`;

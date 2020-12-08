@@ -1,14 +1,14 @@
 import { apolloClient } from "apolloGraphql";
-import { IServiceReview } from "types/serviceReview";
+import { IServiceReview, IUpdateReviewDTO } from "types/serviceReview";
 import { parseGraphqlError } from "utils/error";
-import { DELETE_REVIEW } from "./mutations";
+import { DELETE_REVIEW, UPDATE_REVIEW } from "./mutations";
 import { GET_ALL_REVIEWS } from "./queries";
 import reviewMessages from "./reviewMessages";
 
 class ReviewService {
   public async getAllReviews(): Promise<IServiceReview[]> {
     const response = await apolloClient
-      .query({ query: GET_ALL_REVIEWS })
+      .query({ query: GET_ALL_REVIEWS, fetchPolicy: "network-only" })
       .catch((err) => {
         throw parseGraphqlError(err);
       });
@@ -27,6 +27,17 @@ class ReviewService {
 
     if (response && response.data && response.data.delete) return true;
     else throw new Error(reviewMessages.cannotDeleteServiceReview);
+  }
+
+  public async update(updateReviewInput: IUpdateReviewDTO): Promise<boolean> {
+    const response = await apolloClient
+      .mutate({ mutation: UPDATE_REVIEW, variables: { updateReviewInput } })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.updated) return true;
+    else throw new Error(reviewMessages.cannotUpdateServiceReview);
   }
 }
 

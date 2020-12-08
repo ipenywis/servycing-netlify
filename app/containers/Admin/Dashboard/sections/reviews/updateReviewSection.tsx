@@ -38,14 +38,18 @@ import { createSelector } from "reselect";
 import {
   makeSelectOfferedServices,
   makeSelectToUpdateCustomer,
+  makeSelectToUpdateReview,
 } from "../../selectors";
 import { FULLNAME_REGEX, PASSWORD_REGEX } from "utils/regex";
 import { IRegisterSpecialistDTO } from "types/specialist";
 import specialistService from "services/specialistService";
 import { IRegisterCustomerDTO, IUpdateCustomerDTO } from "types/customer";
 import customerService from "services/customerService";
+import { IUpdateReviewDTO } from "types/serviceReview";
+import { RatingStars } from "components/ratingStarts";
+import reviewService from "services/reviewService";
 
-interface IUpdateCustomerSectionProps {}
+interface IUpdateReviewSectionProps {}
 
 const InnerFromContainer = styled.div`
   display: flex;
@@ -59,20 +63,8 @@ const InnerCardContainer = styled.div`
 `;
 
 const validationSchema = yup.object({
-  fullName: yup
-    .string()
-    .trim()
-    .matches(FULLNAME_REGEX, "Please enter full name of specialist")
-    .required("Specialist full name is required"),
-  email: yup
-    .string()
-    .trim()
-    .email("Please enter a valid email address")
-    .required(),
-  password: yup
-    .string()
-    .trim()
-    .matches(PASSWORD_REGEX, "Please enter a strong password"),
+  review: yup.string().trim().required("Service Review is required!"),
+  rating: yup.number().required("Service Rating is required!"),
 });
 
 const DetailsContainer = styled.div`
@@ -84,9 +76,9 @@ const DetailsContainer = styled.div`
 `;
 
 const stateSelector = createSelector(
-  makeSelectToUpdateCustomer,
-  (toUpdateCustomer) => ({
-    toUpdateCustomer,
+  makeSelectToUpdateReview,
+  (toUpdateReview) => ({
+    toUpdateReview,
   })
 );
 
@@ -94,12 +86,12 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
 });
 
-export function UpdateCustomerSection(props: IUpdateCustomerSectionProps) {
-  const { toUpdateCustomer } = useSelector(stateSelector);
+export function UpdateReviewSection(props: IUpdateReviewSectionProps) {
+  const { toUpdateReview } = useSelector(stateSelector);
   const { setActiveTab } = actionDispatch(useDispatch());
   const [error, setError] = useState<string | null>(null);
 
-  if (!toUpdateCustomer) {
+  if (!toUpdateReview) {
     setActiveTab(DASHBOARD_SECTION_TAB.CUSTOMERS);
     return null;
   }
@@ -109,31 +101,34 @@ export function UpdateCustomerSection(props: IUpdateCustomerSectionProps) {
 
     const dirtyFields = form.getState().dirtyFields;
 
-    const updatedData: IUpdateCustomerDTO | any = {
-      id: toUpdateCustomer.id,
+    const updatedData: IUpdateReviewDTO | any = {
+      id: toUpdateReview.id,
     };
     for (const fieldName of Object.keys(dirtyFields)) {
       if (dirtyFields[fieldName]) updatedData[fieldName] = values[fieldName];
     }
 
-    const customer = await customerService.update(updatedData).catch((err) => {
+    const review = await reviewService.update(updatedData).catch((err) => {
       setError(err.message);
     });
 
-    if (customer) setActiveTab(DASHBOARD_SECTION_TAB.CUSTOMERS);
+    if (review) setActiveTab(DASHBOARD_SECTION_TAB.SERVICES_REVIEWS);
   };
 
   return (
     <SectionContainer alignCenter>
-      <Card title="Update Customer" titleSize={19} centerTitle>
+      <Card title="Update Review" titleSize={19} centerTitle>
         <InnerCardContainer>
           <Form
             onSubmit={onSubmit}
             validate={(values) => validateForm(validationSchema, values)}
+            mutators={{ setField }}
             validateOnBlur={false}
-            initialValues={toUpdateCustomer}
+            initialValues={toUpdateReview}
           >
             {({
+              form,
+              values,
               submitting,
               dirtySinceLastSubmit,
               hasSubmitErrors,
@@ -142,31 +137,32 @@ export function UpdateCustomerSection(props: IUpdateCustomerSectionProps) {
                 <DetailsContainer>
                   {error && <ErrorText size={15}>{error}</ErrorText>}
                 </DetailsContainer>
-                <FinalFormSpy form={FORMS.ADMIN_ADD_NEW_SPECIALIST_FORM} />
-                <FormGroup label="Full Name">
+                <FinalFormSpy form={FORMS.ADMIN_UPDATE_SERVICE_REVIEW_FORM} />
+                <FormGroup label="Rating">
                   <Input
-                    name="fullName"
+                    name="rating"
                     inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                    placeholder="Your Name"
+                    placeholder="Service Rating"
                     clearPlaceholderOnFocus
+                    useAsNumeric
+                    hidden
+                  />
+                  <RatingStars
+                    rating={values.rating}
+                    onRateChange={(rating) =>
+                      form.mutators.setField("rating", rating)
+                    }
                   />
                 </FormGroup>
-                <FormGroup label="Email">
+                <FormGroup label="Review">
                   <Input
-                    name="email"
+                    name="review"
                     inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                    placeholder="example@mail.com"
+                    placeholder="Service Review"
                     clearPlaceholderOnFocus
-                    type="email"
-                  />
-                </FormGroup>
-                <FormGroup label="Password">
-                  <Input
-                    name="password"
-                    inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                    placeholder="Strong Password"
-                    clearPlaceholderOnFocus
-                    type="password"
+                    useAsTextarea
+                    maxHeight="15em"
+                    limit={1000}
                   />
                 </FormGroup>
                 <HorizontalWrapper centered>

@@ -8,6 +8,7 @@ export enum FORMS {
 
   ADMIN_ADD_NEW_SPECIALIST_FORM = "adminAddNewSpecialistForm",
   ADMIN_ADD_NEW_SERVICE_FORM = "adminAddNewServiceForm",
+  ADMIN_UPDATE_SERVICE_REVIEW_FORM = "adminUpdateServiceReviewForm",
 }
 
 export interface IFinalFormState {

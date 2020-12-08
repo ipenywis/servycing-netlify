@@ -14,6 +14,7 @@ import { AddNewServiceSection } from "./sections/offeredServices/addNewServiceSe
 import { OfferedServicesSection } from "./sections/offeredServices/offeredServicesSection";
 import { UpdateServiceSection } from "./sections/offeredServices/updateServiceSection";
 import { ReviewsSection } from "./sections/reviews/reviewsSection";
+import { UpdateReviewSection } from "./sections/reviews/updateReviewSection";
 import { AddNewSpecialistSection } from "./sections/specialists/addNewSpecialistSection";
 import { SpecialistsSection } from "./sections/specialists/specialistsSection";
 import { UpdateSpecialistSection } from "./sections/specialists/updateSpecialistSection";
@@ -56,6 +57,7 @@ function Tabs() {
         else if (tab === DASHBOARD_SECTION_TAB.UPDATE_SPECIALIST) return null;
         else if (tab === DASHBOARD_SECTION_TAB.ADD_NEW_CUSTOMER) return null;
         else if (tab === DASHBOARD_SECTION_TAB.UPDATE_CUSTOMER) return null;
+        else if (tab === DASHBOARD_SECTION_TAB.UPDATE_REVIEW) return null;
         else
           return (
             <Tab
@@ -92,6 +94,8 @@ function RenderSection() {
       return <UpdateCustomerSection />;
     case DASHBOARD_SECTION_TAB.SERVICES_REVIEWS:
       return <ReviewsSection />;
+    case DASHBOARD_SECTION_TAB.UPDATE_REVIEW:
+      return <UpdateReviewSection />;
     default:
       return <></>;
   }
