@@ -12,6 +12,13 @@ export interface IRegisterCustomerDTO {
   password: string;
 }
 
+export interface IUpdateCustomerDTO {
+  id: string;
+  email?: string;
+  fullName?: string;
+  password?: string;
+}
+
 export interface ILoginCustomerDTO {
   email: string;
   password: string;

@@ -10,3 +10,13 @@ export const LOGIN_CUSTOMER = gql`
     }
   }
 `;
+
+export const GET_CUSTOMERS = gql`
+  query GET_CUSTOMERS {
+    customers {
+      id
+      fullName
+      email
+    }
+  }
+`;

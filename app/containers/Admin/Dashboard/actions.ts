@@ -1,3 +1,4 @@
+import { ICustomer } from "types/customer";
 import { IFinishedProject } from "types/finishedProject";
 import { IOfferedService } from "types/offeredService";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
@@ -22,3 +23,9 @@ export const setSpecialists = (specialists: ISpecialist[]) =>
 
 export const setToUpdateSpecialist = (specialist: ISpecialist | null) =>
   action(ActionTypes.SET_TO_UPDATE_SPECIALIST, specialist);
+
+export const setCustomers = (customers: ICustomer[]) =>
+  action(ActionTypes.SET_CUSTOMERS, customers);
+
+export const setToUpdateCustomer = (customer: ICustomer | null) =>
+  action(ActionTypes.SET_TO_UPDATE_CUSTOMER, customer);

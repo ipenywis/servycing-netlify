@@ -7,6 +7,8 @@ export enum ActionTypes {
   SET_OFFERED_SERVICES_COUNT = "app/containers/Admin/Dashboard/SET_OFFERED_SERVICES_COUNT",
   SET_SPECIALISTS = "app/containers/Admin/Dashboard/SET_SPECIALISTS",
   SET_TO_UPDATE_SPECIALIST = "app/containers/Admin/Dashboard/SET_TO_UPDATE_SPECIALIST",
+  SET_CUSTOMERS = "app/containers/Admin/Dashboard/SET_CUSTOMERS",
+  SET_TO_UPDATE_CUSTOMER = "app/containers/Admin/Dashboard/SET_TO_UPDATE_CUSTOMER",
 }
 
 export const DEFAULT_OFFERED_SERVICES_LOAD_RANGE: ILoadRangeOptions = {
@@ -21,4 +23,5 @@ export enum DASHBOARD_SECTION_TAB {
   SPECIALISTS = "Specialists",
   ADD_NEW_SPECIALIST = "Add New Specialist",
   UPDATE_SPECIALIST = "Update Specialist",
+  CUSTOMERS = "Customers",
 }

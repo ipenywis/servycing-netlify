@@ -1,3 +1,4 @@
+import { ICustomer } from "types/customer";
 import { IFinishedProject } from "types/finishedProject";
 import { IOfferedService } from "types/offeredService";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
@@ -11,4 +12,6 @@ export interface IAdminDashboardPageState {
   toUpdateOfferedService: IOfferedService | null;
   specialists: ISpecialist[];
   toUpdateSpecialist: ISpecialist | null;
+  customers: ICustomer[];
+  toUpdateCustomer: ICustomer | null;
 }
