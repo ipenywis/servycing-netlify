@@ -13,6 +13,7 @@ export const GET_OFFERED_SERVICES = gql`
         description
         type
         rate
+        rating
         preferredHours
         thumbnailUrl
         specialist {
@@ -40,6 +41,7 @@ export const GET_SPECIALIST_MY_OFFERED_SERVICES = gql`
       rate
       preferredHours
       thumbnailUrl
+      rating
       specialist {
         id
         fullName
@@ -108,7 +110,7 @@ export const GET_SPECIALIST_ALL_FINISHED_PROJECTS = gql`
 `;
 
 export const GET_OFFERED_SERVICE = gql`
-  query OFFERED_SERVICES($serviceId: String!) {
+  query GET_OFFERED_SERVICE($serviceId: String!) {
     offeredService: offeredService(id: $serviceId) {
       id
       title
@@ -117,6 +119,7 @@ export const GET_OFFERED_SERVICE = gql`
       rate
       preferredHours
       thumbnailUrl
+      ratting
       specialist {
         id
         fullName

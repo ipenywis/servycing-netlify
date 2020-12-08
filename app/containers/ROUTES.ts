@@ -15,4 +15,5 @@ export default {
 
   //Admin
   adminLoginPage: "/boss/login",
+  adminDashboardPage: "/boss/dashboard",
 };

@@ -90,6 +90,7 @@ export interface IOfferedService {
   description: string;
   type: OFFERED_SERVICE_TYPE;
   rate: number;
+  rating: number;
   preferredHours: string;
   specialist: ISpecialist;
   reviews: any[];

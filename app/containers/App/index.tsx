@@ -41,6 +41,7 @@ import AdminLoginPage from "containers/Admin/LoginPage/Loadable";
 import SpecialistDashboardPage from "containers/Specialist/Dashboard/Loadable";
 import ServicePage from "containers/ServicePage/Loadable";
 import CustomerDashboardPage from "containers/Customer/Dashboard/Loadable";
+import AdminDashboardPage from "containers/Admin/Dashboard/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -126,6 +127,12 @@ function App() {
             exact
             path={ROUTES.adminLoginPage}
             component={AdminLoginPage}
+          />
+          <PrivateRoute
+            allow={isAdminAuthenticated}
+            exact
+            path={ROUTES.adminDashboardPage}
+            component={AdminDashboardPage}
           />
 
           {/** Has to be kept last */}

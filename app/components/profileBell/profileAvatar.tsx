@@ -49,7 +49,6 @@ function ProfileAvatar(props: IProfileAvatarProps) {
     <Avatar
       onClick={onClick}
       isSolid
-      src={authenticatedUser?.picture ? authenticatedUser?.picture : undefined}
       name={authenticatedUser?.fullName}
       color="green"
       size={size}
