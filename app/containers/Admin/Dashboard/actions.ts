@@ -2,6 +2,7 @@ import { ICustomer } from "types/customer";
 import { IFinishedProject } from "types/finishedProject";
 import { IOfferedService } from "types/offeredService";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
+import { IServiceReview } from "types/serviceReview";
 import { ISpecialist } from "types/specialist";
 import { action } from "typesafe-actions";
 import { ActionTypes, DASHBOARD_SECTION_TAB } from "./constants";
@@ -29,3 +30,9 @@ export const setCustomers = (customers: ICustomer[]) =>
 
 export const setToUpdateCustomer = (customer: ICustomer | null) =>
   action(ActionTypes.SET_TO_UPDATE_CUSTOMER, customer);
+
+export const setReviews = (reviews: IServiceReview[]) =>
+  action(ActionTypes.SET_REVIEWS, reviews);
+
+export const setToUpdateReview = (review: IServiceReview | null) =>
+  action(ActionTypes.SET_TO_UPDATE_REVIEW, review);

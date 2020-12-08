@@ -200,7 +200,7 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
           <Pane alignCenter marginTop="5%">
             {isLoading && <MinimalSpinner />}
             {isEmptyOfferedServices && (
-              <WarningText>You haven't offered any services yet</WarningText>
+              <WarningText>There are no offered services yet!</WarningText>
             )}
           </Pane>
         )}
@@ -227,22 +227,24 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
         </Table.Body>
       </Table>
       <Marginer direction="vertical" margin="2em" />
-      <HorizontalWrapper centered>
-        <Button
-          text="Load More"
-          size={12}
-          buttonTheme={ButtonTheme.GREY_SOLID}
-          onClick={loadMore}
-          disabled={cantLoadMore}
-        />
-        <Button
-          text="Load All"
-          size={12}
-          buttonTheme={ButtonTheme.GREY_SOLID}
-          onClick={loadAll}
-          disabled={cantLoadMore}
-        />
-      </HorizontalWrapper>
+      {!isEmptyOfferedServices && (
+        <HorizontalWrapper centered>
+          <Button
+            text="Load More"
+            size={12}
+            buttonTheme={ButtonTheme.GREY_SOLID}
+            onClick={loadMore}
+            disabled={cantLoadMore}
+          />
+          <Button
+            text="Load All"
+            size={12}
+            buttonTheme={ButtonTheme.GREY_SOLID}
+            onClick={loadAll}
+            disabled={cantLoadMore}
+          />
+        </HorizontalWrapper>
+      )}
     </SectionContainer>
   );
 }

@@ -10,8 +10,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
-import { setActiveTab, setCustomers, setToUpdateCustomer } from "../../actions";
-import { makeSelectCustomers } from "../../selectors";
+import {
+  setActiveTab,
+  setCustomers,
+  setReviews,
+  setToUpdateCustomer,
+  setToUpdateReview,
+} from "../../actions";
+import {
+  makeSelectCustomers,
+  makeSelectReviews,
+  makeSelectToUpdateReview,
+} from "../../selectors";
 import {
   DASHBOARD_SECTION_TAB,
   DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
@@ -30,52 +40,59 @@ import { ILoadRangeOptions } from "types/pagination";
 import { ICustomer } from "types/customer";
 import customerService from "services/customerService";
 import { Avatar } from "components/avatar";
+import { IServiceReview } from "types/serviceReview";
+import reviewService from "services/reviewService";
 
-interface ICustomersSectionProps {}
+interface IReviewsSectionProps {}
 
-const stateSelector = createSelector(makeSelectCustomers, (customers) => ({
-  customers,
-}));
+const stateSelector = createSelector(
+  makeSelectReviews,
+  makeSelectToUpdateReview,
+  (reviews, toUpdateReview) => ({
+    reviews,
+    toUpdateReview,
+  })
+);
 
 const actionDispatch = (dispatch: Dispatch) => ({
-  setCustomers: (customers: ICustomer[]) => dispatch(setCustomers(customers)),
-  setToUpdateCustomer: (customer: ICustomer | null) =>
-    dispatch(setToUpdateCustomer(customer)),
+  setReviews: (reviews: IServiceReview[]) => dispatch(setReviews(reviews)),
+  setToUpdateReview: (review: IServiceReview | null) =>
+    dispatch(setToUpdateReview(review)),
   setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
 });
 
 interface IMenuProps {
-  customer: ICustomer;
+  review: IServiceReview;
 }
 
 function RenderRowMenu(props: IMenuProps) {
-  const { customer } = props;
-  const { customers } = useSelector(stateSelector);
-  const { setActiveTab, setCustomers, setToUpdateCustomer } = actionDispatch(
+  const { review } = props;
+  const { reviews } = useSelector(stateSelector);
+  const { setActiveTab, setReviews, setToUpdateReview } = actionDispatch(
     useDispatch()
   );
   const [isDeleting, setDeleting] = useState(false);
 
   const goToUpdateSection = () => {
-    setToUpdateCustomer(customer);
+    //setToUpdateCustomer(review);
     setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_CUSTOMER);
   };
 
-  const deleteCustomerFromState = (id: string) => {
-    const updatedCustomers = customers.filter((service) => {
-      return service.id !== id;
+  const deleteReviewFromState = (id: string) => {
+    const updatedReviews = reviews.filter((review) => {
+      return review.id !== id;
     });
 
-    setCustomers(updatedCustomers);
+    setReviews(updatedReviews);
   };
 
-  const deleteSpecialist = async () => {
+  const deleteReview = async () => {
     setDeleting(true);
-    const deleted = await customerService.delete(customer.id).catch((err) => {
+    const deleted = await reviewService.delete(review.id).catch((err) => {
       console.log("Error: ", err);
     });
 
-    if (deleted) deleteCustomerFromState(customer.id);
+    if (deleted) deleteReviewFromState(review.id);
 
     closePopupByClickOutside();
 
@@ -89,7 +106,7 @@ function RenderRowMenu(props: IMenuProps) {
         <Menu.Divider />
       </Menu.Group>
       <Menu.Group>
-        <Menu.Item intent="danger" onSelect={deleteSpecialist}>
+        <Menu.Item intent="danger" onSelect={deleteReview}>
           <HorizontalWrapper centerVertically>
             <VerticalWrapper centerVertically>
               Delete
@@ -106,24 +123,24 @@ function RenderRowMenu(props: IMenuProps) {
   );
 }
 
-export function CustomersSection(props: ICustomersSectionProps) {
-  const { customers } = useSelector(stateSelector);
-  const { setCustomers, setActiveTab } = actionDispatch(useDispatch());
+export function ReviewsSection(props: IReviewsSectionProps) {
+  const { reviews } = useSelector(stateSelector);
+  const { setReviews, setActiveTab } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
   const [loadRange, setLoadRange] = useState<ILoadRangeOptions | null>(
     DEFAULT_OFFERED_SERVICES_LOAD_RANGE
   );
 
-  const isEmptyCustomers = !customers || (customers && customers.length === 0);
+  const isEmptyReviews = !reviews || (reviews && reviews.length === 0);
 
-  const fetchCustomers = async () => {
+  const fetchReviews = async () => {
     setLoading(true);
-    const customers = await customerService.getCustomers().catch((err) => {
+    const reviews = await reviewService.getAllReviews().catch((err) => {
       console.log("Err: ", err);
     });
 
-    if (customers) {
-      setCustomers(customers);
+    if (reviews) {
+      setReviews(reviews);
     }
 
     setLoading(false);
@@ -145,7 +162,7 @@ export function CustomersSection(props: ICustomersSectionProps) {
   };
 
   useEffect(() => {
-    fetchCustomers();
+    fetchReviews();
   }, []);
 
   return (
@@ -164,34 +181,32 @@ export function CustomersSection(props: ICustomersSectionProps) {
       />
       <Table>
         <Table.Head>
-          <Table.TextHeaderCell>Avatar</Table.TextHeaderCell>
           <Table.TextHeaderCell>Id</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Full Name</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Email</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Customer</Table.TextHeaderCell>
+          <Table.TextHeaderCell flexGrow={2}>Review</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Rating</Table.TextHeaderCell>
           <Table.TextHeaderCell>More</Table.TextHeaderCell>
         </Table.Head>
-        {(isLoading || isEmptyCustomers) && (
+        {(isLoading || isEmptyReviews) && (
           <Pane alignCenter marginTop="5%">
             {isLoading && <MinimalSpinner />}
-            {isEmptyCustomers && (
-              <WarningText>No customers are registered yet!</WarningText>
+            {isEmptyReviews && (
+              <WarningText>No services reviews yet!</WarningText>
             )}
           </Pane>
         )}
         <Table.Body>
           {!isLoading &&
-            !isEmptyCustomers &&
-            customers.map((customer, idx) => (
+            !isEmptyReviews &&
+            reviews.map((review, idx) => (
               <Table.Row key={idx}>
-                <Table.Cell>
-                  <Avatar name={customer.fullName} size={29} />
-                </Table.Cell>
-                <Table.TextCell>{customer.id}</Table.TextCell>
-                <Table.TextCell>{customer.fullName}</Table.TextCell>
-                <Table.TextCell>{customer.email}</Table.TextCell>
+                <Table.TextCell>{review.id}</Table.TextCell>
+                <Table.TextCell>{review.customer.fullName}</Table.TextCell>
+                <Table.TextCell flexGrow={2}>{review.review}</Table.TextCell>
+                <Table.TextCell isNumber>{review.rating}</Table.TextCell>
                 <Table.Cell>
                   <Popover
-                    content={<RenderRowMenu customer={customer} />}
+                    content={<RenderRowMenu review={review} />}
                     position={Position.BOTTOM_RIGHT}
                   >
                     <IconButton icon="more" appearance="minimal" height={24} />

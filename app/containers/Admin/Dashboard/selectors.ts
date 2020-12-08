@@ -43,3 +43,13 @@ export const makeSelectToUpdateCustomer = createSelector(
   selectAdminDashboardPage,
   (page) => page.toUpdateCustomer
 );
+
+export const makeSelectReviews = createSelector(
+  selectAdminDashboardPage,
+  (page) => page.reviews
+);
+
+export const makeSelectToUpdateReview = createSelector(
+  selectAdminDashboardPage,
+  (page) => page.toUpdateReview
+);

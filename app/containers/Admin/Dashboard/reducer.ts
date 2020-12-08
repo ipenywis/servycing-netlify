@@ -11,6 +11,8 @@ const defaultState: IAdminDashboardPageState = {
   toUpdateSpecialist: null,
   customers: [],
   toUpdateCustomer: null,
+  reviews: [],
+  toUpdateReview: null,
 };
 
 export const REDUCER_KEY = "adminDashboardPage";
@@ -36,6 +38,10 @@ export default function adminDashboardReducer(
       return { ...state, customers: action.payload };
     case ActionTypes.SET_TO_UPDATE_CUSTOMER:
       return { ...state, toUpdateCustomer: action.payload };
+    case ActionTypes.SET_REVIEWS:
+      return { ...state, reviews: action.payload };
+    case ActionTypes.SET_TO_UPDATE_REVIEW:
+      return { ...state, toUpdateReview: action.payload };
     default:
       return state;
   }
