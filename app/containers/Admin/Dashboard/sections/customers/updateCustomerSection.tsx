@@ -37,13 +37,15 @@ import { ErrorText } from "components/text";
 import { createSelector } from "reselect";
 import {
   makeSelectOfferedServices,
-  makeSelectToUpdateSpecialist,
+  makeSelectToUpdateCustomer,
 } from "../../selectors";
 import { FULLNAME_REGEX, PASSWORD_REGEX } from "utils/regex";
-import { IRegisterSpecialistDTO, IUpdateSpecialistDTO } from "types/specialist";
+import { IRegisterSpecialistDTO } from "types/specialist";
 import specialistService from "services/specialistService";
+import { IRegisterCustomerDTO, IUpdateCustomerDTO } from "types/customer";
+import customerService from "services/customerService";
 
-interface IUpdateSpecialistSectionProps {}
+interface IUpdateCustomerSectionProps {}
 
 const InnerFromContainer = styled.div`
   display: flex;
@@ -62,7 +64,6 @@ const validationSchema = yup.object({
     .trim()
     .matches(FULLNAME_REGEX, "Please enter full name of specialist")
     .required("Specialist full name is required"),
-  shortBio: yup.string().trim().required("Short bio is required"),
   email: yup
     .string()
     .trim()
@@ -83,9 +84,9 @@ const DetailsContainer = styled.div`
 `;
 
 const stateSelector = createSelector(
-  makeSelectToUpdateSpecialist,
-  (toUpdateSpecialist) => ({
-    toUpdateSpecialist,
+  makeSelectToUpdateCustomer,
+  (toUpdateCustomer) => ({
+    toUpdateCustomer,
   })
 );
 
@@ -93,13 +94,13 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
 });
 
-export function UpdateSpecialistSection(props: IUpdateSpecialistSectionProps) {
-  const { toUpdateSpecialist } = useSelector(stateSelector);
+export function UpdateCustomerSection(props: IUpdateCustomerSectionProps) {
+  const { toUpdateCustomer } = useSelector(stateSelector);
   const { setActiveTab } = actionDispatch(useDispatch());
   const [error, setError] = useState<string | null>(null);
 
-  if (!toUpdateSpecialist) {
-    setActiveTab(DASHBOARD_SECTION_TAB.SPECIALISTS);
+  if (!toUpdateCustomer) {
+    setActiveTab(DASHBOARD_SECTION_TAB.CUSTOMERS);
     return null;
   }
 
@@ -108,31 +109,29 @@ export function UpdateSpecialistSection(props: IUpdateSpecialistSectionProps) {
 
     const dirtyFields = form.getState().dirtyFields;
 
-    const updatedData: IUpdateSpecialistDTO | any = {
-      id: toUpdateSpecialist.id,
+    const updatedData: IUpdateCustomerDTO | any = {
+      id: toUpdateCustomer.id,
     };
     for (const fieldName of Object.keys(dirtyFields)) {
       if (dirtyFields[fieldName]) updatedData[fieldName] = values[fieldName];
     }
 
-    const specialist = await specialistService
-      .update(updatedData)
-      .catch((err) => {
-        setError(err.message);
-      });
+    const customer = await customerService.update(updatedData).catch((err) => {
+      setError(err.message);
+    });
 
-    if (specialist) setActiveTab(DASHBOARD_SECTION_TAB.SPECIALISTS);
+    if (customer) setActiveTab(DASHBOARD_SECTION_TAB.CUSTOMERS);
   };
 
   return (
     <SectionContainer alignCenter>
-      <Card title="Add Specialist" titleSize={19} centerTitle>
+      <Card title="Update Customer" titleSize={19} centerTitle>
         <InnerCardContainer>
           <Form
             onSubmit={onSubmit}
             validate={(values) => validateForm(validationSchema, values)}
             validateOnBlur={false}
-            initialValues={toUpdateSpecialist}
+            initialValues={toUpdateCustomer}
           >
             {({
               submitting,
@@ -141,7 +140,7 @@ export function UpdateSpecialistSection(props: IUpdateSpecialistSectionProps) {
             }: FormRenderProps) => (
               <>
                 <DetailsContainer>
-                  {error && <ErrorText size={14}>{error}</ErrorText>}
+                  {error && <ErrorText size={15}>{error}</ErrorText>}
                 </DetailsContainer>
                 <FinalFormSpy form={FORMS.ADMIN_ADD_NEW_SPECIALIST_FORM} />
                 <FormGroup label="Full Name">
@@ -149,14 +148,6 @@ export function UpdateSpecialistSection(props: IUpdateSpecialistSectionProps) {
                     name="fullName"
                     inputTheme={InputTheme.MINIMAL_BORDER_DARK}
                     placeholder="Your Name"
-                    clearPlaceholderOnFocus
-                  />
-                </FormGroup>
-                <FormGroup label="Short Bio">
-                  <Input
-                    name="shortBio"
-                    inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                    placeholder="Short Bio about You"
                     clearPlaceholderOnFocus
                   />
                 </FormGroup>
@@ -169,11 +160,11 @@ export function UpdateSpecialistSection(props: IUpdateSpecialistSectionProps) {
                     type="email"
                   />
                 </FormGroup>
-                <FormGroup label="New Password">
+                <FormGroup label="Password">
                   <Input
                     name="password"
                     inputTheme={InputTheme.MINIMAL_BORDER_DARK}
-                    placeholder="New Password"
+                    placeholder="Strong Password"
                     clearPlaceholderOnFocus
                     type="password"
                   />

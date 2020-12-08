@@ -74,7 +74,7 @@ function RenderRowMenu(props: IMenuProps) {
 
   const goToUpdateSection = () => {
     setToUpdateCustomer(customer);
-    setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_SPECIALIST);
+    setActiveTab(DASHBOARD_SECTION_TAB.UPDATE_CUSTOMER);
   };
 
   const deleteCustomerFromState = (id: string) => {
