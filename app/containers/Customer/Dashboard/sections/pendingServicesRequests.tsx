@@ -71,7 +71,7 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
   return (
     <SectionContainer>
       <BlackText size={19} bold>
-        Pending Services Requests
+        Your Services Requests
       </BlackText>
       <MutedText size={12} marginBottom="1em">
         View and Manage all requests coming from customers for your offered

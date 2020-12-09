@@ -15,5 +15,5 @@ export const DEFAULT_OFFERED_SERVICES_LOAD_RANGE: ILoadRangeOptions = {
 export enum DASHBOARD_SECTION_TAB {
   FINISHED_PROJECTS = "Finished Projects",
   LEAVE_NEW_REVIEW = "Leave a Review",
-  PENDING_SERVICE_REQUESTS = "Your Pending Requests",
+  PENDING_SERVICE_REQUESTS = "My Requests",
 }

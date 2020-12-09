@@ -1,4 +1,11 @@
-import { IconButton, Menu, Popover, Position, Table } from "evergreen-ui";
+import {
+  IconButton,
+  Menu,
+  Popover,
+  Position,
+  Spinner,
+  Table,
+} from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
@@ -27,6 +34,7 @@ import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { wait } from "utils/common";
 import { Pane } from "components/pane";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
+import { Marginer } from "components/marginer";
 
 interface IPendingRequestsSectionProps {}
 
@@ -50,6 +58,8 @@ function RenderRowMenu(props: IMenuProps) {
   const { request } = props;
   const { pendingRequests } = useSelector(stateSelector);
   const { setPendingRequests } = actionDispatch(useDispatch());
+  const [isAcceptLoading, setAcceptLoading] = useState(false);
+  const [isRejectLoading, setRejectLoading] = useState(false);
 
   const updatePendingRequest = (
     id: string,
@@ -64,6 +74,7 @@ function RenderRowMenu(props: IMenuProps) {
   };
 
   const acceptPendingRequest = async () => {
+    setAcceptLoading(true);
     const acceptedPendingRequest = await offeredServicesService
       .specialistAcceptPendingRequest(request.id)
       .catch((err) => {
@@ -72,9 +83,12 @@ function RenderRowMenu(props: IMenuProps) {
 
     if (acceptedPendingRequest)
       updatePendingRequest(request.id, acceptedPendingRequest);
+
+    setAcceptLoading(false);
   };
 
   const rejectPendingRequest = async () => {
+    setRejectLoading(true);
     const rejectedPendingRequest = await offeredServicesService
       .specialistRejectPendingRequest(request.id)
       .catch((err) => {
@@ -83,16 +97,25 @@ function RenderRowMenu(props: IMenuProps) {
 
     if (rejectedPendingRequest)
       updatePendingRequest(request.id, rejectedPendingRequest);
+    setRejectLoading(false);
   };
 
   return (
     <Menu>
       <Menu.Group>
         <Menu.Item intent="success" onSelect={acceptPendingRequest}>
-          Accept
+          <HorizontalWrapper centerVertically>
+            Accept
+            <Marginer direction="horizontal" margin="10px" />
+            {isAcceptLoading && <Spinner size={14} />}
+          </HorizontalWrapper>
         </Menu.Item>
         <Menu.Item intent="danger" onSelect={rejectPendingRequest}>
-          Reject
+          <HorizontalWrapper centerVertically>
+            Reject
+            <Marginer direction="horizontal" margin="10px" />
+            {isRejectLoading && <Spinner size={14} />}
+          </HorizontalWrapper>
         </Menu.Item>
       </Menu.Group>
     </Menu>
