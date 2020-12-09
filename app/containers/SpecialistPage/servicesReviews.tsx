@@ -17,6 +17,7 @@ import { makeSelectServicesReviews, makeSelectSpecialist } from "./selectors";
 import { DEFAULT_REVIEWS_LOAD_RANGE } from "./constants";
 import { Button } from "components/button";
 import { ButtonTheme } from "components/button/themes";
+import { faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 interface IServicesReviews {}
 
@@ -150,6 +151,8 @@ export function ServicesReviews(props: IServicesReviews) {
           text="Load More"
           buttonTheme={ButtonTheme.FULL_MINIMAL_BLUE}
           onClick={loadMore}
+          icon={faPlusCircle}
+          iconSize="sm"
         />
       )}
     </ServicesReviewsContainer>

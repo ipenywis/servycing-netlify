@@ -1,3 +1,4 @@
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "components/button";
 import { ButtonTheme } from "components/button/themes";
 import { HorizontalWrapper } from "components/horizontalWrapper";
@@ -56,17 +57,17 @@ export function FinishedServices(props: IFinishedServicesProps) {
   const { finishedServices, specialist } = useSelector(stateSelector);
   const { setFinishedServices } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
+  const [servicesCount, setServicesCount] = useState(0);
   const [loadRange, setLoadRange] = useState<ILoadRangeOptions>(
     DEFAULT_SERVICES_LOAD_RANGE
   );
-  const [viewingMore, setViewingMore] = useState(false);
 
   const isEmptyFinishedServices =
     !finishedServices || (finishedServices && finishedServices.length === 0);
 
   if (!specialist) return null;
 
-  const fetchFinishedServices = async () => {
+  const fetchFinishedServices = async (loadedByRange = false) => {
     setLoading(true);
     const finishedServicesWithCount = await offeredServicesService
       .getSpecialistFinishedServicesById(specialist.id, loadRange)
@@ -74,20 +75,33 @@ export function FinishedServices(props: IFinishedServicesProps) {
         console.log("Error: ", err);
       });
 
-    if (finishedServicesWithCount) {
+    if (finishedServicesWithCount && !loadedByRange) {
       setFinishedServices(finishedServicesWithCount.finishedServices);
+      setServicesCount(finishedServicesWithCount.count);
+    } else if (finishedServicesWithCount && loadedByRange) {
+      setFinishedServices([
+        ...finishedServices,
+        ...finishedServicesWithCount.finishedServices,
+      ]);
+      setServicesCount(finishedServicesWithCount.count);
     }
 
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchFinishedServices();
+    fetchFinishedServices(true);
   }, [loadRange]);
 
+  useEffect(() => {
+    fetchFinishedServices();
+  }, []);
+
   const onViewMore = () => {
-    setViewingMore(true);
-    setLoadRange({ start: 0, range: loadRange.range + 6 });
+    setLoadRange({
+      start: (loadRange.start || 0) + loadRange.range,
+      range: loadRange.range,
+    });
   };
 
   //Make sure services are unique
@@ -114,8 +128,8 @@ export function FinishedServices(props: IFinishedServicesProps) {
             ))}
         </ServicesContainer>
         {!isEmptyFinishedServices &&
-          !viewingMore &&
-          finishedServices.length >= DEFAULT_SERVICES_LOAD_RANGE.range && (
+          finishedServices.length >= DEFAULT_SERVICES_LOAD_RANGE.range &&
+          finishedServices.length !== servicesCount && (
             <Button
               text="View More"
               onClick={onViewMore}
