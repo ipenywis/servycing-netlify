@@ -13,3 +13,8 @@ export const makeSelectFinishedServices = createSelector(
   selectSpecialistPage,
   (page) => page.finishedServices
 );
+
+export const makeSelectServicesReviews = createSelector(
+  selectSpecialistPage,
+  (page) => page.servicesReviews
+);

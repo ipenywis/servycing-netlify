@@ -1,12 +1,14 @@
 import { apolloClient } from "apolloGraphql";
+import { ILoadRangeOptions } from "types/pagination";
 import {
   INewReviewDTO,
   IServiceReview,
+  IServicesReviewsWithCount,
   IUpdateReviewDTO,
 } from "types/serviceReview";
 import { parseGraphqlError } from "utils/error";
 import { DELETE_REVIEW, NEW_REVIEW, UPDATE_REVIEW } from "./mutations";
-import { GET_ALL_REVIEWS } from "./queries";
+import { GET_ALL_REVIEWS, GET_SPECIALIST_SERVICES_REVIEWS } from "./queries";
 import reviewMessages from "./reviewMessages";
 
 class ReviewService {
@@ -56,6 +58,25 @@ class ReviewService {
 
     if (response && response.data && response.data.updated) return true;
     else throw new Error(reviewMessages.cannotUpdateServiceReview);
+  }
+
+  public async getSpecialistServicesReviews(
+    specialistId: string,
+    range?: ILoadRangeOptions
+  ): Promise<IServicesReviewsWithCount> {
+    const response = await apolloClient
+      .query({
+        query: GET_SPECIALIST_SERVICES_REVIEWS,
+        variables: { specialistId, range },
+        fetchPolicy: "network-only",
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.servicesReviewsWithCount)
+      return response.data.servicesReviewsWithCount;
+    else throw new Error(reviewMessages.cannotFetchSpecialistServicesReviews);
   }
 }
 

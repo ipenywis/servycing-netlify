@@ -113,13 +113,15 @@ export function FinishedServices(props: IFinishedServicesProps) {
               <ServiceCard key={idx} {...service.offeredService} />
             ))}
         </ServicesContainer>
-        {!viewingMore && (
-          <Button
-            text="View More"
-            onClick={onViewMore}
-            buttonTheme={ButtonTheme.GREY_SOLID}
-          />
-        )}
+        {!isEmptyFinishedServices &&
+          !viewingMore &&
+          finishedServices.length >= DEFAULT_SERVICES_LOAD_RANGE.range && (
+            <Button
+              text="View More"
+              onClick={onViewMore}
+              buttonTheme={ButtonTheme.GREY_SOLID}
+            />
+          )}
       </InnerContainer>
     </FinishedServicesContainer>
   );
