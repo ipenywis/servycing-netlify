@@ -24,8 +24,14 @@ import { SpecialistInfo } from "./specialistInfo";
 
 interface ISpecialistPageProps {}
 
+const StyledInnerContainer = styled(InnerPageContainer as any)`
+  width: 100%;
+  align-items: center;
+`;
+
 const SpecialistPageContainer = styled.div`
   max-width: ${screenSizes.laptop}px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,7 +79,7 @@ function SpecialistPage(props: ISpecialistPageProps) {
   return (
     <PageContainer>
       <Navbar />
-      <InnerPageContainer>
+      <StyledInnerContainer>
         {!error && isLoading && (
           <HorizontalWrapper centered>
             <MinimalSpinner size="lg" />
@@ -95,7 +101,7 @@ function SpecialistPage(props: ISpecialistPageProps) {
             <FinishedServices />
           </SpecialistPageContainer>
         )}
-      </InnerPageContainer>
+      </StyledInnerContainer>
       <Footer />
     </PageContainer>
   );

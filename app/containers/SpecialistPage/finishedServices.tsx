@@ -1,6 +1,9 @@
+import { Button } from "components/button";
+import { ButtonTheme } from "components/button/themes";
 import { HorizontalWrapper } from "components/horizontalWrapper";
 import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { ServiceCard } from "components/serviceCard";
+import { BlackText } from "components/text";
 import uniqBy from "lodash/uniqBy";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +12,9 @@ import { createSelector } from "reselect";
 import offeredServicesService from "services/offeredServicesService";
 import styled from "styles/styled-components";
 import { IFinishedProject } from "types/finishedProject";
+import { ILoadRangeOptions } from "types/pagination";
 import { setFinishedServices } from "./actionts";
+import { DEFAULT_SERVICES_LOAD_RANGE } from "./constants";
 import { makeSelectFinishedServices, makeSelectSpecialist } from "./selectors";
 
 interface IFinishedServicesProps {}
@@ -18,6 +23,13 @@ const FinishedServicesContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+`;
+
+const InnerContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ServicesContainer = styled.div`
@@ -44,6 +56,10 @@ export function FinishedServices(props: IFinishedServicesProps) {
   const { finishedServices, specialist } = useSelector(stateSelector);
   const { setFinishedServices } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
+  const [loadRange, setLoadRange] = useState<ILoadRangeOptions>(
+    DEFAULT_SERVICES_LOAD_RANGE
+  );
+  const [viewingMore, setViewingMore] = useState(false);
 
   const isEmptyFinishedServices =
     !finishedServices || (finishedServices && finishedServices.length === 0);
@@ -53,7 +69,7 @@ export function FinishedServices(props: IFinishedServicesProps) {
   const fetchFinishedServices = async () => {
     setLoading(true);
     const finishedServicesWithCount = await offeredServicesService
-      .getSpecialistFinishedServicesById(specialist.id)
+      .getSpecialistFinishedServicesById(specialist.id, loadRange)
       .catch((err) => {
         console.log("Error: ", err);
       });
@@ -67,7 +83,12 @@ export function FinishedServices(props: IFinishedServicesProps) {
 
   useEffect(() => {
     fetchFinishedServices();
-  }, []);
+  }, [loadRange]);
+
+  const onViewMore = () => {
+    setViewingMore(true);
+    setLoadRange({ start: 0, range: loadRange.range + 6 });
+  };
 
   //Make sure services are unique
   const uniqueServices = useMemo(() => {
@@ -76,19 +97,30 @@ export function FinishedServices(props: IFinishedServicesProps) {
 
   return (
     <FinishedServicesContainer>
-      boom
-      {isLoading && (
-        <HorizontalWrapper centered>
-          {<MinimalSpinner size="md" />}
-        </HorizontalWrapper>
-      )}
-      <ServicesContainer>
-        {!isEmptyFinishedServices &&
-          !isLoading &&
-          uniqueServices.map((service, idx) => (
-            <ServiceCard key={idx} {...service.offeredService} />
-          ))}
-      </ServicesContainer>
+      <BlackText size={24} marginBottom={14} black>
+        Finished Services
+      </BlackText>
+      <InnerContainer>
+        {isLoading && (
+          <HorizontalWrapper centered>
+            {<MinimalSpinner size="md" />}
+          </HorizontalWrapper>
+        )}
+        <ServicesContainer>
+          {!isEmptyFinishedServices &&
+            !isLoading &&
+            uniqueServices.map((service, idx) => (
+              <ServiceCard key={idx} {...service.offeredService} />
+            ))}
+        </ServicesContainer>
+        {!viewingMore && (
+          <Button
+            text="View More"
+            onClick={onViewMore}
+            buttonTheme={ButtonTheme.GREY_SOLID}
+          />
+        )}
+      </InnerContainer>
     </FinishedServicesContainer>
   );
 }
