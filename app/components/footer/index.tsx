@@ -93,17 +93,19 @@ export function Footer(props: IFooterProps) {
             <Title noEffects bold>
               Content
             </Title>
-            <FLink to={"#"}>Home</FLink>
-            <FLink to="#">Browse Services</FLink>
+            <FLink to={ROUTES.homePage}>Home</FLink>
+            <FLink to={ROUTES.discoverPage}>Browse Services</FLink>
           </ContentContainer>
           <ContentContainer>
             <Title noEffects bold>
               Access
             </Title>
             <FLink to="#">About</FLink>
-            <FLink to="#">Become a Specialist</FLink>
-            <FLink to="#">Customer signin</FLink>
-            <FLink to="#">Join as Customer</FLink>
+            <FLink to={ROUTES.specialistRegisterPage}>
+              Become a Specialist
+            </FLink>
+            <FLink to={ROUTES.customerLoginPage}>Customer signin</FLink>
+            <FLink to={ROUTES.customerSignupPage}>Join as Customer</FLink>
           </ContentContainer>
         </LeftContainer>
         <RightContainer></RightContainer>
