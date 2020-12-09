@@ -6,4 +6,6 @@ export default {
   cannotFetchSpecialists: "Cannot fetch specialists, Please try again later!",
   cannotDeletSpecialist: "Cannot delete specialist, Please try again later!",
   cannotUpdateSpecialist: "Cannot update specialist, Please try again later!",
+  cannotFetchSpecialistInfo:
+    "Cannot fetch specialist info, Please try again later!",
 };

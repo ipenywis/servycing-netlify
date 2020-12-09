@@ -11,6 +11,7 @@ import { ISpecialistDashboardPageState } from "containers/Specialist/Dashboard/t
 import { IServicePageState } from "containers/ServicePage/types";
 import { ICustomerDashboardPageState } from "containers/Customer/Dashboard/types";
 import { IAdminDashboardPageState } from "containers/Admin/Dashboard/types";
+import { ISpecialistPageState } from "containers/SpecialistPage/types";
 
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
@@ -41,6 +42,8 @@ export interface ApplicationRootState {
 
   readonly discoverPage: IDiscoverPageState;
   readonly servicePage: IServicePageState;
+  readonly specialistPage: ISpecialistPageState;
+
   readonly customerDashboardPage: ICustomerDashboardPageState;
 
   readonly specialistDashboardPage: ISpecialistDashboardPageState;

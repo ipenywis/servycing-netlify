@@ -11,7 +11,11 @@ import {
   REGISTER_SPECIALIST,
   UPDATE_SPECIALIST,
 } from "./mutations";
-import { GET_SPECIALISTS, LOGIN_SPECIALIST } from "./queries";
+import {
+  GET_SPECIALISTS,
+  GET_SPECIALIST_BY_NAME,
+  LOGIN_SPECIALIST,
+} from "./queries";
 import specialistMessages from "./specialistMessages";
 
 class SpecialistService {
@@ -66,6 +70,22 @@ class SpecialistService {
     if (response && response.data && response.data.specialists)
       return response.data.specialists;
     else throw new Error(specialistMessages.cannotFetchSpecialists);
+  }
+
+  public async getSpecialistByName(name: string): Promise<ISpecialist> {
+    const response = await apolloClient
+      .query({
+        query: GET_SPECIALIST_BY_NAME,
+        variables: { name },
+        fetchPolicy: "network-only",
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.specialist)
+      return response.data.specialist;
+    else throw new Error(specialistMessages.cannotFetchSpecialistInfo);
   }
 
   public async delete(specialistId: string): Promise<boolean> {

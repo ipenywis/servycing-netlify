@@ -24,3 +24,20 @@ export const GET_SPECIALISTS = gql`
     }
   }
 `;
+
+export const GET_SPECIALIST_BY_NAME = gql`
+  query GET_SPECIALIST_BY_NAME($name: String!) {
+    specialist: specialistByName(name: $name) {
+      id
+      fullName
+      rating
+      shortBio
+      offeredServices: services {
+        id
+        title
+        thumbnailUrl
+        description
+      }
+    }
+  }
+`;

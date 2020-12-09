@@ -42,7 +42,7 @@ import SpecialistDashboardPage from "containers/Specialist/Dashboard/Loadable";
 import ServicePage from "containers/ServicePage/Loadable";
 import CustomerDashboardPage from "containers/Customer/Dashboard/Loadable";
 import AdminDashboardPage from "containers/Admin/Dashboard/Loadable";
-import SpecialistPage from "containers/specialistPage/Loadable";
+import SpecialistPage from "containers/SpecialistPage/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
