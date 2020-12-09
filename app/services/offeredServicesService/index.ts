@@ -18,6 +18,7 @@ import {
   GET_SPECIALIST_PENDING_SERVICE_REQUESTS,
   GET_SPECIALIST_REJECTED_SERVICE_REQUESTS,
   GET_CUSTOMER_ALL_FINISHED_SERVICES,
+  GET_CUSTOMER_ALL_PENDING_SERVICES_REQUESTS,
 } from "./queries";
 import {
   ADD_NEW_SERVICE,
@@ -263,6 +264,25 @@ class OfferedServicesService {
     else
       throw new Error(
         offeredServicesMessages.cannotFetchCustomerFinishedServices
+      );
+  }
+
+  public async getCustomerAllPendingServicesRequests(): Promise<
+    IPendingServiceRequest[]
+  > {
+    const response = await apolloClient
+      .query({
+        query: GET_CUSTOMER_ALL_PENDING_SERVICES_REQUESTS,
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.pendingRequests)
+      return response.data.pendingRequests;
+    else
+      throw new Error(
+        offeredServicesMessages.cannotFetchCustomerPendingRequests
       );
   }
 

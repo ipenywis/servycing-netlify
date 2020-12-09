@@ -153,3 +153,24 @@ export const GET_CUSTOMER_ALL_FINISHED_SERVICES = gql`
     }
   }
 `;
+
+export const GET_CUSTOMER_ALL_PENDING_SERVICES_REQUESTS = gql`
+  query GET_CUSTOMER_PENDING_SERVICES_REQUESTS {
+    pendingRequests: customerAllPendingServicesRequests {
+      id
+      offeredService {
+        id
+        title
+        specialist {
+          id
+          fullName
+        }
+      }
+      customer {
+        id
+        fullName
+      }
+      status
+    }
+  }
+`;

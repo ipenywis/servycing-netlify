@@ -22,6 +22,8 @@ export default {
   cannotRequestService: "Cannot request Service, Please try again later!",
   cannotFetchCustomerFinishedServices:
     "Cannot fetch customer finished services, Please try again later!",
+  cannotFetchCustomerPendingRequests:
+    "Cannot fetch customer Pending Services Requests, Please try again later!",
   cannotRejectFinishedProject:
     "Cannot reject current finished service project, Please try again later!",
   cannotAcceptFinishedProject:

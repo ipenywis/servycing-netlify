@@ -9,6 +9,7 @@ import { setActiveTab } from "./actions";
 import { DASHBOARD_SECTION_TAB } from "./constants";
 import { FinishedProjectsSection } from "./sections/finishedProjectsSection";
 import { LeaveReviewSection } from "./sections/leaveReviewSection";
+import { PendingRequestsSection } from "./sections/pendingServicesRequests";
 import { makeSelectActiveTab } from "./selectors";
 
 interface ISectionsManagerProps {}
@@ -57,6 +58,8 @@ function RenderSection() {
       return <FinishedProjectsSection />;
     case DASHBOARD_SECTION_TAB.LEAVE_NEW_REVIEW:
       return <LeaveReviewSection />;
+    case DASHBOARD_SECTION_TAB.PENDING_SERVICE_REQUESTS:
+      return <PendingRequestsSection />;
     default:
       return <></>;
   }

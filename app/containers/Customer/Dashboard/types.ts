@@ -7,4 +7,5 @@ export interface ICustomerDashboardPageState {
   activeTab: DASHBOARD_SECTION_TAB;
   finishedProjects: IFinishedProject[];
   toReviewService: IFinishedProject | null;
+  pendingServiceRequests: IPendingServiceRequest[];
 }

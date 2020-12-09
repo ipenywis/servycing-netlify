@@ -4,19 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
 import offeredServicesService from "services/offeredServicesService";
-import { IOfferedService, OFFERED_SERVICE_STATUS } from "types/offeredService";
 import {
   setActiveTab,
   setFinishedProjects,
-  setOfferedServices,
-  setPendingServiceRequests,
   setToReviewService,
 } from "../actions";
 import { makeSelectFinishedProjects } from "../selectors";
-import {
-  DASHBOARD_SECTION_TAB,
-  DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
-} from "../constants";
+import { DASHBOARD_SECTION_TAB } from "../constants";
 import styled from "styles/styled-components";
 import {
   BlackText,
