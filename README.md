@@ -1,19 +1,18 @@
-## ⚠️ Moved to https://github.com/react-boilerplate/react-boilerplate-cra-template
+# Servycing App
 
-## This boilerplate is now being developed as a custom `create-react-app` template. Much better and stronger with many more features. Powered by Create React App.
+### Tech-Stack:
+- React
+- Typescript
+- Redux
+- React Router
+- Apollo GraphQL
+- Final-Form
+- Styled-Components
+- SASS
+- Axios
+- Evergreen UI
 
-Please support us there with your opinions and pull requests :) And with stars ofc :)
-
-<br  />
-<br  />
-<br  />
-<br  />
-<br  />
-<br  />
-<br  />
-<br  />
-<br  />
-<br  />
+**Created By: Islem Maboud**
 
 ---
 
