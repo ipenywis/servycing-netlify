@@ -19,6 +19,7 @@ import {
   GET_SPECIALIST_REJECTED_SERVICE_REQUESTS,
   GET_CUSTOMER_ALL_FINISHED_SERVICES,
   GET_CUSTOMER_ALL_PENDING_SERVICES_REQUESTS,
+  GET_SPECIALIST_FINISHED_SERVICES_BY_ID,
 } from "./queries";
 import {
   ADD_NEW_SERVICE,
@@ -31,7 +32,10 @@ import {
   UPDATE_OFFERED_SERVICE,
 } from "./mutations";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
-import { IFinishedProject } from "types/finishedProject";
+import {
+  IFinishedProject,
+  IFinishedProjectsWithCount,
+} from "types/finishedProject";
 
 class OfferedServicesService {
   private resolverServicesType(services: IOfferedService[]): IOfferedService[] {
@@ -214,6 +218,28 @@ class OfferedServicesService {
     if (response && response.data && response.data.finishedProjects)
       return response.data.finishedProjects;
     else throw new Error(offeredServicesMessages.cannotFetchFinishedProjects);
+  }
+
+  public async getSpecialistFinishedServicesById(
+    specialistId: string,
+    range?: ILoadRangeOptions
+  ): Promise<IFinishedProjectsWithCount> {
+    const response = await apolloClient
+      .query({
+        query: GET_SPECIALIST_FINISHED_SERVICES_BY_ID,
+        variables: { specialistId, range },
+        fetchPolicy: "network-only",
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.finishedProjectsWithCount)
+      return response.data.finishedProjectsWithCount;
+    else
+      throw new Error(
+        offeredServicesMessages.cannotFetchFinishedProjectsOfSpecialist
+      );
   }
 
   public async getOfferedServiceById(

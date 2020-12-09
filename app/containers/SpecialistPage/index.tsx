@@ -4,6 +4,7 @@ import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { Marginer } from "components/marginer";
 import { Navbar } from "components/navbar";
 import { InnerPageContainer, PageContainer } from "components/pageContainer";
+import { screenSizes } from "components/responsive";
 import { DarkText, ErrorText } from "components/text";
 import NotFound from "containers/NotFoundPage";
 import React, { useEffect, useState } from "react";
@@ -17,13 +18,14 @@ import styled from "styles/styled-components";
 import { ISpecialist } from "types/specialist";
 import { slugToTitle } from "utils/route";
 import { setSpecialist } from "./actionts";
+import { FinishedServices } from "./finishedServices";
 import SpecialistPageReducer, { REDUCER_KEY } from "./reducer";
 import { SpecialistInfo } from "./specialistInfo";
 
 interface ISpecialistPageProps {}
 
 const SpecialistPageContainer = styled.div`
-  width: 100%;
+  max-width: ${screenSizes.laptop}px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,11 +86,13 @@ function SpecialistPage(props: ISpecialistPageProps) {
         )}
         {!error && !isLoading && (
           <SpecialistPageContainer>
-            <DarkText size={26} black>
+            <DarkText size={28} black>
               Servycing Specialist
             </DarkText>
-            <Marginer direction="vertical" margin="1.7em" />
+            <Marginer direction="vertical" margin="2em" />
             <SpecialistInfo />
+            <Marginer direction="vertical" margin="2em" />
+            <FinishedServices />
           </SpecialistPageContainer>
         )}
       </InnerPageContainer>

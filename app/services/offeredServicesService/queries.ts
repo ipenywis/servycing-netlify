@@ -174,3 +174,45 @@ export const GET_CUSTOMER_ALL_PENDING_SERVICES_REQUESTS = gql`
     }
   }
 `;
+
+export const GET_SPECIALIST_FINISHED_SERVICES_BY_ID = gql`
+  query GET_SPECIALIST_FINISHED_SERVICES_BY_ID(
+    $specialistId: String!
+    $range: LoadRangeOptions
+  ) {
+    finishedProjectsWithCount: specialistFinishedServicesById(
+      specialistId: $specialistId
+      range: $range
+    ) {
+      count
+      finishedServices {
+        id
+        offeredService {
+          id
+          title
+          rating
+          rate
+          thumbnailUrl
+          specialist {
+            id
+            fullName
+          }
+        }
+        customer {
+          id
+          fullName
+        }
+        status
+        reviews {
+          id
+          review
+          rating
+          customer {
+            id
+            fullName
+          }
+        }
+      }
+    }
+  }
+`;

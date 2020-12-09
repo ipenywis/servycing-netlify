@@ -15,3 +15,8 @@ export interface IFinishedProject {
   status: FINISHED_PROJECT_STATUS;
   reviews: IServiceReview[];
 }
+
+export interface IFinishedProjectsWithCount {
+  count: number;
+  finishedServices: IFinishedProject[];
+}
