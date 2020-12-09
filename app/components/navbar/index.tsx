@@ -60,8 +60,9 @@ function LoginButtons() {
     <>
       <Button
         buttonTheme={ButtonTheme.MINIMAL_WHITE}
-        text="Specialists Portal"
+        text="Specialists Login"
         size={11}
+        to={ROUTES.specialistLoginPage}
       />
       <Seperator direction="vertical" size="44%" spacing="10px" />
       <Button text="Signup" size={11} to={ROUTES.customerSignupPage} />
