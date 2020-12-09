@@ -7,6 +7,12 @@ export interface IServiceReview {
   customer: ICustomer;
 }
 
+export interface INewReviewDTO {
+  finishedServiceId: string;
+  review: string;
+  rating: number;
+}
+
 export interface IUpdateReviewDTO {
   id: string;
   review?: string;

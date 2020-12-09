@@ -8,6 +8,7 @@ import styled from "styles/styled-components";
 import { setActiveTab } from "./actions";
 import { DASHBOARD_SECTION_TAB } from "./constants";
 import { FinishedProjectsSection } from "./sections/finishedProjectsSection";
+import { LeaveReviewSection } from "./sections/leaveReviewSection";
 import { makeSelectActiveTab } from "./selectors";
 
 interface ISectionsManagerProps {}
@@ -33,7 +34,8 @@ function Tabs() {
   return (
     <Tablist>
       {Object.values(DASHBOARD_SECTION_TAB).map((tab, idx) => {
-        //Hide update service section tab
+        if (tab === DASHBOARD_SECTION_TAB.LEAVE_NEW_REVIEW) return null;
+
         return (
           <Tab
             key={idx}
@@ -53,6 +55,8 @@ function RenderSection() {
   switch (activeTab) {
     case DASHBOARD_SECTION_TAB.FINISHED_PROJECTS:
       return <FinishedProjectsSection />;
+    case DASHBOARD_SECTION_TAB.LEAVE_NEW_REVIEW:
+      return <LeaveReviewSection />;
     default:
       return <></>;
   }

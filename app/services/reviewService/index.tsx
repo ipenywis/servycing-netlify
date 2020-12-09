@@ -1,7 +1,11 @@
 import { apolloClient } from "apolloGraphql";
-import { IServiceReview, IUpdateReviewDTO } from "types/serviceReview";
+import {
+  INewReviewDTO,
+  IServiceReview,
+  IUpdateReviewDTO,
+} from "types/serviceReview";
 import { parseGraphqlError } from "utils/error";
-import { DELETE_REVIEW, UPDATE_REVIEW } from "./mutations";
+import { DELETE_REVIEW, NEW_REVIEW, UPDATE_REVIEW } from "./mutations";
 import { GET_ALL_REVIEWS } from "./queries";
 import reviewMessages from "./reviewMessages";
 
@@ -16,6 +20,20 @@ class ReviewService {
     if (response && response.data && response.data.serviceReviews)
       return response.data.serviceReviews;
     else throw new Error(reviewMessages.cannotFetchAllReviews);
+  }
+
+  public async submitReview(
+    newServiceReviewInput: INewReviewDTO
+  ): Promise<IServiceReview> {
+    const response = await apolloClient
+      .mutate({ mutation: NEW_REVIEW, variables: { newServiceReviewInput } })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (response && response.data && response.data.serviceReview)
+      return response.data.serviceReview;
+    else throw new Error(reviewMessages.cannotSubmitReview);
   }
 
   public async delete(reviewId: string): Promise<boolean> {

@@ -23,9 +23,6 @@ export const GET_OFFERED_SERVICES = gql`
           rating
           shortBio
         }
-        reviews {
-          id
-        }
       }
     }
   }
@@ -48,9 +45,6 @@ export const GET_SPECIALIST_MY_OFFERED_SERVICES = gql`
         email
         rating
         shortBio
-      }
-      reviews {
-        id
       }
     }
   }
@@ -127,9 +121,6 @@ export const GET_OFFERED_SERVICE = gql`
         rating
         shortBio
       }
-      reviews {
-        id
-      }
     }
   }
 `;
@@ -149,6 +140,14 @@ export const GET_CUSTOMER_ALL_FINISHED_SERVICES = gql`
       customer {
         id
         fullName
+      }
+      reviews {
+        id
+        review
+        rating
+        customer {
+          id
+        }
       }
       status
     }

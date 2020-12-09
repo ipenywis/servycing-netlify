@@ -22,3 +22,6 @@ export const setRejectedServiceRequests = (
 
 export const setFinishedProjects = (projects: IFinishedProject[]) =>
   action(ActionTypes.SET_FINISHED_PROJECTS, projects);
+
+export const setToReviewService = (service: IFinishedProject) =>
+  action(ActionTypes.SET_TO_REVIEW_SERVICE, service);

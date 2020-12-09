@@ -11,3 +11,13 @@ export const UPDATE_REVIEW = gql`
     updated: updateReview(updateReviewInput: $updateReviewInput)
   }
 `;
+
+export const NEW_REVIEW = gql`
+  mutation NEW_REVIEW($newServiceReviewInput: NewReviewInput!) {
+    serviceReview: submitReview(newServiceReviewInput: $newServiceReviewInput) {
+      id
+      review
+      rating
+    }
+  }
+`;

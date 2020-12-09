@@ -5,4 +5,5 @@ export default {
     "Cannot delete service review, Please try again later!",
   cannotUpdateServiceReview:
     "Cannot update service review, Please try again later!",
+  cannotSubmitReview: "Cannot submit new review, Please try again later!",
 };

@@ -6,12 +6,17 @@ import { createSelector } from "reselect";
 import offeredServicesService from "services/offeredServicesService";
 import { IOfferedService, OFFERED_SERVICE_STATUS } from "types/offeredService";
 import {
+  setActiveTab,
   setFinishedProjects,
   setOfferedServices,
   setPendingServiceRequests,
+  setToReviewService,
 } from "../actions";
 import { makeSelectFinishedProjects } from "../selectors";
-import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
+import {
+  DASHBOARD_SECTION_TAB,
+  DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
+} from "../constants";
 import styled from "styles/styled-components";
 import {
   BlackText,
@@ -45,13 +50,16 @@ const stateSelector = createSelector(
 const actionDispatch = (dispatch: Dispatch) => ({
   setFinishedProjects: (projects: IFinishedProject[]) =>
     dispatch(setFinishedProjects(projects)),
+  setActiveTab: (tab: DASHBOARD_SECTION_TAB) => dispatch(setActiveTab(tab)),
+  setToReviewService: (service: IFinishedProject) =>
+    dispatch(setToReviewService(service)),
 });
 
 interface IMenuProps {
   project: IFinishedProject;
 }
 
-function RenderRowMenu(props: IMenuProps) {
+function RenderActionMenu(props: IMenuProps) {
   const { project } = props;
   const { finishedProjects } = useSelector(stateSelector);
   const { setFinishedProjects } = actionDispatch(useDispatch());
@@ -98,6 +106,47 @@ function RenderRowMenu(props: IMenuProps) {
         </Menu.Item>
         <Menu.Item intent="danger" onSelect={rejectFinishedProject}>
           Reject
+        </Menu.Item>
+      </Menu.Group>
+    </Menu>
+  );
+}
+
+function RenderReviewMenu(props: IMenuProps) {
+  const { project } = props;
+  const { setActiveTab, setToReviewService } = actionDispatch(useDispatch());
+
+  const goToLeaveReviewSection = () => {
+    setToReviewService(project);
+    setActiveTab(DASHBOARD_SECTION_TAB.LEAVE_NEW_REVIEW);
+  };
+
+  const alreadyReviewd = project.reviews.some(
+    (r) => r.customer.id === project.customer.id
+  );
+
+  if (alreadyReviewd)
+    return (
+      <GreyText
+        size={14}
+        marginTop="1em"
+        marginLeft="1em"
+        marginRight="1em"
+        marginBottom="1em"
+      >
+        You already reviewed this project!
+      </GreyText>
+    );
+
+  return (
+    <Menu>
+      <Menu.Group>
+        <Menu.Item
+          intent="none"
+          disabled={true}
+          onSelect={goToLeaveReviewSection}
+        >
+          Leave a Review
         </Menu.Item>
       </Menu.Group>
     </Menu>
@@ -185,7 +234,7 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
                   <Table.Cell>
                     {isPending && (
                       <Popover
-                        content={<RenderRowMenu project={project} />}
+                        content={<RenderActionMenu project={project} />}
                         position={Position.BOTTOM_RIGHT}
                       >
                         <IconButton
@@ -196,7 +245,16 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
                       </Popover>
                     )}
                     {!isPending && (
-                      <GreyText size={12}>Already took action</GreyText>
+                      <Popover
+                        content={<RenderReviewMenu project={project} />}
+                        position={Position.BOTTOM_RIGHT}
+                      >
+                        <IconButton
+                          icon="more"
+                          appearance="minimal"
+                          height={24}
+                        />
+                      </Popover>
                     )}
                   </Table.Cell>
                 </Table.Row>
