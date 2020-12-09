@@ -8,14 +8,16 @@ import { IServiceReview } from "types/serviceReview";
 interface IReviewCardProps extends IServiceReview {}
 
 const ReviewCardContainer = styled.div`
-  max-width: 700px;
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
   padding: 1.2em 0;
   border-top: 1px solid ${theme.default.mutedBorderColor};
-  border-bottom: 1px solid ${theme.default.mutedBorderColor};
+
+  &:last-of-type {
+    border-bottom: 1px solid ${theme.default.mutedBorderColor};
+  }
 `;
 
 const CustomerInfo = styled.div`

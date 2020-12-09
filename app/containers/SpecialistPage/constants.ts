@@ -4,6 +4,7 @@ export enum ActionTypes {
   SET_SPECIALIST = "app/containers/SpecialistPage/SET_SPECIALIST",
   SET_FINISHED_SERVICES = "app/containers/SpecialistPage/SET_FINISHED_SERVICES",
   SET_SERVICES_REVIEWS = "app/containers/SpecialistPage/SET_SERVICES_REVIEWS",
+  SET_OFFERED_SERVICES = "app/containers/SpecialistPage/SET_OFFERED_SERVICES",
 }
 
 export const DEFAULT_SERVICES_LOAD_RANGE: ILoadRangeOptions = {

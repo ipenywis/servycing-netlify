@@ -18,3 +18,8 @@ export const makeSelectServicesReviews = createSelector(
   selectSpecialistPage,
   (page) => page.servicesReviews
 );
+
+export const makeSelectOfferedServices = createSelector(
+  selectSpecialistPage,
+  (page) => page.offeredServices
+);

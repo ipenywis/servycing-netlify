@@ -19,6 +19,7 @@ import { ISpecialist } from "types/specialist";
 import { slugToTitle } from "utils/route";
 import { setSpecialist } from "./actionts";
 import { FinishedServices } from "./finishedServices";
+import { OfferedServices } from "./offeredServices";
 import SpecialistPageReducer, { REDUCER_KEY } from "./reducer";
 import { ServicesReviews } from "./servicesReviews";
 import { SpecialistInfo } from "./specialistInfo";
@@ -102,6 +103,8 @@ function SpecialistPage(props: ISpecialistPageProps) {
             <FinishedServices />
             <Marginer direction="vertical" margin="2em" />
             <ServicesReviews />
+            <Marginer direction="vertical" margin="2em" />
+            <OfferedServices />
           </SpecialistPageContainer>
         )}
       </StyledInnerContainer>

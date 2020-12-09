@@ -216,3 +216,34 @@ export const GET_SPECIALIST_FINISHED_SERVICES_BY_ID = gql`
     }
   }
 `;
+
+export const GET_SPECIALIST_OFFERED_SERVICES = gql`
+  query GET_SPECIALIST_OFFERED_SERVICES(
+    $specialistId: String!
+    $range: LoadRangeOptions
+  ) {
+    offeredServicesWithCount: specialistOfferedServices(
+      specialistId: $specialistId
+      range: $range
+    ) {
+      count
+      offeredServices {
+        id
+        title
+        description
+        type
+        rate
+        preferredHours
+        thumbnailUrl
+        rating
+        specialist {
+          id
+          fullName
+          email
+          rating
+          shortBio
+        }
+      }
+    }
+  }
+`;

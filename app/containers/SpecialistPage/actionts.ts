@@ -1,4 +1,5 @@
 import { IFinishedProject } from "types/finishedProject";
+import { IOfferedService } from "types/offeredService";
 import { IServiceReview } from "types/serviceReview";
 import { ISpecialist } from "types/specialist";
 import { action } from "typesafe-actions";
@@ -12,3 +13,6 @@ export const setFinishedServices = (finishedServices: IFinishedProject[]) =>
 
 export const setServicesReviews = (reviews: IServiceReview[]) =>
   action(ActionTypes.SET_SERVICES_REVIEWS, reviews);
+
+export const setOfferedServices = (services: IOfferedService[]) =>
+  action(ActionTypes.SET_OFFERED_SERVICES, services);

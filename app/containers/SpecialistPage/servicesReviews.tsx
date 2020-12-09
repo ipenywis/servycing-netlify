@@ -37,6 +37,7 @@ const ReviewsContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  padding: 0 5px;
 `;
 
 const actionDispatch = (dispatch: Dispatch) => ({

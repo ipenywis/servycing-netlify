@@ -110,14 +110,14 @@ function RenderReviewMenu(props: IMenuProps) {
   const { project } = props;
   const { setActiveTab, setToReviewService } = actionDispatch(useDispatch());
 
+  const alreadyReviewd =
+    project &&
+    project.reviews.some((r) => r.customer.id === project.customer.id);
+
   const goToLeaveReviewSection = () => {
     setToReviewService(project);
     setActiveTab(DASHBOARD_SECTION_TAB.LEAVE_NEW_REVIEW);
   };
-
-  const alreadyReviewd = project.reviews.some(
-    (r) => r.customer.id === project.customer.id
-  );
 
   if (alreadyReviewd)
     return (

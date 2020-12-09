@@ -20,6 +20,7 @@ import {
   GET_CUSTOMER_ALL_FINISHED_SERVICES,
   GET_CUSTOMER_ALL_PENDING_SERVICES_REQUESTS,
   GET_SPECIALIST_FINISHED_SERVICES_BY_ID,
+  GET_SPECIALIST_OFFERED_SERVICES,
 } from "./queries";
 import {
   ADD_NEW_SERVICE,
@@ -111,6 +112,39 @@ class OfferedServicesService {
 
       return offeredServices;
     } else throw new Error(offeredServicesMessages.cannotFetchOfferedServices);
+  }
+
+  public async getSpecialistOfferedServices(
+    specialistId: string,
+    range: ILoadRangeOptions
+  ): Promise<IOfferedServicesWithCount> {
+    const response = await apolloClient
+      .query({
+        fetchPolicy: "network-only",
+        query: GET_SPECIALIST_OFFERED_SERVICES,
+        variables: { specialistId, range },
+      })
+      .catch((err) => {
+        throw parseGraphqlError(err);
+      });
+
+    if (
+      response &&
+      response.data &&
+      response.data.offeredServicesWithCount &&
+      response.data.offeredServicesWithCount.offeredServices
+    ) {
+      //get the right service type
+      const count = response.data.offeredServicesWithCount.count;
+      const offeredServices = this.resolverServicesType(
+        response.data.offeredServicesWithCount.offeredServices
+      );
+
+      return { offeredServices, count };
+    } else
+      throw new Error(
+        offeredServicesMessages.cannotFetchSpecialistOfferedServices
+      );
   }
 
   public async getSpecialistPendingServiceRequests(): Promise<
