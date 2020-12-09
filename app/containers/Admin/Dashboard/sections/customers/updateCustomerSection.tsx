@@ -160,7 +160,7 @@ export function UpdateCustomerSection(props: IUpdateCustomerSectionProps) {
                     type="email"
                   />
                 </FormGroup>
-                <FormGroup label="Password">
+                <FormGroup label="New Password">
                   <Input
                     name="password"
                     inputTheme={InputTheme.MINIMAL_BORDER_DARK}

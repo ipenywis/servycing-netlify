@@ -108,12 +108,7 @@ function RenderRowMenu(props: IMenuProps) {
       <Menu.Group>
         <Menu.Item intent="danger" onSelect={deleteReview}>
           <HorizontalWrapper centerVertically>
-            <VerticalWrapper centerVertically>
-              Delete
-              <MutedText size={12}>
-                All associated data will be deleted!
-              </MutedText>
-            </VerticalWrapper>
+            Delete
             <Marginer direction="horizontal" margin="10px" />
             {isDeleting && <Spinner size={14} />}
           </HorizontalWrapper>
@@ -168,17 +163,11 @@ export function ReviewsSection(props: IReviewsSectionProps) {
   return (
     <SectionContainer>
       <BlackText size={19} bold>
-        Customers
+        Services Reviews
       </BlackText>
       <MutedText size={12} marginBottom="1em">
-        View and Manage All registered customers.
+        View and Manage All services reviews.
       </MutedText>
-      <Button
-        size={14}
-        text="Add New Customer"
-        buttonTheme={ButtonTheme.FULL_MINIMAL_BLUE}
-        onClick={() => setActiveTab(DASHBOARD_SECTION_TAB.ADD_NEW_CUSTOMER)}
-      />
       <Table>
         <Table.Head>
           <Table.TextHeaderCell>Id</Table.TextHeaderCell>

@@ -45,6 +45,7 @@ import { ILoadRangeOptions } from "types/pagination";
 import { ISpecialist } from "types/specialist";
 import specialistService from "services/specialistService";
 import { Seperator } from "components/lineSeperator";
+import { Avatar } from "components/avatar";
 
 interface ISpecialistsProps {}
 
@@ -188,6 +189,7 @@ export function SpecialistsSection(props: ISpecialistsProps) {
       />
       <Table>
         <Table.Head>
+          <Table.TextHeaderCell flexGrow={0.5}>Avatar</Table.TextHeaderCell>
           <Table.TextHeaderCell>Id</Table.TextHeaderCell>
           <Table.TextHeaderCell>Full Name</Table.TextHeaderCell>
           <Table.TextHeaderCell>Email</Table.TextHeaderCell>
@@ -208,6 +210,9 @@ export function SpecialistsSection(props: ISpecialistsProps) {
             !isEmptyOfferedServices &&
             specialists.map((specialist, idx) => (
               <Table.Row key={idx}>
+                <Table.Cell flexGrow={0.5}>
+                  <Avatar name={specialist.fullName} size={29} />
+                </Table.Cell>
                 <Table.TextCell>{specialist.id}</Table.TextCell>
                 <Table.TextCell>{specialist.fullName}</Table.TextCell>
                 <Table.TextCell>{specialist.email}</Table.TextCell>
