@@ -42,6 +42,7 @@ import SpecialistDashboardPage from "containers/Specialist/Dashboard/Loadable";
 import ServicePage from "containers/ServicePage/Loadable";
 import CustomerDashboardPage from "containers/Customer/Dashboard/Loadable";
 import AdminDashboardPage from "containers/Admin/Dashboard/Loadable";
+import SpecialistPage from "containers/specialistPage/Loadable";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -136,6 +137,11 @@ function App() {
           />
 
           {/** Has to be kept last */}
+          <Route
+            exact
+            path={ROUTES.specialistPage}
+            component={SpecialistPage}
+          />
           <Route component={NotFoundPage} />
         </Switch>
 
