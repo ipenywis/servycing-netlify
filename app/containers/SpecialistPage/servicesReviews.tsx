@@ -92,7 +92,7 @@ export function ServicesReviews(props: IServicesReviews) {
   }, []);
 
   useEffect(() => {
-    fetchReviews(true);
+    if (loadRange !== DEFAULT_REVIEWS_LOAD_RANGE) fetchReviews(true);
   }, [loadRange]);
 
   const loadMore = () => {

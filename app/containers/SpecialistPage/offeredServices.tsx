@@ -4,6 +4,7 @@ import { HorizontalWrapper } from "components/horizontalWrapper";
 import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { ServiceCard } from "components/serviceCard";
 import { BlackText } from "components/text";
+import { DEFAULT_LOAD_RANGE } from "containers/DiscoverPage/constants";
 import uniqBy from "lodash/uniqBy";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -98,7 +99,7 @@ export function OfferedServices(props: IOfferedServicesProps) {
   }, []);
 
   useEffect(() => {
-    fetchOfferedServices(true);
+    if (loadRange !== DEFAULT_SERVICES_LOAD_RANGE) fetchOfferedServices(true);
   }, [loadRange]);
 
   const onViewMore = () => {

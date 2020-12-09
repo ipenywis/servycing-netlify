@@ -3,7 +3,7 @@ import { Avatar } from "components/avatar";
 import { HorizontalWrapper } from "components/horizontalWrapper";
 import { Marginer } from "components/marginer";
 import { BlackText, DarkText, GreyText } from "components/text";
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import styled from "styles/styled-components";
@@ -12,6 +12,9 @@ import ImageLoader from "react-imageloader";
 
 import Img from "images/services thumbnails/garden.jpg";
 import { RatingStars } from "components/ratingStarts";
+import { Link } from "components/link";
+import { prepareRouteWithParamsWithSlug } from "utils/route";
+import ROUTES from "containers/ROUTES";
 
 interface IServiceInfoProps {}
 
@@ -42,16 +45,29 @@ export function ServiceInfo(props: IServiceInfoProps) {
 
   if (!service) return null;
 
+  const specialistPage = useMemo(
+    () =>
+      prepareRouteWithParamsWithSlug(
+        ROUTES.specialistPage,
+        service.specialist.fullName
+      ),
+    [service.specialist.fullName]
+  );
+
   return (
     <ServiceInfoContainer>
       <DarkText size={30} black lineHeight={1.3} marginBottom={9}>
         {service.title}
       </DarkText>
       <HorizontalWrapper height="auto" centerVertically>
-        <Avatar name={service.specialist.fullName} color="green" size={29} />
-        <GreyText size={12} marginLeft={5} verticalCenter>
-          {service.specialist.fullName}
-        </GreyText>
+        <Link to={specialistPage}>
+          <Avatar name={service.specialist.fullName} color="green" size={29} />
+        </Link>
+        <Link to={specialistPage}>
+          <GreyText size={12} marginLeft={5} verticalCenter>
+            {service.specialist.fullName}
+          </GreyText>
+        </Link>
         <Marginer direction="horizontal" margin="10px" />
         <RatingStars textSize={14} size={15} rating={5} showRatingNumber />
         <BlackText size={12} marginLeft={11} verticalCenter>

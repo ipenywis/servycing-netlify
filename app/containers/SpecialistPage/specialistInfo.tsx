@@ -42,9 +42,6 @@ export function SpecialistInfo(props: ISpecilistInfoProps) {
       <Marginer direction="vertical" margin={5} />
       <HorizontalWrapper centered centerVertically>
         <RatingStars rating={specialist.rating} showRatingNumber size={15} />
-        <MutedText size={12} marginLeft={4}>
-          (24 reviews)
-        </MutedText>
       </HorizontalWrapper>
     </SpecialistInfoContainer>
   );

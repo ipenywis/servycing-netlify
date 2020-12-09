@@ -64,7 +64,7 @@ const BottomContainer = styled.div`
 `;
 
 export function ServiceCard(props: IServiceCardProps) {
-  const { id, title, specialist, rate, thumbnailUrl } = props;
+  const { id, title, specialist, rate, rating, thumbnailUrl } = props;
 
   //TODO: Make service page use service title slug
   const servicePage = useMemo(
@@ -108,7 +108,7 @@ export function ServiceCard(props: IServiceCardProps) {
         </HorizontalWrapper>
       </ContentContainer>
       <BottomContainer>
-        <RatingStars rating={5} showRatingNumber showAllStars={false} />
+        <RatingStars rating={rating} showRatingNumber showAllStars={false} />
         <HorizontalWrapper>
           <MutedText size={12} verticalCenter marginRight={4} marginBottom={2}>
             STARTING AT
