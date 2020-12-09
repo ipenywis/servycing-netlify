@@ -27,10 +27,10 @@ export function SpecialistInfo(props: ISpecilistInfoProps) {
       <GreyText size={13} marginTop={1}>
         Landscaping Specialist, Love being creative!
       </GreyText>
-      <Marginer direction="vertical" margin={2} />
+      <Marginer direction="vertical" margin={5} />
       <HorizontalWrapper centered centerVertically>
-        <RatingStars rating={5} size={13} />
-        <MutedText size={11} marginLeft={4}>
+        <RatingStars rating={5} size={15} />
+        <MutedText size={12} marginLeft={4}>
           (24 reviews)
         </MutedText>
       </HorizontalWrapper>

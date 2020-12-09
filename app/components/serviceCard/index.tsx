@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled, { theme } from "styles/styled-components";
 import ImageLoader from "react-imageloader";
 
@@ -10,7 +10,10 @@ import { Avatar } from "components/avatar";
 import { RatingStars } from "components/ratingStarts";
 import { IOfferedService } from "types/offeredService";
 import { Link } from "components/link";
-import { prepareRouteWithParams } from "utils/route";
+import {
+  prepareRouteWithParams,
+  prepareRouteWithParamsWithSlug,
+} from "utils/route";
 import ROUTES from "containers/ROUTES";
 
 interface IServiceCardProps extends IOfferedService {}
@@ -48,7 +51,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 14px;
+  padding: 20px 14px;
 `;
 
 const BottomContainer = styled.div`
@@ -64,7 +67,20 @@ const BottomContainer = styled.div`
 export function ServiceCard(props: IServiceCardProps) {
   const { id, title, specialist, rate, thumbnailUrl } = props;
 
-  const servicePage = prepareRouteWithParams(ROUTES.servicePage, id);
+  //TODO: Make service page use service title slug
+  const servicePage = useMemo(
+    () => prepareRouteWithParams(ROUTES.servicePage, id),
+    [id]
+  );
+
+  const specialistPage = useMemo(
+    () =>
+      prepareRouteWithParamsWithSlug(
+        ROUTES.specialistPage,
+        specialist.fullName
+      ),
+    [specialist.fullName]
+  );
 
   return (
     <CardContainer>
@@ -82,10 +98,14 @@ export function ServiceCard(props: IServiceCardProps) {
           </BlackText>
         </Link>
         <HorizontalWrapper centerVertically>
-          <Avatar size={24} />
-          <BlackText size={12} marginLeft={3}>
-            {specialist.fullName}
-          </BlackText>
+          <Link to={specialistPage}>
+            <Avatar name={specialist.fullName} size={29} />
+          </Link>
+          <Link to={specialistPage}>
+            <BlackText size={12} marginLeft={5} verticalCenter>
+              {specialist.fullName}
+            </BlackText>
+          </Link>
         </HorizontalWrapper>
       </ContentContainer>
       <BottomContainer>

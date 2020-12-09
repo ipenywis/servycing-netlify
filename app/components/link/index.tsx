@@ -9,6 +9,7 @@ export interface ILinkProps {
 export const Link = styled(({ noEffects, ...rest }) => <RLink {...rest} />)`
   text-decoration: none;
   color: inherit;
+  display: inline-flex;
 
   ${({ noEffects }) =>
     !noEffects &&
