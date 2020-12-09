@@ -112,6 +112,7 @@ function RenderReviewMenu(props: IMenuProps) {
 
   const alreadyReviewd =
     project &&
+    project.reviews &&
     project.reviews.some((r) => r.customer.id === project.customer.id);
 
   const goToLeaveReviewSection = () => {

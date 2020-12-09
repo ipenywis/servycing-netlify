@@ -98,12 +98,12 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
       </FilterWrapper>
       <FilterWrapper>
         <GreyText size={13} marginBottom={5}>
-          Rating
+          Minimum Rating
         </GreyText>
         <Combobox
           width="11em"
           items={Object.values(OFFERED_SERVICE_RATING_FILTER)}
-          placeholder="Filter by Rating"
+          placeholder="Filter by Minimum Rating"
           selectedItem={serviceRating}
           onChange={(rating) => handleChange(null, rating, null)}
         />
@@ -121,30 +121,6 @@ export function ServicesFilterBar(props: IServicesFilterBarProps) {
           onChange={(price) => handleChange(null, null, price)}
         />
       </FilterWrapper>
-      {/* <FilterWrapper>
-        <GreyText size={13} marginBottom={12}>
-          Filter by Price
-        </GreyText>
-        <SliderWrapper>
-          <RangeWithTooltip
-            defaultValue={[servicePrice.min, servicePrice.max]}
-            min={1}
-            max={1000}
-            allowCross={false}
-            step={10}
-            onChange={(value) =>
-              hanldeChange(null, null, { min: value[0], max: value[1] })
-            }
-            handleStyle={[
-              {
-                width: "11px",
-                height: "11px",
-                marginTop: "-4px",
-              },
-            ]}
-          />
-        </SliderWrapper>
-      </FilterWrapper> */}
     </BarContainer>
   );
 }

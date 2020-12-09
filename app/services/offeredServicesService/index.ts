@@ -314,6 +314,7 @@ class OfferedServicesService {
     const response = await apolloClient
       .query({
         query: GET_CUSTOMER_ALL_FINISHED_SERVICES,
+        fetchPolicy: "network-only",
       })
       .catch((err) => {
         throw parseGraphqlError(err);

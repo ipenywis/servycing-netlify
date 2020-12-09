@@ -97,6 +97,7 @@ export function Services(props: IServicesProps) {
     if (!loadedRange) {
       //Reset loaded range on filter
       setLoadRange(DEFAULT_LOAD_RANGE);
+      setOfferedServices([]);
     }
 
     setServicesLoading(true);
@@ -115,7 +116,7 @@ export function Services(props: IServicesProps) {
       const count = fetchedServicesWithCount.count;
       setOfferedServices([...offeredServices, ...fetchedServices]);
       setOfferedServicesCount(count);
-    } else if (fetchedServicesWithCount) {
+    } else if (fetchedServicesWithCount && !loadedRange) {
       const fetchedServices = fetchedServicesWithCount.offeredServices;
       const count = fetchedServicesWithCount.count;
       setOfferedServices(fetchedServices);
@@ -143,6 +144,10 @@ export function Services(props: IServicesProps) {
   useEffect(() => {
     fetchOfferedServices(true);
   }, [loadRange]);
+
+  useEffect(() => {
+    fetchOfferedServices(false);
+  }, []);
 
   return (
     <ServicesContainer>

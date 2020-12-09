@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import offeredServicesService from "services/offeredServicesService";
 import styled from "styles/styled-components";
 import { IOfferedService } from "types/offeredService";
-import { wait } from "utils/common";
 
 export interface IRecommendedServicesProps {}
 
@@ -59,8 +58,6 @@ export function RecommendedServices(props: IRecommendedServicesProps) {
       .catch((err) => {
         console.log("Error: ", err);
       });
-
-    await wait(3000);
 
     if (servicesWithCount)
       setRecommendedServices(servicesWithCount.offeredServices);

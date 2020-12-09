@@ -20,7 +20,7 @@ interface IServiceCardProps extends IOfferedService {}
 
 const CardContainer = styled.div`
   width: 300px;
-  min-height: 280px;
+  min-height: 250px;
   background-color: ${theme.default.componentBackground};
   border-radius: 3px;
   box-shadow: 0 0px 1px 1px rgba(0, 0, 0, 0.17);
@@ -33,12 +33,11 @@ const CardContainer = styled.div`
 
 const TopContainer = styled.div`
   width: 100%;
-  height: 160px;
 `;
 
 const ServiceThumbnail = styled.div`
   width: 100%;
-  height: 100%;
+  height: 11em;
 
   img {
     width: 100%;
@@ -51,7 +50,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 20px 14px;
+  padding: 15px 14px;
 `;
 
 const BottomContainer = styled.div`

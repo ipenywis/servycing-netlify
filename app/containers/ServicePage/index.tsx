@@ -17,7 +17,6 @@ import { Dispatch } from "redux";
 import { IOfferedService } from "types/offeredService";
 import { setService } from "./actions";
 import { useDispatch } from "react-redux";
-import { wait } from "utils/common";
 import { ErrorText } from "components/text";
 
 interface IServicePageProps {}
