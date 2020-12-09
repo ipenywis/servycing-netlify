@@ -9,13 +9,12 @@ import NotFound from "containers/NotFoundPage";
 import React, { useEffect, useState } from "react";
 import { hot } from "react-hot-loader/root";
 import { useDispatch } from "react-redux";
-import { Redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Dispatch } from "redux";
 import { useInjectReducer } from "redux-injectors";
 import specialistService from "services/specialistService";
 import styled from "styles/styled-components";
 import { ISpecialist } from "types/specialist";
-import { wait } from "utils/common";
 import { slugToTitle } from "utils/route";
 import { setSpecialist } from "./actionts";
 import SpecialistPageReducer, { REDUCER_KEY } from "./reducer";
@@ -53,8 +52,6 @@ function SpecialistPage(props: ISpecialistPageProps) {
       .catch((err) => {
         setError(err ? err.message : "Unexpected Error occured!");
       });
-
-    await wait(3000);
 
     if (specialist) setSpecialist(specialist);
     else setNotFound(true);
