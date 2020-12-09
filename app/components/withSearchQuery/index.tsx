@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useBeforeFirstRender } from 'components/useBeforeFirstRender';
+import React, { useEffect, useState } from "react";
 
 export interface IWithSearchQuery {
   searchParams: any;

@@ -1,17 +1,5 @@
-import { IconButton, Menu, Popover, Position, Table } from "evergreen-ui";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "redux";
-import { createSelector } from "reselect";
-import offeredServicesService from "services/offeredServicesService";
-import {
-  setActiveTab,
-  setFinishedProjects,
-  setToReviewService,
-} from "../actions";
-import { makeSelectFinishedProjects } from "../selectors";
-import { DASHBOARD_SECTION_TAB } from "../constants";
-import styled from "styles/styled-components";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { Pane } from "components/pane";
 import {
   BlackText,
   ErrorText,
@@ -21,16 +9,25 @@ import {
   SuccessText,
   WarningText,
 } from "components/text";
-import { SectionContainer } from "../common";
-import { HorizontalWrapper } from "components/horizontalWrapper";
-import { MinimalSpinner } from "components/loadingSpinner/minimal";
-import { wait } from "utils/common";
-import { Pane } from "components/pane";
-import { IPendingServiceRequest } from "types/pendingServiceRequest";
+import { IconButton, Menu, Popover, Position, Table } from "evergreen-ui";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
+import { createSelector } from "reselect";
+import offeredServicesService from "services/offeredServicesService";
 import {
   FINISHED_PROJECT_STATUS,
   IFinishedProject,
 } from "types/finishedProject";
+
+import {
+  setActiveTab,
+  setFinishedProjects,
+  setToReviewService,
+} from "../actions";
+import { SectionContainer } from "../common";
+import { DASHBOARD_SECTION_TAB } from "../constants";
+import { makeSelectFinishedProjects } from "../selectors";
 
 interface IFinishedProjectsSectionProps {}
 

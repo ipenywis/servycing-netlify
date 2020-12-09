@@ -1,11 +1,12 @@
 import { Footer } from "components/footer";
 import { Navbar } from "components/navbar";
 import { InnerPageContainer, PageContainer } from "components/pageContainer";
-import { SignupBox } from "./signupBox";
+import { DarkText } from "components/text";
 import React from "react";
 import { hot } from "react-hot-loader/root";
 import styled from "styles/styled-components";
-import { DarkText } from "components/text";
+
+import { SignupBox } from "./signupBox";
 
 interface IRegisterPageProps {}
 

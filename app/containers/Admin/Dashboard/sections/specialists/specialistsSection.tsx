@@ -1,3 +1,12 @@
+import { Avatar } from "components/avatar";
+import { Button } from "components/button";
+import { ButtonTheme } from "components/button/themes";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { Marginer } from "components/marginer";
+import { Pane } from "components/pane";
+import { BlackText, MutedText, WarningText } from "components/text";
+import { VerticalWrapper } from "components/verticalWrapper";
 import {
   IconButton,
   Menu,
@@ -10,42 +19,22 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
-import offeredServicesService from "services/offeredServicesService";
-import { IOfferedService } from "types/offeredService";
+import specialistService from "services/specialistService";
+import { closePopupByClickOutside } from "types/common";
+import { ILoadRangeOptions } from "types/pagination";
+import { ISpecialist } from "types/specialist";
+
 import {
   setActiveTab,
-  setOfferedServices,
-  setOfferedServicesCount,
   setSpecialists,
-  setToUpdateOfferedService,
   setToUpdateSpecialist,
 } from "../../actions";
-import {
-  makeSelectOfferedServices,
-  makeSelectOfferedServicesCount,
-  makeSelectSpecialists,
-} from "../../selectors";
+import { SectionContainer } from "../../common";
 import {
   DASHBOARD_SECTION_TAB,
   DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
 } from "../../constants";
-import styled from "styles/styled-components";
-import { BlackText, MutedText, WarningText } from "components/text";
-import { SectionContainer } from "../../common";
-import { HorizontalWrapper } from "components/horizontalWrapper";
-import { MinimalSpinner } from "components/loadingSpinner/minimal";
-import { wait } from "utils/common";
-import { Pane } from "components/pane";
-import { VerticalWrapper } from "components/verticalWrapper";
-import { Marginer } from "components/marginer";
-import { closePopupByClickOutside } from "types/common";
-import { Button } from "components/button";
-import { ButtonTheme } from "components/button/themes";
-import { ILoadRangeOptions } from "types/pagination";
-import { ISpecialist } from "types/specialist";
-import specialistService from "services/specialistService";
-import { Seperator } from "components/lineSeperator";
-import { Avatar } from "components/avatar";
+import { makeSelectSpecialists } from "../../selectors";
 
 interface ISpecialistsProps {}
 

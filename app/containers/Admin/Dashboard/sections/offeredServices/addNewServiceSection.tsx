@@ -1,40 +1,40 @@
+import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "components/button";
+import { ButtonTheme } from "components/button/themes";
 import { Card } from "components/card";
 import { Combobox } from "components/combobox";
 import { Form } from "components/form";
 import { FormGroup } from "components/formGroup";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { ImageUploader } from "components/imageUploader";
 import { Input } from "components/input";
 import { InputTheme } from "components/input/themes";
 import { Marginer } from "components/marginer";
+import { ErrorText } from "components/text";
+import { TimeRangePicker } from "components/timeRangePicker";
+import { FORM_ERROR, FormApi } from "final-form";
 import { FORMS } from "finalForm/constants";
 import FinalFormSpy from "finalForm/finalFormSpy";
+import { setField } from "finalForm/mutators";
 import React, { useState } from "react";
+import { FormRenderProps } from "react-final-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
+import { createSelector } from "reselect";
+import imageService from "services/imageService";
+import offeredServicesService from "services/offeredServicesService";
+import styled from "styles/styled-components";
 import {
   INewOfferedServiceDTO,
   IOfferedService,
   OFFERED_SERVICE_TYPE,
 } from "types/offeredService";
-import { SectionContainer } from "../../common";
-import * as yup from "yup";
 import { validateForm } from "utils/validation";
-import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "components/button";
-import { ButtonTheme } from "components/button/themes";
+import * as yup from "yup";
 
-import { TimeRangePicker } from "components/timeRangePicker";
-import { setField } from "finalForm/mutators";
-import { FormRenderProps } from "react-final-form";
-import { FormApi, FORM_ERROR } from "final-form";
-import { ImageUploader } from "components/imageUploader";
-import styled from "styles/styled-components";
-import { HorizontalWrapper } from "components/horizontalWrapper";
-import offeredServicesService from "services/offeredServicesService";
-import { Dispatch } from "redux";
 import { setActiveTab, setOfferedServices } from "../../actions";
+import { SectionContainer } from "../../common";
 import { DASHBOARD_SECTION_TAB } from "../../constants";
-import { useDispatch, useSelector } from "react-redux";
-import imageService from "services/imageService";
-import { ErrorText } from "components/text";
-import { createSelector } from "reselect";
 import { makeSelectOfferedServices } from "../../selectors";
 
 interface IAddNewServiceSectionProps {}

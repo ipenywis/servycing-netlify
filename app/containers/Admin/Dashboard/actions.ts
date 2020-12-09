@@ -1,10 +1,9 @@
 import { ICustomer } from "types/customer";
-import { IFinishedProject } from "types/finishedProject";
 import { IOfferedService } from "types/offeredService";
-import { IPendingServiceRequest } from "types/pendingServiceRequest";
 import { IServiceReview } from "types/serviceReview";
 import { ISpecialist } from "types/specialist";
 import { action } from "typesafe-actions";
+
 import { ActionTypes, DASHBOARD_SECTION_TAB } from "./constants";
 
 export const setOfferedServices = (services: IOfferedService[]) =>

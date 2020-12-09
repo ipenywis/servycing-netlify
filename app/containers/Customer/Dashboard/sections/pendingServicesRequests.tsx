@@ -1,29 +1,25 @@
-import { IconButton, Menu, Popover, Position, Table } from "evergreen-ui";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { Pane } from "components/pane";
+import {
+  BlackText,
+  ErrorText,
+  InfoText,
+  MutedText,
+  SuccessText,
+  WarningText,
+} from "components/text";
+import { Table } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
 import offeredServicesService from "services/offeredServicesService";
 import { OFFERED_SERVICE_STATUS } from "types/offeredService";
-import { setPendingServiceRequests } from "../actions";
-import { makeSelectPendingServiceRequests } from "../selectors";
-import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
-import styled from "styles/styled-components";
-import {
-  BlackText,
-  ErrorText,
-  GreyText,
-  InfoText,
-  MutedText,
-  SuccessText,
-  WarningText,
-} from "components/text";
-import { SectionContainer } from "../common";
-import { HorizontalWrapper } from "components/horizontalWrapper";
-import { MinimalSpinner } from "components/loadingSpinner/minimal";
-import { wait } from "utils/common";
-import { Pane } from "components/pane";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
+
+import { setPendingServiceRequests } from "../actions";
+import { SectionContainer } from "../common";
+import { makeSelectPendingServiceRequests } from "../selectors";
 
 interface IPendingRequestsSectionProps {}
 

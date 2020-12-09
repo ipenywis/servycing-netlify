@@ -1,32 +1,30 @@
-import React, { useState } from "react";
-import styled, { theme } from "styles/styled-components";
-import { MutedText, GreyText, ErrorText, BlackText } from "components/text";
+import { BrandLogo } from "components/brandLogo";
 import { Button } from "components/button";
-import { Link } from "components/link";
+import { ButtonTheme } from "components/button/themes";
+import { Card } from "components/card";
 import { Form } from "components/form";
-import { FormRenderProps } from "react-final-form";
 import { FormGroup } from "components/formGroup";
+import { HorizontalWrapper } from "components/horizontalWrapper";
 import { Input } from "components/input";
 import { InputTheme } from "components/input/themes";
-import { ButtonTheme } from "components/button/themes";
-import { HorizontalWrapper } from "components/horizontalWrapper";
+import { Link } from "components/link";
+import { BlackText, ErrorText, GreyText, MutedText } from "components/text";
+import { VerticalWrapper } from "components/verticalWrapper";
+import ROUTES from "containers/ROUTES";
+import { FormApi } from "final-form";
 import { FORMS } from "finalForm/constants";
 import FinalFormSpy from "finalForm/finalFormSpy";
-import { object, string } from "yup";
-import { FULLNAME_REGEX, PASSWORD_REGEX } from "utils/regex";
-import { setIn, FormApi } from "final-form";
-import messages from "./messages";
-import studentService from "services/studentService";
-import { IStudentRegisterDTO } from "types/student";
+import React, { useState } from "react";
+import { FormRenderProps } from "react-final-form";
 import { useHistory } from "react-router-dom";
-import ROUTES from "containers/ROUTES";
-import { Card } from "components/card";
-import { prepareRouteWithParams } from "utils/route";
-import { validateForm } from "utils/validation";
-import { BrandLogo } from "components/brandLogo";
-import { VerticalWrapper } from "components/verticalWrapper";
-import { IRegisterSpecialistDTO } from "types/specialist";
 import specialistService from "services/specialistService";
+import styled, { theme } from "styles/styled-components";
+import { IRegisterSpecialistDTO } from "types/specialist";
+import { FULLNAME_REGEX, PASSWORD_REGEX } from "utils/regex";
+import { validateForm } from "utils/validation";
+import { object, string } from "yup";
+
+import messages from "./messages";
 
 export interface ISignupBoxProps {}
 

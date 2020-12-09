@@ -1,53 +1,32 @@
-import { Card } from "components/card";
-import { Combobox } from "components/combobox";
-import { Form } from "components/form";
-import { FormGroup } from "components/formGroup";
-import { Input } from "components/input";
-import { InputTheme } from "components/input/themes";
-import { Marginer } from "components/marginer";
-import { FORMS } from "finalForm/constants";
-import FinalFormSpy from "finalForm/finalFormSpy";
-import React, { useState } from "react";
-import {
-  INewOfferedServiceDTO,
-  IOfferedService,
-  OFFERED_SERVICE_TYPE,
-} from "types/offeredService";
-import { SectionContainer } from "../../common";
-import * as yup from "yup";
-import { validateForm } from "utils/validation";
-import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "components/button";
 import { ButtonTheme } from "components/button/themes";
-
-import { TimeRangePicker } from "components/timeRangePicker";
-import { setField } from "finalForm/mutators";
-import { FormRenderProps } from "react-final-form";
-import { FormApi, FORM_ERROR } from "final-form";
-import { ImageUploader } from "components/imageUploader";
-import styled from "styles/styled-components";
+import { Card } from "components/card";
+import { Form } from "components/form";
+import { FormGroup } from "components/formGroup";
 import { HorizontalWrapper } from "components/horizontalWrapper";
-import offeredServicesService from "services/offeredServicesService";
-import { Dispatch } from "redux";
-import { setActiveTab, setOfferedServices } from "../../actions";
-import { DASHBOARD_SECTION_TAB } from "../../constants";
-import { useDispatch, useSelector } from "react-redux";
-import imageService from "services/imageService";
-import { ErrorText } from "components/text";
-import { createSelector } from "reselect";
-import {
-  makeSelectOfferedServices,
-  makeSelectToUpdateCustomer,
-  makeSelectToUpdateReview,
-} from "../../selectors";
-import { FULLNAME_REGEX, PASSWORD_REGEX } from "utils/regex";
-import { IRegisterSpecialistDTO } from "types/specialist";
-import specialistService from "services/specialistService";
-import { IRegisterCustomerDTO, IUpdateCustomerDTO } from "types/customer";
-import customerService from "services/customerService";
-import { IUpdateReviewDTO } from "types/serviceReview";
+import { Input } from "components/input";
+import { InputTheme } from "components/input/themes";
 import { RatingStars } from "components/ratingStarts";
+import { ErrorText } from "components/text";
+import { FormApi } from "final-form";
+import { FORMS } from "finalForm/constants";
+import FinalFormSpy from "finalForm/finalFormSpy";
+import { setField } from "finalForm/mutators";
+import React, { useState } from "react";
+import { FormRenderProps } from "react-final-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
+import { createSelector } from "reselect";
 import reviewService from "services/reviewService";
+import styled from "styles/styled-components";
+import { IUpdateReviewDTO } from "types/serviceReview";
+import { validateForm } from "utils/validation";
+import * as yup from "yup";
+
+import { setActiveTab } from "../../actions";
+import { SectionContainer } from "../../common";
+import { DASHBOARD_SECTION_TAB } from "../../constants";
+import { makeSelectToUpdateReview } from "../../selectors";
 
 interface IUpdateReviewSectionProps {}
 

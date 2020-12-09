@@ -1,10 +1,11 @@
-import React from "react";
+import { Footer } from "components/footer";
+import { Navbar } from "components/navbar";
 import { InnerPageContainer, PageContainer } from "components/pageContainer";
+import { DarkText } from "components/text";
+import React from "react";
 import { hot } from "react-hot-loader/root";
 import styled from "styles/styled-components";
-import { Navbar } from "components/navbar";
-import { Footer } from "components/footer";
-import { DarkText } from "components/text";
+
 import { LoginBox } from "./loginBox";
 
 interface ISpecialistLoginPageProps {}

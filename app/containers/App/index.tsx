@@ -75,6 +75,16 @@ function App() {
     isAdminAuthenticated,
   } = useSelector(stateSelector);
 
+  const noOneIsAuthenticated =
+    !isCustomerAuthenticated &&
+    !isSpecialistAuthenticated &&
+    !isAdminAuthenticated;
+
+  const someOneIsAuthenticated =
+    isCustomerAuthenticated ||
+    isSpecialistAuthenticated ||
+    isAdminAuthenticated;
+
   React.useEffect(() => {
     createPortalContainer("portal-popup");
     createPortalContainer("portal-alert");
@@ -89,13 +99,15 @@ function App() {
           <Route exact path={ROUTES.servicePage} component={ServicePage} />
 
           {/* CUSTOMER */}
-          <Route
+          <PrivateRoute
             exact
+            allow={!noOneIsAuthenticated}
             path={ROUTES.customerSignupPage}
             component={CustomerRegisterPage}
           />
-          <Route
+          <PrivateRoute
             exact
+            allow={!noOneIsAuthenticated}
             path={ROUTES.customerLoginPage}
             component={CustomerLoginPage}
           />
@@ -107,25 +119,29 @@ function App() {
           />
 
           {/* SPECIALIST */}
-          <Route
+          <PrivateRoute
             exact
+            allow={!noOneIsAuthenticated}
             path={ROUTES.specialistRegisterPage}
             component={SpecialistRegisterPage}
           />
-          <Route
+          <PrivateRoute
             exact
+            allow={!noOneIsAuthenticated}
             path={ROUTES.specialistLoginPage}
             component={SpecialistLoginPage}
           />
-          <Route
+          <PrivateRoute
             exact
+            allow={isSpecialistAuthenticated}
             path={ROUTES.specialistDashboardPage}
             component={SpecialistDashboardPage}
           />
 
           {/* ADMIN */}
-          <Route
+          <PrivateRoute
             exact
+            allow={!noOneIsAuthenticated}
             path={ROUTES.adminLoginPage}
             component={AdminLoginPage}
           />
@@ -137,8 +153,9 @@ function App() {
           />
 
           {/** Has to be kept last */}
-          <Route
+          <PrivateRoute
             exact
+            allow={someOneIsAuthenticated}
             path={ROUTES.specialistPage}
             component={SpecialistPage}
           />

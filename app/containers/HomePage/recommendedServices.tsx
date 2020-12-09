@@ -5,7 +5,7 @@ import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { Marginer } from "components/marginer";
 import { screenSizes } from "components/responsive";
 import { ServiceCard } from "components/serviceCard";
-import { BlackText } from "components/text";
+import { BlackText, WarningText } from "components/text";
 import ROUTES from "containers/ROUTES";
 import React, { useEffect, useState } from "react";
 import offeredServicesService from "services/offeredServicesService";
@@ -54,7 +54,7 @@ export function RecommendedServices(props: IRecommendedServicesProps) {
   const fetchRecommendedServices = async () => {
     setLoading(true);
     const servicesWithCount = await offeredServicesService
-      .getAndFilterOfferedServices({ rating: 4 }, { range: 6 })
+      .getAndFilterOfferedServices(undefined, { range: 6 })
       .catch((err) => {
         console.log("Error: ", err);
       });
@@ -83,6 +83,11 @@ export function RecommendedServices(props: IRecommendedServicesProps) {
             </HorizontalWrapper>
           )}
           <ServicesInnerContainer>
+            {!isLoading && isEmptyServices && (
+              <WarningText horizontalCenter>
+                No Services are avaialable yet!
+              </WarningText>
+            )}
             {!isEmptyServices &&
               !isLoading &&
               recommendedServices.map((service, idx) => (
@@ -91,7 +96,7 @@ export function RecommendedServices(props: IRecommendedServicesProps) {
           </ServicesInnerContainer>
         </ServicesContainer>
         <Marginer direction="vertical" margin="2em" />
-        {!isLoading && (
+        {!isLoading && !isEmptyServices && (
           <Button
             text="View More"
             buttonTheme={ButtonTheme.GREY_SOLID}

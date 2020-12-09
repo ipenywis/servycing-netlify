@@ -1,3 +1,8 @@
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { Marginer } from "components/marginer";
+import { Pane } from "components/pane";
+import { BlackText, MutedText, WarningText } from "components/text";
 import {
   IconButton,
   Menu,
@@ -10,39 +15,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
-import {
-  setActiveTab,
-  setCustomers,
-  setReviews,
-  setToUpdateCustomer,
-  setToUpdateReview,
-} from "../../actions";
-import {
-  makeSelectCustomers,
-  makeSelectReviews,
-  makeSelectToUpdateReview,
-} from "../../selectors";
+import reviewService from "services/reviewService";
+import { closePopupByClickOutside } from "types/common";
+import { ILoadRangeOptions } from "types/pagination";
+import { IServiceReview } from "types/serviceReview";
+
+import { setActiveTab, setReviews, setToUpdateReview } from "../../actions";
+import { SectionContainer } from "../../common";
 import {
   DASHBOARD_SECTION_TAB,
   DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
 } from "../../constants";
-import { BlackText, MutedText, WarningText } from "components/text";
-import { SectionContainer } from "../../common";
-import { HorizontalWrapper } from "components/horizontalWrapper";
-import { MinimalSpinner } from "components/loadingSpinner/minimal";
-import { Pane } from "components/pane";
-import { VerticalWrapper } from "components/verticalWrapper";
-import { Marginer } from "components/marginer";
-import { closePopupByClickOutside } from "types/common";
-import { Button } from "components/button";
-import { ButtonTheme } from "components/button/themes";
-import { ILoadRangeOptions } from "types/pagination";
-import { ICustomer } from "types/customer";
-import customerService from "services/customerService";
-import { Avatar } from "components/avatar";
-import { IServiceReview } from "types/serviceReview";
-import reviewService from "services/reviewService";
-import { isEmpty } from "lodash";
+import { makeSelectReviews, makeSelectToUpdateReview } from "../../selectors";
 
 interface IReviewsSectionProps {}
 

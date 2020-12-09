@@ -1,3 +1,11 @@
+import { Button } from "components/button";
+import { ButtonTheme } from "components/button/themes";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { Marginer } from "components/marginer";
+import { Pane } from "components/pane";
+import { BlackText, MutedText, WarningText } from "components/text";
+import { VerticalWrapper } from "components/verticalWrapper";
 import {
   IconButton,
   Menu,
@@ -11,34 +19,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { createSelector } from "reselect";
 import offeredServicesService from "services/offeredServicesService";
+import { closePopupByClickOutside } from "types/common";
 import { IOfferedService } from "types/offeredService";
+import { ILoadRangeOptions } from "types/pagination";
+
 import {
   setActiveTab,
   setOfferedServices,
   setOfferedServicesCount,
   setToUpdateOfferedService,
 } from "../../actions";
-import {
-  makeSelectOfferedServices,
-  makeSelectOfferedServicesCount,
-} from "../../selectors";
+import { SectionContainer } from "../../common";
 import {
   DASHBOARD_SECTION_TAB,
   DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
 } from "../../constants";
-import styled from "styles/styled-components";
-import { BlackText, MutedText, WarningText } from "components/text";
-import { SectionContainer } from "../../common";
-import { HorizontalWrapper } from "components/horizontalWrapper";
-import { MinimalSpinner } from "components/loadingSpinner/minimal";
-import { wait } from "utils/common";
-import { Pane } from "components/pane";
-import { VerticalWrapper } from "components/verticalWrapper";
-import { Marginer } from "components/marginer";
-import { closePopupByClickOutside } from "types/common";
-import { Button } from "components/button";
-import { ButtonTheme } from "components/button/themes";
-import { ILoadRangeOptions } from "types/pagination";
+import {
+  makeSelectOfferedServices,
+  makeSelectOfferedServicesCount,
+} from "../../selectors";
 
 interface IOfferedServicesProps {}
 

@@ -1,18 +1,18 @@
-import { IStudent } from 'types/student';
-import { IAdmin } from 'types/admin';
-import { IInstructor } from 'types/instructor';
-import messages from './messages';
-import endpoints from 'endpoints';
-import Axios from 'axios';
+import { IAdmin } from "types/admin";
+import messages from "./messages";
+import endpoints from "endpoints";
+import Axios from "axios";
+import { ICustomer } from "types/customer";
+import { ISpecialist } from "types/specialist";
 
 class UserService {
   public async getAuthenticatedUser(): Promise<
-    IStudent | IAdmin | IInstructor
+    ICustomer | IAdmin | ISpecialist
   > {
     const response = await Axios.get(endpoints.GET_AUTHENTICATED_USER).catch(
-      err => {
+      (err) => {
         throw err;
-      },
+      }
     );
 
     if (response && response.data && response.data.data)
