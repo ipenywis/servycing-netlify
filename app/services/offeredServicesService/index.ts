@@ -288,9 +288,10 @@ class OfferedServicesService {
         throw parseGraphqlError(err);
       });
 
-    if (response && response.data && response.data.offeredService)
-      return response.data.offeredService;
-    else throw new Error(offeredServicesMessages.cannotFetchOfferedServiceById);
+    if (response && response.data && response.data.offeredService) {
+      return this.resolverServicesType([response.data.offeredService])[0];
+    } else
+      throw new Error(offeredServicesMessages.cannotFetchOfferedServiceById);
   }
 
   public async requestService(

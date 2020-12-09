@@ -42,6 +42,7 @@ import customerService from "services/customerService";
 import { Avatar } from "components/avatar";
 import { IServiceReview } from "types/serviceReview";
 import reviewService from "services/reviewService";
+import { isEmpty } from "lodash";
 
 interface IReviewsSectionProps {}
 
@@ -178,8 +179,8 @@ export function ReviewsSection(props: IReviewsSectionProps) {
         </Table.Head>
         {(isLoading || isEmptyReviews) && (
           <Pane alignCenter marginTop="5%">
-            {isLoading && <MinimalSpinner />}
-            {isEmptyReviews && (
+            {isLoading && !isEmptyReviews && <MinimalSpinner />}
+            {isEmptyReviews && !isLoading && (
               <WarningText>No services reviews yet!</WarningText>
             )}
           </Pane>

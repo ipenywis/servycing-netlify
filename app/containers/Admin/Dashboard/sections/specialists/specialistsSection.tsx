@@ -199,8 +199,8 @@ export function SpecialistsSection(props: ISpecialistsProps) {
         </Table.Head>
         {(isLoading || isEmptyOfferedServices) && (
           <Pane alignCenter marginTop="5%">
-            {isLoading && <MinimalSpinner />}
-            {isEmptyOfferedServices && (
+            {isLoading && !isEmptyOfferedServices && <MinimalSpinner />}
+            {isEmptyOfferedServices && !isLoading && (
               <WarningText>You haven't offered any services yet</WarningText>
             )}
           </Pane>

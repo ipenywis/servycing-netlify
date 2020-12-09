@@ -227,7 +227,7 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
         </Table.Body>
       </Table>
       <Marginer direction="vertical" margin="2em" />
-      {!isEmptyOfferedServices && (
+      {!isEmptyOfferedServices && !isLoading && (
         <HorizontalWrapper centered>
           <Button
             text="Load More"

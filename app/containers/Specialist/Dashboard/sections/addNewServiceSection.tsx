@@ -213,6 +213,7 @@ export function AddNewServiceSection(props: IAddNewServiceSectionProps) {
                   <TimeRangePicker
                     format="h:m a"
                     rangeDivider="To"
+                    required={true}
                     onChange={(range) => updateTimeRange(range, form)}
                   />
                 </FormGroup>

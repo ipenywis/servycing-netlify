@@ -172,8 +172,8 @@ export function CustomersSection(props: ICustomersSectionProps) {
         </Table.Head>
         {(isLoading || isEmptyCustomers) && (
           <Pane alignCenter marginTop="5%">
-            {isLoading && <MinimalSpinner />}
-            {isEmptyCustomers && (
+            {isLoading && !isEmptyCustomers && <MinimalSpinner />}
+            {isEmptyCustomers && !isLoading && (
               <WarningText>No customers are registered yet!</WarningText>
             )}
           </Pane>
