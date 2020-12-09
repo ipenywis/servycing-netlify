@@ -1,12 +1,17 @@
 import { Button } from "components/button";
 import { ButtonTheme } from "components/button/themes";
+import { HorizontalWrapper } from "components/horizontalWrapper";
+import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { Marginer } from "components/marginer";
 import { screenSizes } from "components/responsive";
 import { ServiceCard } from "components/serviceCard";
 import { BlackText } from "components/text";
 import ROUTES from "containers/ROUTES";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import offeredServicesService from "services/offeredServicesService";
 import styled from "styles/styled-components";
+import { IOfferedService } from "types/offeredService";
+import { wait } from "utils/common";
 
 export interface IRecommendedServicesProps {}
 
@@ -26,37 +31,76 @@ const InnerContainer = styled.div`
 
 const ServicesContainer = styled.div`
   max-width: ${screenSizes.laptop}px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ServicesInnerContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
 `;
 
 export function RecommendedServices(props: IRecommendedServicesProps) {
+  const [recommendedServices, setRecommendedServices] = useState<
+    IOfferedService[]
+  >([]);
+  const [isLoading, setLoading] = useState(false);
+
+  const isEmptyServices =
+    !recommendedServices ||
+    (recommendedServices && recommendedServices.length === 0);
+
+  const fetchRecommendedServices = async () => {
+    setLoading(true);
+    const servicesWithCount = await offeredServicesService
+      .getAndFilterOfferedServices({ rating: 4 }, { range: 6 })
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+
+    await wait(3000);
+
+    if (servicesWithCount)
+      setRecommendedServices(servicesWithCount.offeredServices);
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchRecommendedServices();
+  }, []);
+
   return (
     <RecommendedServicesContainer>
-      <BlackText size={27} black>
-        Most used services &#38; More
-      </BlackText>
-      <Marginer direction="vertical" margin="2em" />
       <InnerContainer>
         <ServicesContainer>
-          {Array(8)
-            .fill("")
-            .map((service, idx) => (
-              <ServiceCard
-                key={idx}
-                title="I will landscape your garden"
-                specialist={{ fullName: "Islem Maboud" } as any}
-                rate={70}
-                {...(service as any)}
-              />
-            ))}
+          <BlackText size={27} black>
+            Most used services &#38; More
+          </BlackText>
+          <Marginer direction="vertical" margin="2em" />
+          {isLoading && (
+            <HorizontalWrapper centered>
+              <MinimalSpinner size="md" />
+            </HorizontalWrapper>
+          )}
+          <ServicesInnerContainer>
+            {!isEmptyServices &&
+              !isLoading &&
+              recommendedServices.map((service, idx) => (
+                <ServiceCard key={idx} {...service} />
+              ))}
+          </ServicesInnerContainer>
         </ServicesContainer>
         <Marginer direction="vertical" margin="2em" />
-        <Button
-          text="View More"
-          buttonTheme={ButtonTheme.GREY_SOLID}
-          to={ROUTES.discoverPage}
-        />
+        {!isLoading && (
+          <Button
+            text="View More"
+            buttonTheme={ButtonTheme.GREY_SOLID}
+            to={ROUTES.discoverPage}
+          />
+        )}
       </InnerContainer>
     </RecommendedServicesContainer>
   );
