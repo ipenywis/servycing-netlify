@@ -12,6 +12,7 @@ import FarmingImg from "images/farming.png";
 import { Button } from "components/button";
 import { ButtonTheme } from "components/button/themes";
 import ImageLoader from "react-imageloader";
+import ROUTES from "containers/ROUTES";
 
 interface ISpecialistAdProps {}
 
@@ -73,6 +74,7 @@ export function SpecialistAd(props: ISpecialistAdProps) {
           <Button
             buttonTheme={ButtonTheme.PRIMARY_SOLID}
             text="Join as Specialist"
+            to={ROUTES.specialistRegisterPage}
           />
         </SloganContainer>
         <StandoutImage>
