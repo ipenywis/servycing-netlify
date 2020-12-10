@@ -110,7 +110,7 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
       <MutedText size={12} marginBottom="1em">
         View all your finished services projects for customer.
       </MutedText>
-      <Table>
+      <Table minHeight="16em">
         <Table.Head>
           <Table.TextHeaderCell flexGrow={1}>Id</Table.TextHeaderCell>
           <Table.TextHeaderCell>Service</Table.TextHeaderCell>

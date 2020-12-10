@@ -17,7 +17,10 @@ import {
   makeSelectOfferedServices,
   makeSelectPendingServiceRequests,
 } from "../selectors";
-import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
+import {
+  DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
+  DEFAULT_PENDING_REQUESTS_LOAD_RANGE,
+} from "../constants";
 import styled from "styles/styled-components";
 import {
   BlackText,
@@ -35,6 +38,8 @@ import { wait } from "utils/common";
 import { Pane } from "components/pane";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
 import { Marginer } from "components/marginer";
+import { usePagination } from "components/usePagination";
+import { Pagination } from "components/pagination";
 
 interface IPendingRequestsSectionProps {}
 
@@ -126,19 +131,29 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
   const { pendingRequests } = useSelector(stateSelector);
   const { setPendingRequests } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const [loadRange, showPagination, pageCount, page, setPage] = usePagination(
+    0,
+    count,
+    DEFAULT_PENDING_REQUESTS_LOAD_RANGE
+  );
 
   const isEmptyPendingRequests =
     !pendingRequests || (pendingRequests && pendingRequests.length === 0);
 
   const fetchedPendingRequests = async () => {
     setLoading(true);
-    const pendingRequests = await offeredServicesService
-      .getSpecialistPendingServiceRequests()
+    const pendingRequestsWithCount = await offeredServicesService
+      .getSpecialistPendingServiceRequests(loadRange)
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (pendingRequests) setPendingRequests(pendingRequests);
+    if (pendingRequestsWithCount) {
+      setCount(pendingRequestsWithCount.count);
+      setPendingRequests(pendingRequestsWithCount.pendingServicesRequests);
+    }
 
     setLoading(false);
   };
@@ -146,6 +161,10 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
   useEffect(() => {
     fetchedPendingRequests();
   }, []);
+
+  useEffect(() => {
+    fetchedPendingRequests();
+  }, [page]);
 
   return (
     <SectionContainer>
@@ -156,7 +175,7 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
         View and Manage all requests coming from customers for your offered
         services.
       </MutedText>
-      <Table>
+      <Table minHeight="16em">
         <Table.Head>
           <Table.TextHeaderCell flexGrow={1}>Id</Table.TextHeaderCell>
           <Table.TextHeaderCell>Service</Table.TextHeaderCell>
@@ -221,6 +240,17 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
             })}
         </Table.Body>
       </Table>
+      <HorizontalWrapper centered>
+        {!isLoading && showPagination && (
+          <Pagination
+            pageCount={Math.ceil(pageCount)}
+            pageRangeDisplayed={0}
+            marginPagesDisplayed={2}
+            forcePage={page}
+            onPageChange={(page) => setPage(page.selected)}
+          />
+        )}
+      </HorizontalWrapper>
     </SectionContainer>
   );
 }
