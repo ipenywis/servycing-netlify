@@ -15,6 +15,11 @@ import { RatingStars } from "components/ratingStarts";
 import { Link } from "components/link";
 import { prepareRouteWithParamsWithSlug } from "utils/route";
 import ROUTES from "containers/ROUTES";
+import {
+  makeSelectIsAdminAuthenticated,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
+} from "containers/Authentication/selectors";
 
 interface IServiceInfoProps {}
 
@@ -36,14 +41,38 @@ const ServiceThumbnail = styled.div`
   }
 `;
 
-const stateSelector = createSelector(makeSelectService, (service) => ({
-  service,
-}));
+const stateSelector = createSelector(
+  makeSelectService,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
+  makeSelectIsAdminAuthenticated,
+  (
+    service,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
+    isAdminAuthenticated
+  ) => ({
+    service,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
+    isAdminAuthenticated,
+  })
+);
 
 export function ServiceInfo(props: IServiceInfoProps) {
-  const { service } = useSelector(stateSelector);
+  const {
+    service,
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
+    isAdminAuthenticated,
+  } = useSelector(stateSelector);
 
   if (!service) return null;
+
+  const isAuthenticated =
+    isCustomerAuthenticated ||
+    isSpecialistAuthenticated ||
+    isAdminAuthenticated;
 
   const specialistPage = useMemo(
     () =>
@@ -60,14 +89,34 @@ export function ServiceInfo(props: IServiceInfoProps) {
         {service.title}
       </DarkText>
       <HorizontalWrapper height="auto" centerVertically>
-        <Link to={specialistPage}>
-          <Avatar name={service.specialist.fullName} color="green" size={29} />
-        </Link>
-        <Link to={specialistPage}>
-          <GreyText size={12} marginLeft={5} verticalCenter>
-            {service.specialist.fullName}
-          </GreyText>
-        </Link>
+        {isAuthenticated && (
+          <>
+            <Link to={specialistPage}>
+              <Avatar
+                name={service.specialist.fullName}
+                color="green"
+                size={29}
+              />
+            </Link>
+            <Link to={specialistPage}>
+              <GreyText size={12} marginLeft={5} verticalCenter>
+                {service.specialist.fullName}
+              </GreyText>
+            </Link>
+          </>
+        )}
+        {!isAuthenticated && (
+          <>
+            <Avatar
+              name={service.specialist.fullName}
+              color="green"
+              size={29}
+            />
+            <GreyText size={12} marginLeft={5} verticalCenter>
+              {service.specialist.fullName}
+            </GreyText>
+          </>
+        )}
         <Marginer direction="horizontal" margin="10px" />
         <RatingStars textSize={14} size={15} rating={5} showRatingNumber />
         <BlackText size={12} marginLeft={11} verticalCenter>

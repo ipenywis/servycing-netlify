@@ -15,6 +15,13 @@ import {
   prepareRouteWithParamsWithSlug,
 } from "utils/route";
 import ROUTES from "containers/ROUTES";
+import { createSelector } from "reselect";
+import {
+  makeSelectIsAdminAuthenticated,
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
+} from "containers/Authentication/selectors";
+import { useSelector } from "react-redux";
 
 interface IServiceCardProps extends IOfferedService {}
 
@@ -63,10 +70,35 @@ const BottomContainer = styled.div`
   border-top: 1px solid ${theme.default.lightGreyText};
 `;
 
+const stateSelector = createSelector(
+  makeSelectIsCustomerAuthenticated,
+  makeSelectIsSpecialistAuthenticated,
+  makeSelectIsAdminAuthenticated,
+  (
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
+    isAdminAuthenticated
+  ) => ({
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
+    isAdminAuthenticated,
+  })
+);
+
 export function ServiceCard(props: IServiceCardProps) {
   const { id, title, specialist, rate, rating, thumbnailUrl } = props;
 
-  //TODO: Make service page use service title slug
+  const {
+    isCustomerAuthenticated,
+    isSpecialistAuthenticated,
+    isAdminAuthenticated,
+  } = useSelector(stateSelector);
+
+  const isAuthenticated =
+    isCustomerAuthenticated ||
+    isSpecialistAuthenticated ||
+    isAdminAuthenticated;
+
   const servicePage = useMemo(
     () => prepareRouteWithParams(ROUTES.servicePage, id),
     [id]
@@ -96,16 +128,26 @@ export function ServiceCard(props: IServiceCardProps) {
             {title}
           </BlackText>
         </Link>
-        <HorizontalWrapper centerVertically>
-          <Link to={specialistPage}>
+        {isAuthenticated && (
+          <HorizontalWrapper centerVertically>
+            <Link to={specialistPage}>
+              <Avatar name={specialist.fullName} size={29} />
+            </Link>
+            <Link to={specialistPage}>
+              <BlackText size={12} marginLeft={5} verticalCenter>
+                {specialist.fullName}
+              </BlackText>
+            </Link>
+          </HorizontalWrapper>
+        )}
+        {!isAuthenticated && (
+          <HorizontalWrapper centerVertically>
             <Avatar name={specialist.fullName} size={29} />
-          </Link>
-          <Link to={specialistPage}>
             <BlackText size={12} marginLeft={5} verticalCenter>
               {specialist.fullName}
             </BlackText>
-          </Link>
-        </HorizontalWrapper>
+          </HorizontalWrapper>
+        )}
       </ContentContainer>
       <BottomContainer>
         <RatingStars rating={rating} showRatingNumber showAllStars={false} />

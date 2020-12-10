@@ -101,13 +101,13 @@ function App() {
           {/* CUSTOMER */}
           <PrivateRoute
             exact
-            allow={!noOneIsAuthenticated}
+            allow={noOneIsAuthenticated}
             path={ROUTES.customerSignupPage}
             component={CustomerRegisterPage}
           />
           <PrivateRoute
             exact
-            allow={!noOneIsAuthenticated}
+            allow={noOneIsAuthenticated}
             path={ROUTES.customerLoginPage}
             component={CustomerLoginPage}
           />
@@ -121,13 +121,13 @@ function App() {
           {/* SPECIALIST */}
           <PrivateRoute
             exact
-            allow={!noOneIsAuthenticated}
+            allow={noOneIsAuthenticated}
             path={ROUTES.specialistRegisterPage}
             component={SpecialistRegisterPage}
           />
           <PrivateRoute
             exact
-            allow={!noOneIsAuthenticated}
+            allow={noOneIsAuthenticated}
             path={ROUTES.specialistLoginPage}
             component={SpecialistLoginPage}
           />
@@ -141,7 +141,7 @@ function App() {
           {/* ADMIN */}
           <PrivateRoute
             exact
-            allow={!noOneIsAuthenticated}
+            allow={noOneIsAuthenticated}
             path={ROUTES.adminLoginPage}
             component={AdminLoginPage}
           />
