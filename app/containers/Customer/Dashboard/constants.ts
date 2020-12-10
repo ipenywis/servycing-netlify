@@ -12,6 +12,11 @@ export const DEFAULT_PENDING_REQUESTS_LOAD_RANGE: ILoadRangeOptions = {
   range: 4,
 };
 
+export const DEFAULT_FINISHED_PROJECTS_LOAD_RANGE: ILoadRangeOptions = {
+  start: 0,
+  range: 4,
+};
+
 export enum DASHBOARD_SECTION_TAB {
   FINISHED_PROJECTS = "Finished Projects",
   LEAVE_NEW_REVIEW = "Leave a Review",

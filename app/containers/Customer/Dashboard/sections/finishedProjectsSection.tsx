@@ -1,4 +1,6 @@
+import { HorizontalWrapper } from "components/horizontalWrapper";
 import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { Pagination } from "components/pagination";
 import { Pane } from "components/pane";
 import {
   BlackText,
@@ -9,6 +11,7 @@ import {
   SuccessText,
   WarningText,
 } from "components/text";
+import { usePagination } from "components/usePagination";
 import { IconButton, Menu, Popover, Position, Table } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +29,10 @@ import {
   setToReviewService,
 } from "../actions";
 import { SectionContainer } from "../common";
-import { DASHBOARD_SECTION_TAB } from "../constants";
+import {
+  DASHBOARD_SECTION_TAB,
+  DEFAULT_FINISHED_PROJECTS_LOAD_RANGE,
+} from "../constants";
 import { makeSelectFinishedProjects } from "../selectors";
 
 interface IFinishedProjectsSectionProps {}
@@ -151,13 +157,19 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
   const [isLoading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
 
+  const [loadRange, showPagination, pageCount, page, setPage] = usePagination(
+    0,
+    count,
+    DEFAULT_FINISHED_PROJECTS_LOAD_RANGE
+  );
+
   const isEmptyFinishedProjects =
     !finishedProjects || (finishedProjects && finishedProjects.length === 0);
 
   const fetchFinishedProjects = async () => {
     setLoading(true);
     const finishedProjectsWithCount = await offeredServicesService
-      .getCustomerAllFinishedProjects()
+      .getCustomerAllFinishedProjects(loadRange)
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -173,6 +185,10 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
   useEffect(() => {
     fetchFinishedProjects();
   }, []);
+
+  useEffect(() => {
+    fetchFinishedProjects();
+  }, [page]);
 
   return (
     <SectionContainer>
@@ -258,6 +274,17 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
             })}
         </Table.Body>
       </Table>
+      <HorizontalWrapper centered>
+        {!isLoading && showPagination && (
+          <Pagination
+            pageCount={pageCount}
+            pageRangeDisplayed={0}
+            marginPagesDisplayed={2}
+            forcePage={page}
+            onPageChange={(page) => setPage(page.selected)}
+          />
+        )}
+      </HorizontalWrapper>
     </SectionContainer>
   );
 }
