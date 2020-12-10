@@ -7,7 +7,6 @@ interface IHorizontalWrapperProps {
   spaceBetween?: boolean;
   spaceEvenly?: boolean;
   noMargin?: boolean;
-  wrap?: boolean;
   centered?: boolean;
   centerVertically?: boolean;
   shrink?: number;
@@ -55,7 +54,6 @@ function HorizontalWrapper(props: IHorizontalWrapperProps) {
 
 HorizontalWrapper.defaultProps = {
   noMargin: true,
-  wrap: true,
 };
 
 export { HorizontalWrapper };
