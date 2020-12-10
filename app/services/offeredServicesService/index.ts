@@ -97,23 +97,27 @@ class OfferedServicesService {
     else throw new Error(offeredServicesMessages.cannotCreateNewService);
   }
 
-  public async getSpecialistMyOfferedServices(): Promise<IOfferedService[]> {
+  public async getSpecialistMyOfferedServices(
+    range?: ILoadRangeOptions
+  ): Promise<IOfferedServicesWithCount> {
     const response = await apolloClient
       .query({
         fetchPolicy: "network-only",
         query: GET_SPECIALIST_MY_OFFERED_SERVICES,
+        variables: { range },
       })
       .catch((err) => {
         throw parseGraphqlError(err);
       });
 
-    if (response && response.data && response.data.offeredServices) {
+    if (response && response.data && response.data.offeredServicesWithCount) {
       //get the right service type
       const offeredServices = this.resolverServicesType(
-        response.data.offeredServices
+        response.data.offeredServicesWithCount.offeredServices
       );
+      const count = response.data.offeredServicesWithCount.count;
 
-      return offeredServices;
+      return { offeredServices, count };
     } else throw new Error(offeredServicesMessages.cannotFetchOfferedServices);
   }
 
@@ -150,20 +154,25 @@ class OfferedServicesService {
       );
   }
 
-  public async getSpecialistPendingServiceRequests(): Promise<
-    IPendingServiceRequest[]
-  > {
+  public async getSpecialistPendingServiceRequests(
+    range?: ILoadRangeOptions
+  ): Promise<IPendingServicesRequestsWithCount> {
     const response = await apolloClient
       .query({
         query: GET_SPECIALIST_PENDING_SERVICE_REQUESTS,
+        variables: { range },
         fetchPolicy: "network-only",
       })
       .catch((err) => {
         throw parseGraphqlError(err);
       });
 
-    if (response && response.data && response.data.pendingServiceRequests)
-      return response.data.pendingServiceRequests;
+    if (
+      response &&
+      response.data &&
+      response.data.pendingServicesRequestsWithCount
+    )
+      return response.data.pendingServicesRequestsWithCount;
     else throw new Error(offeredServicesMessages.cannotFetchPendingRequests);
   }
 
@@ -228,35 +237,39 @@ class OfferedServicesService {
     else throw new Error(offeredServicesMessages.cannotDeleteService);
   }
 
-  public async getSpecialistRejectedServiceRequests(): Promise<
-    IPendingServiceRequest[]
-  > {
+  public async getSpecialistRejectedServiceRequests(
+    range?: ILoadRangeOptions
+  ): Promise<IPendingServicesRequestsWithCount> {
     const response = await apolloClient
       .query({
         query: GET_SPECIALIST_REJECTED_SERVICE_REQUESTS,
+        variables: { range },
         fetchPolicy: "network-only",
       })
       .catch((err) => {
         throw parseGraphqlError(err);
       });
 
-    if (response && response.data && response.data.rejectedRequests)
-      return response.data.rejectedRequests;
+    if (response && response.data && response.data.rejectedRequestsWithCount)
+      return response.data.rejectedRequestsWithCount;
     else throw new Error(offeredServicesMessages.cannotFetchRejectedRequests);
   }
 
-  public async getSpecialistAllFinishedProjects(): Promise<IFinishedProject[]> {
+  public async getSpecialistAllFinishedProjects(
+    range?: ILoadRangeOptions
+  ): Promise<IFinishedProjectsWithCount> {
     const response = await apolloClient
       .query({
         query: GET_SPECIALIST_ALL_FINISHED_PROJECTS,
+        variables: { range },
         fetchPolicy: "network-only",
       })
       .catch((err) => {
         throw parseGraphqlError(err);
       });
 
-    if (response && response.data && response.data.finishedProjects)
-      return response.data.finishedProjects;
+    if (response && response.data && response.data.finishedProjectsWithCount)
+      return response.data.finishedProjectsWithCount;
     else throw new Error(offeredServicesMessages.cannotFetchFinishedProjects);
   }
 

@@ -29,76 +29,92 @@ export const GET_OFFERED_SERVICES = gql`
 `;
 
 export const GET_SPECIALIST_MY_OFFERED_SERVICES = gql`
-  query GET_SPECIALIST_OFFERED_SERVICES {
-    offeredServices: specialistMyOfferedServices {
-      id
-      title
-      description
-      type
-      rate
-      preferredHours
-      thumbnailUrl
-      rating
-      specialist {
+  query GET_SPECIALIST_OFFERED_SERVICES($range: LoadRangeOptions) {
+    offeredServicesWithCount: specialistMyOfferedServices(range: $range) {
+      count
+      offeredServices {
         id
-        fullName
-        email
+        title
+        description
+        type
+        rate
+        preferredHours
+        thumbnailUrl
         rating
-        shortBio
+        specialist {
+          id
+          fullName
+          email
+          rating
+          shortBio
+        }
       }
     }
   }
 `;
 
 export const GET_SPECIALIST_PENDING_SERVICE_REQUESTS = gql`
-  query GET_SPECIALIST_PENDING_SERVICE_REQUESTS {
-    pendingServiceRequests: specialistPendingServiceRequests {
-      id
-      offeredService {
+  query GET_SPECIALIST_PENDING_SERVICE_REQUESTS($range: LoadRangeOptions) {
+    pendingServicesRequestsWithCount: specialistPendingServiceRequests(
+      range: $range
+    ) {
+      count
+      pendingServicesRequests {
         id
-        title
+        offeredService {
+          id
+          title
+        }
+        customer {
+          id
+          fullName
+        }
+        status
       }
-      customer {
-        id
-        fullName
-      }
-      status
     }
   }
 `;
 
 export const GET_SPECIALIST_REJECTED_SERVICE_REQUESTS = gql`
-  query GET_SPECIALIST_REJECTED_SERVICE_REQUESTS {
-    rejectedRequests: specialistRejectedServiceRequests {
-      id
-      offeredService {
+  query GET_SPECIALIST_REJECTED_SERVICE_REQUESTS($range: LoadRangeOptions) {
+    rejectedRequestsWithCount: specialistRejectedServiceRequests(
+      range: $range
+    ) {
+      count
+      rejectedRequests {
         id
-        title
-        rate
+        offeredService {
+          id
+          title
+          rate
+        }
+        customer {
+          id
+          fullName
+        }
+        status
       }
-      customer {
-        id
-        fullName
-      }
-      status
     }
   }
 `;
 
 export const GET_SPECIALIST_ALL_FINISHED_PROJECTS = gql`
-  query GET_SPECIALIST_FINISHED_PROJECTS {
-    finishedProjects: specialistAllFinishedServices {
-      id
-      offeredService {
+  query GET_SPECIALIST_FINISHED_PROJECTS($range: LoadRangeOptions) {
+    finishedProjectsWithCount: specialistAllFinishedServices(range: $range) {
+      count
+      finishedServices {
         id
-        title
-        rate
+        offeredService {
+          id
+          title
+          rate
+        }
+        customer {
+          id
+          fullName
+        }
+        status
       }
-      customer {
-        id
-        fullName
-      }
-      status
     }
   }
 `;
