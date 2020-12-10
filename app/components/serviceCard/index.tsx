@@ -85,7 +85,7 @@ export function ServiceCard(props: IServiceCardProps) {
     <CardContainer>
       <TopContainer>
         <Link to={servicePage}>
-          <ServiceThumbnail>
+          <ServiceThumbnail data-testid="image-container">
             <ImageLoader src={thumbnailUrl} />
           </ServiceThumbnail>
         </Link>
