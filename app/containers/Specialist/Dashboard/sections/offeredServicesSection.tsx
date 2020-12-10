@@ -32,6 +32,8 @@ import { Pane } from "components/pane";
 import { VerticalWrapper } from "components/verticalWrapper";
 import { Marginer } from "components/marginer";
 import { closePopupByClickOutside } from "types/common";
+import { usePagination } from "components/usePagination";
+import { Pagination } from "components/pagination";
 
 interface IOfferedServicesProps {}
 
@@ -120,26 +122,39 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
   const { offeredServices } = useSelector(stateSelector);
   const { setOfferedServices } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const [loadRange, showPagination, pageCount, page, setPage] = usePagination(
+    0,
+    count,
+    DEFAULT_OFFERED_SERVICES_LOAD_RANGE
+  );
 
   const isEmptyOfferedServices =
     !offeredServices || (offeredServices && offeredServices.length === 0);
 
   const fetchedOfferedServices = async () => {
     setLoading(true);
-    const offeredServices = await offeredServicesService
-      .getSpecialistMyOfferedServices()
+    const offeredServicesWithCount = await offeredServicesService
+      .getSpecialistMyOfferedServices(loadRange)
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (offeredServices) setOfferedServices(offeredServices);
-
+    if (offeredServicesWithCount) {
+      setCount(offeredServicesWithCount.count);
+      setOfferedServices(offeredServicesWithCount.offeredServices);
+    }
     setLoading(false);
   };
 
   useEffect(() => {
     fetchedOfferedServices();
   }, []);
+
+  useEffect(() => {
+    fetchedOfferedServices();
+  }, [page]);
 
   return (
     <SectionContainer>
@@ -149,7 +164,7 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
       <MutedText size={12} marginBottom="1em">
         All of your offered services are here, view, update or delete.
       </MutedText>
-      <Table>
+      <Table minHeight="16em">
         <Table.Head>
           <Table.TextHeaderCell flexGrow={3}>Title</Table.TextHeaderCell>
           <Table.TextHeaderCell>Type</Table.TextHeaderCell>
@@ -188,6 +203,17 @@ export function OfferedServicesSection(props: IOfferedServicesProps) {
             ))}
         </Table.Body>
       </Table>
+      <HorizontalWrapper centered>
+        {!isLoading && showPagination && (
+          <Pagination
+            pageCount={Math.ceil(pageCount)}
+            pageRangeDisplayed={0}
+            marginPagesDisplayed={2}
+            forcePage={page}
+            onPageChange={(page) => setPage(page.selected)}
+          />
+        )}
+      </HorizontalWrapper>
     </SectionContainer>
   );
 }

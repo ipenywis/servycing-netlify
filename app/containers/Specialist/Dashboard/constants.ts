@@ -11,7 +11,7 @@ export enum ActionTypes {
 
 export const DEFAULT_OFFERED_SERVICES_LOAD_RANGE: ILoadRangeOptions = {
   start: 0,
-  range: 1000,
+  range: 4,
 };
 
 export enum DASHBOARD_SECTION_TAB {
