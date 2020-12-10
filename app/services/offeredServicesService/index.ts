@@ -32,7 +32,10 @@ import {
   SPECIALIST_REJECT_PENDING_SERVICE_REQUEST,
   UPDATE_OFFERED_SERVICE,
 } from "./mutations";
-import { IPendingServiceRequest } from "types/pendingServiceRequest";
+import {
+  IPendingServiceRequest,
+  IPendingServicesRequestsWithCount,
+} from "types/pendingServiceRequest";
 import {
   IFinishedProject,
   IFinishedProjectsWithCount,
@@ -151,7 +154,10 @@ class OfferedServicesService {
     IPendingServiceRequest[]
   > {
     const response = await apolloClient
-      .query({ query: GET_SPECIALIST_PENDING_SERVICE_REQUESTS })
+      .query({
+        query: GET_SPECIALIST_PENDING_SERVICE_REQUESTS,
+        fetchPolicy: "network-only",
+      })
       .catch((err) => {
         throw parseGraphqlError(err);
       });
@@ -283,6 +289,7 @@ class OfferedServicesService {
       .query({
         query: GET_OFFERED_SERVICE,
         variables: { serviceId },
+        fetchPolicy: "network-only",
       })
       .catch((err) => {
         throw parseGraphqlError(err);
@@ -311,37 +318,42 @@ class OfferedServicesService {
     else throw new Error(offeredServicesMessages.cannotRequestService);
   }
 
-  public async getCustomerAllFinishedProjects(): Promise<IFinishedProject[]> {
+  public async getCustomerAllFinishedProjects(
+    range?: ILoadRangeOptions
+  ): Promise<IFinishedProjectsWithCount> {
     const response = await apolloClient
       .query({
         query: GET_CUSTOMER_ALL_FINISHED_SERVICES,
+        variables: { range },
         fetchPolicy: "network-only",
       })
       .catch((err) => {
         throw parseGraphqlError(err);
       });
 
-    if (response && response.data && response.data.finishedProjects)
-      return response.data.finishedProjects;
+    if (response && response.data && response.data.finishedProjectsWithCount)
+      return response.data.finishedProjectsWithCount;
     else
       throw new Error(
         offeredServicesMessages.cannotFetchCustomerFinishedServices
       );
   }
 
-  public async getCustomerAllPendingServicesRequests(): Promise<
-    IPendingServiceRequest[]
-  > {
+  public async getCustomerAllPendingServicesRequests(
+    range?: ILoadRangeOptions
+  ): Promise<IPendingServicesRequestsWithCount> {
     const response = await apolloClient
       .query({
         query: GET_CUSTOMER_ALL_PENDING_SERVICES_REQUESTS,
+        variables: { range },
+        fetchPolicy: "network-only",
       })
       .catch((err) => {
         throw parseGraphqlError(err);
       });
 
-    if (response && response.data && response.data.pendingRequests)
-      return response.data.pendingRequests;
+    if (response && response.data && response.data.pendingRequestsWithCount)
+      return response.data.pendingRequestsWithCount;
     else
       throw new Error(
         offeredServicesMessages.cannotFetchCustomerPendingRequests

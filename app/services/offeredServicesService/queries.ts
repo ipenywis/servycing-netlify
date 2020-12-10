@@ -126,51 +126,59 @@ export const GET_OFFERED_SERVICE = gql`
 `;
 
 export const GET_CUSTOMER_ALL_FINISHED_SERVICES = gql`
-  query GET_CUSTOMER_ALL_FINISHED_SERVICES {
-    finishedProjects: customerAllFinishedServices {
-      id
-      offeredService {
+  query GET_CUSTOMER_ALL_FINISHED_SERVICES($range: LoadRangeOptions) {
+    finishedProjectsWithCount: customerAllFinishedServices(range: $range) {
+      count
+      finishedServices {
         id
-        title
-        specialist {
+        offeredService {
+          id
+          title
+          specialist {
+            id
+            fullName
+          }
+        }
+        customer {
           id
           fullName
         }
-      }
-      customer {
-        id
-        fullName
-      }
-      reviews {
-        id
-        review
-        rating
-        customer {
+        reviews {
           id
+          review
+          rating
+          customer {
+            id
+          }
         }
+        status
       }
-      status
     }
   }
 `;
 
 export const GET_CUSTOMER_ALL_PENDING_SERVICES_REQUESTS = gql`
-  query GET_CUSTOMER_PENDING_SERVICES_REQUESTS {
-    pendingRequests: customerAllPendingServicesRequests {
-      id
-      offeredService {
+  query GET_CUSTOMER_PENDING_SERVICES_REQUESTS($range: LoadRangeOptions) {
+    pendingRequestsWithCount: customerAllPendingServicesRequests(
+      range: $range
+    ) {
+      count
+      pendingServicesRequests {
         id
-        title
-        specialist {
+        offeredService {
+          id
+          title
+          specialist {
+            id
+            fullName
+          }
+        }
+        customer {
           id
           fullName
         }
+        status
       }
-      customer {
-        id
-        fullName
-      }
-      status
     }
   }
 `;

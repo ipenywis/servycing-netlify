@@ -1,4 +1,6 @@
+import { HorizontalWrapper } from "components/horizontalWrapper";
 import { MinimalSpinner } from "components/loadingSpinner/minimal";
+import { Pagination } from "components/pagination";
 import { Pane } from "components/pane";
 import {
   BlackText,
@@ -15,11 +17,14 @@ import { Dispatch } from "redux";
 import { createSelector } from "reselect";
 import offeredServicesService from "services/offeredServicesService";
 import { OFFERED_SERVICE_STATUS } from "types/offeredService";
+import { ILoadRangeOptions, IPaginationOptions } from "types/pagination";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
 
 import { setPendingServiceRequests } from "../actions";
 import { SectionContainer } from "../common";
+import { DEFAULT_PENDING_REQUESTS_LOAD_RANGE } from "../constants";
 import { makeSelectPendingServiceRequests } from "../selectors";
+import { usePagination } from "components/usePagination";
 
 interface IPendingRequestsSectionProps {}
 
@@ -39,23 +44,38 @@ interface IMenuProps {
   request: IPendingServiceRequest;
 }
 
+interface IProps {
+  page: number;
+  count: number;
+}
+
 export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
   const { pendingRequests } = useSelector(stateSelector);
   const { setPendingRequests } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const [loadRange, showPagination, pageCount, page, setPage] = usePagination(
+    0,
+    count,
+    DEFAULT_PENDING_REQUESTS_LOAD_RANGE
+  );
 
   const isEmptyPendingRequests =
     !pendingRequests || (pendingRequests && pendingRequests.length === 0);
 
   const fetchedPendingRequests = async () => {
     setLoading(true);
-    const pendingRequests = await offeredServicesService
-      .getCustomerAllPendingServicesRequests()
+    const pendingRequestsWithCount = await offeredServicesService
+      .getCustomerAllPendingServicesRequests(loadRange)
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (pendingRequests) setPendingRequests(pendingRequests);
+    if (pendingRequestsWithCount) {
+      setCount(pendingRequestsWithCount.count);
+      setPendingRequests(pendingRequestsWithCount.pendingServicesRequests);
+    }
 
     setLoading(false);
   };
@@ -63,6 +83,10 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
   useEffect(() => {
     fetchedPendingRequests();
   }, []);
+
+  useEffect(() => {
+    fetchedPendingRequests();
+  }, [page]);
 
   return (
     <SectionContainer>
@@ -122,6 +146,17 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
             })}
         </Table.Body>
       </Table>
+      <HorizontalWrapper centered>
+        {!isLoading && showPagination && (
+          <Pagination
+            pageCount={pageCount}
+            pageRangeDisplayed={0}
+            marginPagesDisplayed={2}
+            forcePage={page}
+            onPageChange={(page) => setPage(page.selected)}
+          />
+        )}
+      </HorizontalWrapper>
     </SectionContainer>
   );
 }

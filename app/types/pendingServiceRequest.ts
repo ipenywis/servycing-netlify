@@ -7,3 +7,8 @@ export interface IPendingServiceRequest {
   customer: ICustomer;
   status: OFFERED_SERVICE_STATUS;
 }
+
+export interface IPendingServicesRequestsWithCount {
+  count: number;
+  pendingServicesRequests: IPendingServiceRequest[];
+}

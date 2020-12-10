@@ -149,19 +149,23 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
   const { finishedProjects } = useSelector(stateSelector);
   const { setFinishedProjects } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
 
   const isEmptyFinishedProjects =
     !finishedProjects || (finishedProjects && finishedProjects.length === 0);
 
   const fetchFinishedProjects = async () => {
     setLoading(true);
-    const finishedProjects = await offeredServicesService
+    const finishedProjectsWithCount = await offeredServicesService
       .getCustomerAllFinishedProjects()
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (finishedProjects) setFinishedProjects(finishedProjects);
+    if (finishedProjectsWithCount) {
+      setCount(finishedProjectsWithCount.count);
+      setFinishedProjects(finishedProjectsWithCount.finishedServices);
+    }
 
     setLoading(false);
   };

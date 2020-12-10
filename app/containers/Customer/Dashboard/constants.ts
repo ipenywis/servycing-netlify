@@ -7,9 +7,9 @@ export enum ActionTypes {
   SET_PENDING_SERVICE_REQUESTS = "app/containers/Customer/Dashboard/SET_PENDING_SERVICE_REQUESTS",
 }
 
-export const DEFAULT_OFFERED_SERVICES_LOAD_RANGE: ILoadRangeOptions = {
+export const DEFAULT_PENDING_REQUESTS_LOAD_RANGE: ILoadRangeOptions = {
   start: 0,
-  range: 1000,
+  range: 4,
 };
 
 export enum DASHBOARD_SECTION_TAB {
