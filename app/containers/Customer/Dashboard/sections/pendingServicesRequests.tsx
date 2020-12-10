@@ -149,7 +149,7 @@ export function PendingRequestsSection(props: IPendingRequestsSectionProps) {
       <HorizontalWrapper centered>
         {!isLoading && showPagination && (
           <Pagination
-            pageCount={pageCount}
+            pageCount={Math.ceil(pageCount)}
             pageRangeDisplayed={0}
             marginPagesDisplayed={2}
             forcePage={page}

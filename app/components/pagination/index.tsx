@@ -1,21 +1,21 @@
-import React from 'react';
+import React from "react";
 import styled, {
   css,
   createGlobalStyle,
   theme,
-} from 'styles/styled-components';
-import ReactPaginate, { ReactPaginateProps } from 'react-paginate';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+} from "styles/styled-components";
+import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const classNames = {
-  page: 'pagination-page',
-  paginationContainer: 'pagination-container',
-  active: 'pagination-active',
-  next: 'pagination-next',
-  previous: 'pagination-previous',
-  break: 'pagination-break',
-  disabled: 'disabled',
+  page: "pagination-page",
+  paginationContainer: "pagination-container",
+  active: "pagination-active",
+  next: "pagination-next",
+  previous: "pagination-previous",
+  break: "pagination-break",
+  disabled: "disabled",
 };
 
 const PaginationContainer = styled(ReactPaginate).attrs({
