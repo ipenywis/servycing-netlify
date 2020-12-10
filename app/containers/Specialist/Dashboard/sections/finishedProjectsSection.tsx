@@ -17,7 +17,10 @@ import {
   makeSelectPendingServiceRequests,
   makeSelectRejectedServiceRequests,
 } from "../selectors";
-import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
+import {
+  DEFAULT_FINISHED_SERVICES_LOAD_RANGE,
+  DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
+} from "../constants";
 import styled from "styles/styled-components";
 import {
   BlackText,
@@ -39,6 +42,8 @@ import {
   IFinishedProject,
 } from "types/finishedProject";
 import { finished } from "stream";
+import { usePagination } from "components/usePagination";
+import { Pagination } from "components/pagination";
 
 interface IFinishedProjectsSectionProps {}
 
@@ -62,19 +67,29 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
   const { finishedProjects } = useSelector(stateSelector);
   const { setFinishedProjects } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const [loadRange, showPagination, pageCount, page, setPage] = usePagination(
+    0,
+    count,
+    DEFAULT_FINISHED_SERVICES_LOAD_RANGE
+  );
 
   const isEmptyFinishedProjects =
     !finishedProjects || (finishedProjects && finishedProjects.length === 0);
 
   const fetchedFinishedProjects = async () => {
     setLoading(true);
-    const finishedProjects = await offeredServicesService
-      .getSpecialistAllFinishedProjects()
+    const finishedProjectsWithCount = await offeredServicesService
+      .getSpecialistAllFinishedProjects(loadRange)
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (finishedProjects) setFinishedProjects(finishedProjects);
+    if (finishedProjectsWithCount) {
+      setCount(finishedProjectsWithCount.count);
+      setFinishedProjects(finishedProjectsWithCount.finishedServices);
+    }
 
     setLoading(false);
   };
@@ -82,6 +97,10 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
   useEffect(() => {
     fetchedFinishedProjects();
   }, []);
+
+  useEffect(() => {
+    fetchedFinishedProjects();
+  }, [page]);
 
   return (
     <SectionContainer>
@@ -100,7 +119,7 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
         </Table.Head>
         {(isLoading || isEmptyFinishedProjects) && (
           <Pane alignCenter marginTop="5%">
-            {!isEmptyFinishedProjects && isLoading && <MinimalSpinner />}
+            {isLoading && <MinimalSpinner />}
             {!isLoading && isEmptyFinishedProjects && (
               <WarningText size={14}>
                 You have no Finished Projects yet!
@@ -138,6 +157,17 @@ export function FinishedProjectsSection(props: IFinishedProjectsSectionProps) {
             })}
         </Table.Body>
       </Table>
+      <HorizontalWrapper centered>
+        {!isLoading && showPagination && (
+          <Pagination
+            pageCount={Math.ceil(pageCount)}
+            pageRangeDisplayed={0}
+            marginPagesDisplayed={2}
+            forcePage={page}
+            onPageChange={(page) => setPage(page.selected)}
+          />
+        )}
+      </HorizontalWrapper>
     </SectionContainer>
   );
 }

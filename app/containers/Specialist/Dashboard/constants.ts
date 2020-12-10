@@ -14,6 +14,21 @@ export const DEFAULT_OFFERED_SERVICES_LOAD_RANGE: ILoadRangeOptions = {
   range: 4,
 };
 
+export const DEFAULT_FINISHED_SERVICES_LOAD_RANGE: ILoadRangeOptions = {
+  start: 0,
+  range: 2,
+};
+
+export const DEFAULT_PENDING_REQUESTS_LOAD_RANGE: ILoadRangeOptions = {
+  start: 0,
+  range: 4,
+};
+
+export const DEFAULT_REJECTED_REQUESTS_LOAD_RANGE: ILoadRangeOptions = {
+  start: 0,
+  range: 4,
+};
+
 export enum DASHBOARD_SECTION_TAB {
   ADD_NEW_SERVICE = "Add New Service",
   OFFERED_SERVICES = "Offered Services",
