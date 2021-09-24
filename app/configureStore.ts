@@ -2,20 +2,20 @@
  * Create the store with dynamic reducers
  */
 
-import { applyMiddleware, createStore, compose } from 'redux';
-import { routerMiddleware } from 'connected-react-router';
-import { createInjectorsEnhancer, forceReducerReload } from 'redux-injectors';
-import createSagaMiddleware from 'redux-saga';
-import { History } from 'history';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { applyMiddleware, createStore, compose } from "redux";
+import { routerMiddleware } from "connected-react-router";
+import { createInjectorsEnhancer, forceReducerReload } from "redux-injectors";
+import createSagaMiddleware from "redux-saga";
+import { History } from "history";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import createReducer from './reducers';
-import { InjectedStore, ApplicationRootState } from 'types';
-import logger from 'redux-logger';
+import createReducer from "./reducers";
+import { InjectedStore, ApplicationRootState } from "types";
+import logger from "redux-logger";
 
 export default function configureStore(
   initialState: ApplicationRootState | {} = {},
-  history: History,
+  history: History
 ) {
   const reduxSagaMonitorOptions = {};
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
@@ -37,8 +37,8 @@ export default function configureStore(
   let enhancer;
   // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
   /* istanbul ignore next */
-  if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
-    enhancer = composeWithDevTools(...enhancers);
+  if (process.env.NODE_ENV !== "production" && typeof window === "object") {
+    enhancer = composeWithDevTools(...(enhancers as any));
     // NOTE: Uncomment the code below to restore support for Redux Saga
     // Dev Tools once it supports redux-saga version 1.x.x
     // if (window.__SAGA_MONITOR_EXTENSION__)
@@ -52,7 +52,7 @@ export default function configureStore(
   const store = createStore(
     createReducer(),
     initialState,
-    enhancer,
+    enhancer
   ) as InjectedStore;
 
   // Extensions
@@ -63,7 +63,7 @@ export default function configureStore(
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
   if (module.hot) {
-    module.hot.accept('./reducers', () => {
+    module.hot.accept("./reducers", () => {
       forceReducerReload(store);
     });
   }
