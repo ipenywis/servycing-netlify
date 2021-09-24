@@ -53,9 +53,7 @@
     ]
   },
   "husky": {
-    "hooks": {
-      "pre-commit": "npx lint-staged && npm run typecheck"
-    }
+    "hooks": {}
   },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
