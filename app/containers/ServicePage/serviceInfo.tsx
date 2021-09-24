@@ -118,7 +118,12 @@ export function ServiceInfo(props: IServiceInfoProps) {
           </>
         )}
         <Marginer direction="horizontal" margin="10px" />
-        <RatingStars textSize={14} size={15} rating={5} showRatingNumber />
+        <RatingStars
+          textSize={14}
+          size={15}
+          rating={service.specialist.rating}
+          showRatingNumber
+        />
         <BlackText size={12} marginLeft={11} verticalCenter>
           {service.type.toLowerCase()}
         </BlackText>

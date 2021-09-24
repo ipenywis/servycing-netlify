@@ -81,7 +81,7 @@ export const GET_SPECIALIST_REJECTED_SERVICE_REQUESTS = gql`
       range: $range
     ) {
       count
-      rejectedRequests {
+      pendingServicesRequests {
         id
         offeredService {
           id

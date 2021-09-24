@@ -105,7 +105,11 @@ export function OrderService(props: IOderServiceProps) {
         <BlackText size={14} marginTop={3} bold>
           Rating:
           <Marginer direction="horizontal" margin="7px" />
-          <RatingStars size={14} rating={5} showRatingNumber={false} />
+          <RatingStars
+            size={14}
+            rating={service.rating}
+            showRatingNumber={false}
+          />
         </BlackText>
         <BlackText size={14} marginTop={3} bold verticalCenter>
           Hourly Rate:

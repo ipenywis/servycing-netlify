@@ -15,7 +15,10 @@ import {
   makeSelectPendingServiceRequests,
   makeSelectRejectedServiceRequests,
 } from "../selectors";
-import { DEFAULT_OFFERED_SERVICES_LOAD_RANGE } from "../constants";
+import {
+  DEFAULT_OFFERED_SERVICES_LOAD_RANGE,
+  DEFAULT_REJECTED_REQUESTS_LOAD_RANGE,
+} from "../constants";
 import styled from "styles/styled-components";
 import {
   BlackText,
@@ -32,6 +35,8 @@ import { MinimalSpinner } from "components/loadingSpinner/minimal";
 import { wait } from "utils/common";
 import { Pane } from "components/pane";
 import { IPendingServiceRequest } from "types/pendingServiceRequest";
+import { usePagination } from "components/usePagination";
+import { Pagination } from "components/pagination";
 
 interface IRejectedRequestsSectionProps {}
 
@@ -55,19 +60,29 @@ export function RejectedRequestsSection(props: IRejectedRequestsSectionProps) {
   const { rejectedRequests } = useSelector(stateSelector);
   const { setRejectedRequests } = actionDispatch(useDispatch());
   const [isLoading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const [loadRange, showPagination, pageCount, page, setPage] = usePagination(
+    0,
+    count,
+    DEFAULT_REJECTED_REQUESTS_LOAD_RANGE
+  );
 
   const isEmptyRejectedRequests =
     !rejectedRequests || (rejectedRequests && rejectedRequests.length === 0);
 
   const fetchedPendingRequests = async () => {
     setLoading(true);
-    const rejectedRequests = await offeredServicesService
-      .getSpecialistRejectedServiceRequests()
+    const rejectedRequestsWithCount = await offeredServicesService
+      .getSpecialistRejectedServiceRequests(loadRange)
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    if (rejectedRequests) setRejectedRequests(rejectedRequests);
+    if (rejectedRequestsWithCount) {
+      setCount(rejectedRequestsWithCount.count);
+      setRejectedRequests(rejectedRequestsWithCount.pendingServicesRequests);
+    }
 
     setLoading(false);
   };
@@ -75,6 +90,10 @@ export function RejectedRequestsSection(props: IRejectedRequestsSectionProps) {
   useEffect(() => {
     fetchedPendingRequests();
   }, []);
+
+  useEffect(() => {
+    fetchedPendingRequests();
+  }, [page]);
 
   return (
     <SectionContainer>
@@ -85,7 +104,7 @@ export function RejectedRequestsSection(props: IRejectedRequestsSectionProps) {
         View all your rejected requests coming from customers for your offered
         services.
       </MutedText>
-      <Table>
+      <Table minHeight="16em">
         <Table.Head>
           <Table.TextHeaderCell flexGrow={1}>Id</Table.TextHeaderCell>
           <Table.TextHeaderCell>Service</Table.TextHeaderCell>
@@ -121,6 +140,17 @@ export function RejectedRequestsSection(props: IRejectedRequestsSectionProps) {
             })}
         </Table.Body>
       </Table>
+      <HorizontalWrapper centered>
+        {!isLoading && showPagination && (
+          <Pagination
+            pageCount={Math.ceil(pageCount)}
+            pageRangeDisplayed={0}
+            marginPagesDisplayed={2}
+            forcePage={page}
+            onPageChange={(page) => setPage(page.selected)}
+          />
+        )}
+      </HorizontalWrapper>
     </SectionContainer>
   );
 }
